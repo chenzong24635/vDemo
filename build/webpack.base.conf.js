@@ -48,6 +48,15 @@ const webpackConfig = {
         options: vueLoaderConfig
       },
       {
+        test: /\.less$/,
+        loader: ["vue-loader", "css-loader", "less-loader"]
+      },
+      {
+        test: /\.less$/,
+        loader: 'vue-loader',
+        options: vueLoaderConfig
+      },
+      {
         test: /\.js$/,
         loader: 'babel-loader',
         include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
@@ -92,5 +101,8 @@ const webpackConfig = {
   }
 }
 module.exports = vuxLoader.merge(webpackConfig, {
-  plugins: ['vux-ui']
+  plugins: [
+    {name: 'vux-ui'},
+    {name: 'less-theme', path: 'src/assets/style/base.less'}//自定义的Less文件路径
+  ]
 })

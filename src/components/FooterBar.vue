@@ -45,7 +45,7 @@ export default {
   #foot-bar{
     position: fixed;
     box-sizing: border-box;
-    padding: 4px 20px;
+    padding: 2px 10px;
     background: url(../assets/images/b-bg.jpg) no-repeat center;
     background-size: 100% 100%;
     span{
