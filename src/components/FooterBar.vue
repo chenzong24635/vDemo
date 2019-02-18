@@ -45,15 +45,15 @@ export default {
   #foot-bar{
     position: fixed;
     box-sizing: border-box;
-    padding: 2px 10px;
+    padding: 8px 10px;
     background: url(../assets/images/b-bg.jpg) no-repeat center;
     background-size: 100% 100%;
     span{
       color:#7d7d7d;
     }
-    .weui-tabbar__icon{
-      width: 20px;
-      height: 20px;
+    /deep/ .weui-tabbar__icon{
+      width: 30px;
+      height: 30px;
     }
     .weui-bar__item_on{
       span{color:#655fa1}

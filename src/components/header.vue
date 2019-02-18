@@ -55,11 +55,11 @@ export default {
             },
             {
               title: 'Belli在美国',
-              url: 'America'
+              url: 'america'
             },
             {
               title: 'Belli在中国',
-              url: 'China'
+              url: 'china'
             }
           ],
           status: false
@@ -97,7 +97,7 @@ export default {
           lists: [
             {
               title: '宝宝洗护专题',
-              url: 'baby1'
+              url: 'baby'
             }
           ],
           status: false
@@ -143,14 +143,18 @@ export default {
     },
     aside () { // 侧边nav显隐
       let leftSzie = 0
+      let txt = 'overflow-y:hidden;'
       this.asideNav = !this.asideNav
       this.coverShow = !this.coverShow
       if (this.asideNav) {
         leftSzie = '6rem'
+      } else {
+        txt = 'overflow-y:auto;'
       }
-      document.querySelector('html').style.cssText += 'overflow-y:hidden;'
-      document.querySelector('body').style.cssText += 'overflow-y:hidden;'
+      document.querySelector('html').style.cssText += txt
+      document.querySelector('body').style.cssText += txt
       document.querySelector('#app').style.left = leftSzie
+      document.querySelector('header').style.left = leftSzie
     },
     close () {
       this.coverShow = false
@@ -159,6 +163,7 @@ export default {
       document.querySelector('html').style.cssText += 'overflow-y:auto;'
       document.querySelector('body').style.cssText += 'overflow-y:auto;'
       document.querySelector('#app').style.left = 0
+      document.querySelector('header').style.left = 0
     },
     navListsSHow (navIndex) { // navBar 点击下拉
       this.navs.filter((item, index) => {
@@ -185,9 +190,15 @@ export default {
   background: rgba(0,0,0,0);
 }
 header{
+  box-sizing: border-box;
+  position: fixed;
+  top:0;
+  left: 0;
+  width: 100%;
   padding: 0 40px;
   height: 120px;
   background-color: #6a63aa;
+  z-index: 99;
   .tab{
     width: 44px;
     height: 34px;

@@ -4,6 +4,7 @@
     <div class="content-div">
       <router-view/>
     </div>
+    <bottom></bottom>
     <footer-bar></footer-bar>
   </div>
 </template>
@@ -11,10 +12,12 @@
 <script>
 import Footer from './components/FooterBar.vue'
 import Header from './components/header.vue'
+import Bottom from './components/bottom.vue'
 export default {
   name: 'app',
   components: {
     'footer-bar': Footer,
+    'bottom': Bottom,
     'header-bar': Header
   }
 }
@@ -30,6 +33,9 @@ header,section,aside,footer,main,article
 html,body{
   font-size: 62.5%;
 }
+.tac{text-align: center;}
+.tal{text-align: left;}
+.tar{text-align: right;}
 .clearfix{ zoom:1;}
 .clearfix:before,
 .clearfix:after{
@@ -41,7 +47,7 @@ html,body{
   line-height: 0;
 }
 a{text-decoration: none;}
-#app{ margin-bottom: 80px;position: relative;}
+#app{ margin: 120px 0 90px;position: relative;}
 ul{list-style: none;a{display: block;}}
 input{
   border: none;
