@@ -1,9 +1,9 @@
 <template>
   <div class="clearfix">
     <!-- <router-link to="/News">news</router-link> -->
-    <swiper height="9rem"  loop auto  :list="banners" id="swiper0" dots-class="dot0"></swiper>
+    <swiper height="9rem"  loop   :list="banners" id="swiper0" dots-class="dot0"></swiper>
     <div class="">
-      <img class="img-title" src="../assets/images/m-t.jpg" alt="">
+      <img class="img-title" src="/static/images/index/m-t.jpg" alt="">
       <ul class="mom">
         <li v-for="item in moms" :key="item.title">
           <a :href="item.url"><img  :src="item.img"></a>
@@ -11,7 +11,7 @@
       </ul>
     </div>
     <div class="">
-      <img class="img-title" src="../assets/images/m-t.jpg" alt="">
+      <img class="img-title" src="/static/images/index/b-t.jpg" alt="">
       <ul class="baby">
         <li v-for="item in babies" :key="item.title">
           <a :href="item.url"><img  :src="item.img"></a>
@@ -20,13 +20,14 @@
     </div>
     <div class="">
       <ul class="trail">
-        <li v-for="item in trail" :key="item.title">
+        <li v-for="item in trails" :key="item.title">
           <a :href="item.url"><img  :src="item.img"></a>
         </li>
       </ul>
     </div>
+    <img class="img-title" src="/static/images/index/a12.jpg" alt="">
     <swiper height="3rem" loop auto  :list="banners1"  id="swiper1" dots-class="dot1"></swiper>
-    <div class="vide">
+    <div class="video">
       <video controls="" width="100%" height="100%" >
         <source src="https://pan.baidu.com/s/16NfMAQF8Yz_p_r8XfXPi7A" type="video/mp4">
       </video>
@@ -44,6 +45,9 @@ const json05 = {code: 'slide3'}// 轮播1
 const json02 = {code: 'p11'}//  妈妈
 const json03 = {code: 'p13'}//  婴幼儿
 const json04 = {code: 'p12'}//  试用中心
+
+const json = '/static/json/'
+const imgUrl = '/static/images/'
 export default {
   components: {
     Swiper,
@@ -60,72 +64,62 @@ export default {
       banner_index1: 0,
       moms: [],
       babies: [],
-      trail: []
+      trails: []
     }
   },
   async created () {
-    {
       //  轮播图0
-      let result = await this.axios.post(url + 'web/adlist', json01)
-      let lists = result.data
+      let result = await this.axios.get(json + 'index.json')
+      console.log(result)
+      let banner1 = result.data.banner1
       this.banners = []
-      lists.map((item, index) => {
+      banner1.map((item, index) => {
         this.banners.push({
-          url: item.linkurl,
-          img: img + item.img,
+          url: item.url,
+          img: imgUrl + item.img,
           title1: item.title
         })
       })
-    }
-    {
+
       //  轮播图1
-      let result = await this.axios.post(url + 'web/adlist', json05)
-      let lists = result.data
+      let banner2 = result.data.banner2
       this.banners1 = []
-      lists.map((item, index) => {
+      banner2.map((item, index) => {
         this.banners1.push({
-          url: item.linkurl,
-          img: img + item.img,
+          url: item.url,
+          img: imgUrl + item.img,
           title1: item.title
         })
       })
-    }
-    {
+
       //  妈妈
-      let result = await this.axios.post(url + 'web/adlist', json02)
-      let lists = result.data
-      lists.map((item, index) => {
+      let mom = result.data.mom
+      mom.map((item, index) => {
         this.moms.push({
-          img: img + item.img,
-          url: item.linkurl,
+          img: imgUrl + item.img,
+          url: item.url,
           title: item.title
         })
       })
-    }
-    {
       //  婴幼儿
-      let result = await this.axios.post(url + 'web/adlist', json03)
-      let lists = result.data
-      lists.map((item, index) => {
+      let baby = result.data.baby
+      baby.map((item, index) => {
         this.babies.push({
-          img: img + item.img,
-          url: item.linkurl,
+          img: imgUrl + item.img,
+          url: item.url,
           title: item.title
         })
       })
-    }
-    {
+
       //  试用中心
-      let result = await this.axios.post(url + 'web/adlist', json04)
-      let lists = result.data
-      lists.map((item, index) => {
-        this.trail.push({
-          img: img + item.img,
-          url: item.linkurl,
+      let trail = result.data.trail
+      trail.map((item, index) => {
+        this.trails.push({
+          img: imgUrl + item.img,
+          url: item.url,
           title: item.title
         })
       })
-    }
   },
   methods: {
   }
@@ -176,5 +170,6 @@ export default {
       display: block;
     }
   }
-  .trail{margin-top: 30px;}
+  .trail,.video{margin-top: 30px;}
+  .video{margin-bottom: 30px;}
 </style>

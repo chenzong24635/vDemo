@@ -2,15 +2,17 @@
   <div class="container clearfix">
     <!-- <div class="cover" @click="close" v-show="coverShow"></div> -->
     <header class="flex01">
-      <img class="tab" @click="aside" src="../assets/images/bar.png" alt="">
-      <router-link to="/"><img class="logo" src="../assets/images/logo.png" alt=""></router-link>
-      <img class="search" @click="searchBox" src="../assets/images/search.png" alt="">
+      <img class="tab" @click="aside" src="/static/images/common/bar.png" alt="">
+      <router-link to="/"><img class="logo" src="/static/images/common/logo.png" alt=""></router-link>
+      <div  class="search" @click="searchBox"><icon type="search"></icon></div>
+      
+      <!-- <img src="../assets/images/common/search.png" alt=""> -->
     </header>
     <div class="search-box vux-1px-t" v-if="searchShow">
       <input type="text">
     </div>
     <aside class="aside-nav" v-show="asideNav">
-      <div class="close"><img src="../assets/images/bar-close.jpg" alt=""  @click="close"></div>
+      <div class="close"><img src="/static/images/common/bar-close.jpg" alt=""  @click="close"></div>
       <div class="nav-top"><p>专柜导航</p></div>
       <nav>
         <ul>
@@ -29,12 +31,13 @@
   </div>
 </template>
 <script>
-// import {} from 'vux'
+import {Icon } from 'vux'
 export default {
   name: '',
   directives: {
   },
   components: {
+    Icon
   },
   data () {
     return {
@@ -129,7 +132,7 @@ export default {
             },
             {
               title: '试用中心',
-              url: 'trailCenter'
+              url: 'trail'
             }
           ],
           status: false
@@ -207,9 +210,8 @@ header{
     width: 160px;
     height: 58px;
   }
-  .search{
-    width: 40px;
-    height: 44px;
+  .search /deep/{
+    i{font-size: 40px;color:#fff;}
   }
 }
 .search-box{
@@ -250,7 +252,7 @@ header{
   height: 100px;
   line-height: 100px;
   padding-left:80px;
-  background: url('../assets/images/guide.jpg')#8882bb no-repeat 40px center;
+  background: url('/static/images/common/guide.jpg')#8882bb no-repeat 40px center;
   background-size: 30px 42px;
 }
 nav{
@@ -258,7 +260,7 @@ nav{
     padding-left:80px;
     height: 120px;
     line-height: 120px;
-    background:url("../assets/images/bar-icon-1.jpg")40px center no-repeat;
+    background:url("/static/images/common/bar-icon-1.jpg")40px center no-repeat;
     background-size: 20px 2px;
   }
   .nav-lists{

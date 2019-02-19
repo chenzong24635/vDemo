@@ -24,6 +24,7 @@ export default {
 </script>
 <style lang="less">
 @import '~vux/src/styles/1px.less';
+@import '../src/assets/fonts/icomoon.css';
 </style>
 <style lang="less">
 @baseBgC:#6a63aa;
@@ -36,6 +37,8 @@ html,body{
 .tac{text-align: center;}
 .tal{text-align: left;}
 .tar{text-align: right;}
+.fl{float: left;}
+.fr{float: right;}
 .clearfix{ zoom:1;}
 .clearfix:before,
 .clearfix:after{
@@ -69,4 +72,5 @@ input{
   justify-content: space-between;
   align-items: center;
 }
+.banner{width: 100%}
 </style>

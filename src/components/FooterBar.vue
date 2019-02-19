@@ -46,7 +46,7 @@ export default {
     position: fixed;
     box-sizing: border-box;
     padding: 8px 10px;
-    background: url(../assets/images/b-bg.jpg) no-repeat center;
+    background: url(/static/images/common/b-bg.jpg) no-repeat center;
     background-size: 100% 100%;
     span{
       color:#7d7d7d;

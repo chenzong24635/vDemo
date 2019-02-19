@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    story
+    <img src="/static/images/story/banner.jpg" alt="" class="banner">
   </div>
 </template>
 <script>

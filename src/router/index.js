@@ -14,6 +14,8 @@ import China from '@/pages/static/china'
 import YunWen from '@/pages/static/yunwen'
 import Facial from '@/pages/static/facial'
 import Baby from '@/pages/static/baby'
+import Faq from '@/pages/static/faq'
+import QualityTest from '@/pages/static/qualityTest'
 
 Vue.use(Router)
 
@@ -84,6 +86,16 @@ export default new Router({
       path: '/baby',
       name: 'Baby',
       component: Baby
+    },
+    {
+      path: '/faq',
+      name: 'Faq',
+      component: Faq
+    },
+    {
+      path: '/qualityTest',
+      name: 'QualityTest',
+      component: QualityTest
     }
   ]
 })

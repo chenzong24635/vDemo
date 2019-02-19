@@ -70,7 +70,7 @@ axios.interceptors.response.use(
     return Promise.resolve(err.response)
   }
 )
-axios.defaults.baseURL = '/api'
+// axios.defaults.baseURL = '/api'
 axios.defaults.headers = {
   'Content-Type': 'application/json'
 }
