@@ -1,11 +1,10 @@
 <template>
   <div class="container clearfix">
-    <!-- <div class="cover" @click="close" v-show="coverShow"></div> -->
-    <header class="flex01">
+    <div class="cover" @click="close" v-show="asideNav"></div>
+    <header class="flex01" id="header">
       <img class="tab" @click="aside" src="/static/images/common/bar.png" alt="">
       <router-link to="/"><img class="logo" src="/static/images/common/logo.png" alt=""></router-link>
       <div  class="search" @click="searchBox"><icon type="search"></icon></div>
-      
       <!-- <img src="../assets/images/common/search.png" alt=""> -->
     </header>
     <div class="search-box vux-1px-t" v-if="searchShow">
@@ -13,15 +12,16 @@
     </div>
     <aside class="aside-nav" v-show="asideNav">
       <div class="close"><img src="/static/images/common/bar-close.jpg" alt=""  @click="close"></div>
-      <div class="nav-top"><p>专柜导航</p></div>
+      <div class="nav-top" @click="close"><router-link to="shoppe">专柜导航</router-link></div>
       <nav>
         <ul>
           <li v-for="(item, index) in navs" :key="index" >
-            <p class="nav-title vux-1px-b" @click="navListsSHow(index)">{{item.title}}</p>
+            <p class="nav-title vux-1px-b" @click="navListsSHow(index)"><x-icon type="ios-minus-empty" size="25"></x-icon>{{item.title}}</p>
             <ul class="nav-lists" v-show="item.status">
               <li v-for="(item1, index1) in item.lists" :key="index1" @click="close">
-                <router-link :to="item1.url" class="vux-1px-b" >{{item1.title}}</router-link>
-                <!-- <a class="vux-1px-b" :href="item1.url">{{item1.title}}</a> -->
+                <router-link :to="{name:item1.name, params:{pid:item1.pid}}" class="nav-link vux-1px-b" >{{item1.title}}</router-link>
+                <!-- <router-link :to="{path:item1.name, query:{pid:item1.pid}}" class="nav-link vux-1px-b" >{{item1.title}}</router-link> -->
+                <!-- <div class="nav-link vux-1px-b" @click="link(item1, index1)">{{item1.title}}</div> -->
                 </li>
             </ul>
           </li>
@@ -31,7 +31,7 @@
   </div>
 </template>
 <script>
-import {Icon } from 'vux'
+import {Icon} from 'vux'
 export default {
   name: '',
   directives: {
@@ -41,7 +41,6 @@ export default {
   },
   data () {
     return {
-      coverShow: false,
       searchShow: false,
       asideNav: false,
       navs: [
@@ -50,19 +49,23 @@ export default {
           lists: [
             {
               title: '品牌故事',
-              url: 'story'
+              name: 'story',
+              path: 'story'
             },
             {
               title: '安全筛选',
-              url: 'safe'
+              name: 'safe',
+              path: 'safe'
             },
             {
               title: 'Belli在美国',
-              url: 'america'
+              name: 'america',
+              path: 'america'
             },
             {
               title: 'Belli在中国',
-              url: 'china'
+              name: 'china',
+              path: 'china'
             }
           ],
           status: false
@@ -72,11 +75,15 @@ export default {
           lists: [
             {
               title: '妈妈系列',
-              url: 'product'
+              name: 'product',
+              path: 'product',
+              pid: 105
             },
             {
               title: '婴幼儿系列',
-              url: 'product1'
+              name: 'product1',
+              path: 'product1',
+              pid: 106
             }
           ],
           status: false
@@ -86,11 +93,13 @@ export default {
           lists: [
             {
               title: '孕纹防护专题',
-              url: 'yunwen'
+              name: 'yunwen',
+              path: 'yunwen'
             },
             {
               title: '面部护理专题',
-              url: 'facial'
+              name: 'facial',
+              path: 'facial'
             }
           ],
           status: false
@@ -100,7 +109,8 @@ export default {
           lists: [
             {
               title: '宝宝洗护专题',
-              url: 'baby'
+              name: 'baby',
+              path: 'baby'
             }
           ],
           status: false
@@ -110,15 +120,18 @@ export default {
           lists: [
             {
               title: '品牌资讯',
-              url: 'news'
+              name: 'news',
+              path: 'news'
             },
             {
               title: '优生优育',
-              url: 'news'
+              name: 'news',
+              path: 'news'
             },
             {
               title: '孕期百科',
-              url: 'news?id=2'
+              name: 'news',
+              path: 'news'
             }
           ],
           status: false
@@ -128,11 +141,13 @@ export default {
           lists: [
             {
               title: '正品验证',
-              url: 'qualityTest'
+              name: 'qualityTest',
+              path: 'qualityTest'
             },
             {
               title: '试用中心',
-              url: 'trail'
+              name: 'trail',
+              path: 'trail'
             }
           ],
           status: false
@@ -141,26 +156,29 @@ export default {
     }
   },
   methods: {
-    searchBox () { //  搜索框
+    link (item, index) { // 产品详情
+      console.log(index, item)
+      this.$router.push({name: item.name, params: {'pid': item.pid}})
+    },
+    searchBox () { // 搜索框
       this.searchShow = !this.searchShow
     },
-    aside () { // 侧边nav显隐
-      let leftSzie = 0
-      let txt = 'overflow-y:hidden;'
-      this.asideNav = !this.asideNav
-      this.coverShow = !this.coverShow
+    aside () { // 侧边栏显隐
       if (this.asideNav) {
-        leftSzie = '6rem'
+        this.close()
       } else {
-        txt = 'overflow-y:auto;'
+        this.open()
       }
-      document.querySelector('html').style.cssText += txt
-      document.querySelector('body').style.cssText += txt
-      document.querySelector('#app').style.left = leftSzie
-      document.querySelector('header').style.left = leftSzie
     },
-    close () {
-      this.coverShow = false
+    open () { // 侧边栏打开
+      this.asideNav = true
+      // this.searchShow = true
+      document.querySelector('html').style.cssText += 'overflow-y:auto;'
+      document.querySelector('body').style.cssText += 'overflow-y:auto;'
+      document.querySelector('#app').style.left = '6rem'
+      document.querySelector('header').style.left = '6rem'
+    },
+    close () { // 侧边栏关闭
       this.asideNav = false
       this.searchShow = false
       document.querySelector('html').style.cssText += 'overflow-y:auto;'
@@ -186,8 +204,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  display: none;
-  z-index: 999;
+  z-index: 9999;
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,0);
@@ -254,20 +271,26 @@ header{
   padding-left:80px;
   background: url('/static/images/common/guide.jpg')#8882bb no-repeat 40px center;
   background-size: 30px 42px;
+  a{color:#fff;}
 }
 nav{
   .nav-title{
-    padding-left:80px;
+    // padding-left:80px;
     height: 120px;
     line-height: 120px;
-    background:url("/static/images/common/bar-icon-1.jpg")40px center no-repeat;
-    background-size: 20px 2px;
+    .vux-x-icon-ios-minus-empty{
+      vertical-align: middle;
+      fill:#fff;
+      margin: 0 10px 0 60px;
+    }
+/*     background:url("/static/images/common/bar-icon-1.jpg")40px center no-repeat;
+    background-size: 20px 2px; */
   }
   .nav-lists{
     background-color: #8882bb;
     padding-left: 30px;
     li:last-child  a:after{border-bottom: none;}
-    a{
+    a,.nav-link{
       padding-left:70px;
       height: 120px;
       line-height: 120px;

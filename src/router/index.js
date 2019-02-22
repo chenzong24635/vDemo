@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import FooterBar from '@/components/FooterBar'
+// import store from '../store'
 import Index from '@/pages/index'
 import Trail from '@/pages/trail/trail'
 import Shoppe from '@/pages/shoppe/shoppe'
 import Cart from '@/pages/cart/cart'
 import My from '@/pages/my/my'
 import News from '@/pages/news/news'
+import Product from '@/pages/product/product'
+import ProductDetail from '@/pages/product/detail'
 import Story from '@/pages/static/story'
 import Safe from '@/pages/static/safe'
 import America from '@/pages/static/america'
@@ -19,83 +21,130 @@ import QualityTest from '@/pages/static/qualityTest'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
+  mode: 'history', // 去除网址的 # 但需要后台配置支持 https://router.vuejs.org/zh/guide/essentials/history-mode.html
+  scrollBehavior: () => ({ x: 0, y: 0 }), // 路由跳转后页面回到顶部
   routes: [
     {
       path: '/',
-      name: 'Index',
+      name: 'index',
       component: Index,
       meta: {title: '首页'}
     },
     {
       path: '/news',
-      name: 'News',
-      component: News
+      name: 'news',
+      component: News,
+      meta: {title: '品牌新闻'}
     },
     {
       path: '/trail',
-      name: 'Trail',
-      component: Trail
+      name: 'trail',
+      component: Trail,
+      meta: {title: '试用中心'}
     },
     {
       path: '/shoppe',
-      name: 'Shoppe',
-      component: Shoppe
+      name: 'shoppe',
+      component: Shoppe,
+      meta: {title: '专柜导航'}
     },
     {
       path: '/cart',
-      name: 'Cart',
-      component: Cart
+      name: 'cart',
+      component: Cart,
+      meta: {title: '购物车'}
     },
     {
       path: '/my',
-      name: 'My',
-      component: My
+      name: 'my',
+      component: My,
+      meta: {title: '我的'}
+    },
+    {
+      path: '/product/:pid',
+      name: 'product',
+      component: Product,
+      meta: {title: '产品'}
+    },
+    {
+      path: '/productDetail/:id',
+      name: 'productDetail',
+      component: ProductDetail,
+      meta: {title: '产品详情'}
+    },
+    {
+      path: '/product1/:pid',
+      name: 'product1',
+      component: Product,
+      meta: {title: '产品1'}
     },
     {
       path: '/story',
-      name: 'Story',
-      component: Story
+      name: 'story',
+      component: Story,
+      meta: {title: '品牌故事'}
     },
     {
       path: '/safe',
-      name: 'Safe',
-      component: Safe
+      name: 'safe',
+      component: Safe,
+      meta: {title: '安全筛选'}
     },
     {
       path: '/america',
-      name: 'America',
-      component: America
+      name: 'america',
+      component: America,
+      meta: {title: 'Belli在美国'}
     },
     {
       path: '/china',
-      name: 'China',
-      component: China
+      name: 'china',
+      component: China,
+      meta: {title: 'Belli中国'}
     },
     {
       path: '/yunwen',
-      name: 'YunWen',
-      component: YunWen
+      name: 'yunwen',
+      component: YunWen,
+      meta: {title: '孕纹护理'}
     },
     {
       path: '/facial',
-      name: 'Facial',
-      component: Facial
+      name: 'facial',
+      component: Facial,
+      meta: {title: '面部护理'}
     },
     {
       path: '/baby',
-      name: 'Baby',
-      component: Baby
+      name: 'baby',
+      component: Baby,
+      meta: {title: '婴幼儿'}
     },
     {
       path: '/faq',
-      name: 'Faq',
-      component: Faq
+      name: 'faq',
+      component: Faq,
+      meta: {title: '常见问题'}
     },
     {
       path: '/qualityTest',
-      name: 'QualityTest',
-      component: QualityTest
+      name: 'qualityTest',
+      component: QualityTest,
+      meta: {title: '正品验证'}
     }
   ]
 })
+
+//  全局前置守卫
+router.beforeEach((to, from, next) => {
+  // store.state.asideNavExpand = false
+  // window.scrollTo(0,0)  // 切换页面时滚动条自动滚动到顶部
+  /* 路由发生变化修改页面title */
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
+  next()
+})
+
+export default router

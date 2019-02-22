@@ -1,26 +1,26 @@
 <template>
   <tabbar id="foot-bar" class="clearfix" >
-    <tabbar-item link="/" selected>
+    <tabbar-item link="/" :selected="$route.path == '/'">
       <img slot="icon" src="../assets/icon/01.png">
       <img slot="icon-active" src="../assets/icon/01-2.png">
       <span slot="label">首页</span>
     </tabbar-item>
-    <tabbar-item link="/trail">
+    <tabbar-item link="/trail" :selected="$route.path == '/trail'">
       <img slot="icon" src="../assets/icon/02.png">
       <img slot="icon-active" src="../assets/icon/02-2.png">
       <span slot="label">试用</span>
     </tabbar-item>
-    <tabbar-item link="/shoppe">
+    <tabbar-item link="/shoppe" :selected="$route.path == '/shoppe'">
       <img slot="icon" src="../assets/icon/03.png">
       <img slot="icon-active" src="../assets/icon/03-2.png">
       <span slot="label">专柜导航</span>
     </tabbar-item>
-    <tabbar-item link="/cart">
+    <tabbar-item link="/cart" :selected="$route.path == '/cart'">
       <img slot="icon" src="../assets/icon/04.png">
       <img slot="icon-active" src="../assets/icon/04-2.png">
       <span slot="label">购物袋</span>
     </tabbar-item>
-    <tabbar-item link="/my">
+    <tabbar-item link="/my" :selected="$route.path == '/my'">
       <img slot="icon" src="../assets/icon/05.png">
       <img slot="icon-active" src="../assets/icon/05-2.png">
       <span slot="label">我的</span>

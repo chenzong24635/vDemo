@@ -1,0 +1,170 @@
+{
+  "data": {
+    "banners": [
+      {
+        "url": "url1",
+        "img": "product/banner1.jpg",
+        "title": "banner1",
+        "isSHow": true
+      },
+      {
+        "url": "url2",
+        "img": "product/banner2.jpg",
+        "title": "banner2",
+        "isSHow": false
+      }
+    ],
+    "tabs": [
+      {
+        "id": 101,
+        "pid": 100,
+        "title": "明星单品"
+      },
+      {
+        "id": 102,
+        "pid": 100,
+        "title": "面部护理"
+      },
+      {
+        "id": 103,
+        "pid": 100,
+        "title": "孕纹护理"
+      },
+      {
+        "id": 104,
+        "pid": 100,
+        "title": "礼盒套装"
+      },
+      {
+        "id": 105,
+        "pid": 100,
+        "title": "洗发护发"
+      },
+      {
+        "id": 201,
+        "pid": 200,
+        "title": "新生儿护理"
+      },
+      {
+        "id": 202,
+        "pid": 200,
+        "title": "敏感宝宝护理"
+      },
+      {
+        "id": 203,
+        "pid": 200,
+        "title": "敏感宝护理"
+      }
+    ],
+    "products": [
+      {
+        "id": 1,
+        "url": "productDetail",
+        "amount": 123,
+        "beauty": "已出版的孕纹预防研究显示，每日早晚使用糅合积雪草萃取精华、维",
+        "cid": "101",
+        "cname": "礼盒套装",
+        "component": "清透绿茶磨砂膏：绿茶、刺五加、薄荷油、人参",
+        "gg": 3,
+        "ggvalue": "191g",
+        "ingredients": "清透绿茶磨砂膏：水、",
+        "number": 86,
+        "ordernum": 260,
+        "pic": "product/pic1.png",
+        "status": 1,
+        "subtitle": "孕期养发护发",
+        "title": "氨基酸养护洗发水"
+      },
+      {
+        "id": 2,
+        "url": "productDetail",
+        "amount": 56,
+        "beauty": "已出版的孕纹预防研究显示，每日早晚使用糅合积雪草萃取精华、维",
+        "cid": "101",
+        "cname": "礼盒套装",
+        "component": "清透绿茶磨砂膏：绿茶、刺五加、薄荷油、人参",
+        "gg": 3,
+        "ggvalue": "11g",
+        "ingredients": "清透绿茶磨砂膏：水、",
+        "number": 86,
+        "ordernum": 260,
+        "pic": "product/product-1.jpg",
+        "status": 1,
+        "subtitle": "孕期养发护发",
+        "title": "氨基酸养护洗发水"
+      },
+      {
+        "id": 3,
+        "url": "productDetail",
+        "amount": 41,
+        "beauty": "已出版的孕纹预防研究显示，每日早晚使用糅合积雪草萃取精华、维",
+        "cid": "101",
+        "cname": "礼盒套装",
+        "component": "清透绿茶磨砂膏：绿茶、刺五加、薄荷油、人参",
+        "gg": 3,
+        "ggvalue": "91ml",
+        "ingredients": "清透绿茶磨砂膏：水、",
+        "number": 86,
+        "ordernum": 260,
+        "pic": "product/product-1.jpg",
+        "status": 1,
+        "subtitle": "孕期养发护发",
+        "title": "氨基酸养护洗发水"
+      },
+      {
+        "id": 4,
+        "url": "productDetail",
+        "amount": 166,
+        "beauty": "已出版的孕纹预防研究显示，每日早晚使用糅合积雪草萃取精华、维",
+        "cid": "101",
+        "cname": "礼盒套装",
+        "component": "清透绿茶磨砂膏：绿茶、刺五加、薄荷油、人参",
+        "gg": 3,
+        "ggvalue": "19g",
+        "ingredients": "清透绿茶磨砂膏：水、",
+        "number": 86,
+        "ordernum": 260,
+        "pic": "product/pic1.png",
+        "status": 1,
+        "subtitle": "孕期养发护发",
+        "title": "氨基酸养护洗发水"
+      },
+      {
+        "id": 5,
+        "url": "productDetail",
+        "amount": 66,
+        "beauty": "已出版的孕纹预防研究显示，每日早晚使用糅合积雪草萃取精华、维",
+        "cid": "101",
+        "cname": "礼盒套装",
+        "component": "清透绿茶磨砂膏：绿茶、刺五加、薄荷油、人参",
+        "gg": 3,
+        "ggvalue": "191g",
+        "ingredients": "清透绿茶磨砂膏：水、",
+        "number": 86,
+        "ordernum": 260,
+        "pic": "product/product-1.jpg",
+        "status": 1,
+        "subtitle": "孕期养发护发",
+        "title": "氨基酸养护洗发水"
+      },
+      {
+        "id": 6,
+        "url": "/",
+        "amount": 66,
+        "beauty": "已出版的孕纹预防研究显示，每日早晚使用糅合积雪草萃取精华、维",
+        "cid": "101",
+        "cname": "礼盒套装",
+        "component": "清透绿茶磨砂膏：绿茶、刺五加、薄荷油、人参",
+        "gg": 3,
+        "ggvalue": "31g",
+        "ingredients": "清透绿茶磨砂膏：水、",
+        "number": 86,
+        "ordernum": 260,
+        "pic": "product/product-1.jpg",
+        "status": 1,
+        "subtitle": "孕期养孕期养发护发发护发",
+        "title": "氨基酸养护洗发孕期养发护发水"
+      }
+    ]
+  }
+}

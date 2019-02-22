@@ -8,11 +8,14 @@
             :to='item.url'
             class='nav-title vux-1px-b nav-title1'
           >{{item.title}}</router-link>
-          <p
-            v-else='item.url'
-            v-bind:class='[item.status?"":"vux-1px-b","nav-title flex01"]'
+          <p v-else v-bind:class='[item.status?"":"vux-1px-b","nav-title flex01"]'
             @click='navListsSHow(index)'
-          ><span >{{item.title}}</span> <i v-bind:class='[item.status?"icon-cross":"","icon-plus"]'></i></p>
+          >
+            <span >{{item.title}}</span>
+            <x-icon v-show="!item.status" type="ios-plus-empty" size="25" class="icon-white"></x-icon>
+            <x-icon v-show="item.status" type="ios-close-empty" size="25" class="icon-white"></x-icon>
+            <!-- <i v-bind:class='[item.status?"icon-cross":"","icon-plus"]'></i> -->
+          </p>
           <ul class='nav-lists' v-show='item.status'>
             <li
               class='vux-1px-b'
@@ -77,7 +80,7 @@ export default {
         },
         {
           title: '全选产品',
-          url: 'product',
+          url: '000',
           lists: [],
           status: false
         },
@@ -139,6 +142,7 @@ nav {
   width: 100%;
   font-size: 28px; /*px*/
   color: #fff;
+  .icon-plus{font-size: 12px;/*no*/}
 
 }
 .nav-lists {
@@ -203,5 +207,8 @@ nav {
       line-height: 1;
     }
   }
+}
+.icon-white{
+  fill:#fff;
 }
 </style>
