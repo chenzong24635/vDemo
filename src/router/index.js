@@ -7,6 +7,7 @@ import Shoppe from '@/pages/shoppe/shoppe'
 import Cart from '@/pages/cart/cart'
 import My from '@/pages/my/my'
 import News from '@/pages/news/news'
+import newDetail from '@/pages/news/newDetail'
 import Product from '@/pages/product/product'
 import ProductDetail from '@/pages/product/detail'
 import Story from '@/pages/static/story'
@@ -23,7 +24,9 @@ Vue.use(Router)
 
 const router = new Router({
   mode: 'history', // 去除网址的 # 但需要后台配置支持 https://router.vuejs.org/zh/guide/essentials/history-mode.html
-  scrollBehavior: () => ({ x: 0, y: 0 }), // 路由跳转后页面回到顶部
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 } // 路由跳转后页面回到顶部
+  },
   routes: [
     {
       path: '/',
@@ -32,10 +35,16 @@ const router = new Router({
       meta: {title: '首页'}
     },
     {
-      path: '/news',
+      path: '/news/:pid',
       name: 'news',
       component: News,
       meta: {title: '品牌新闻'}
+    },
+    {
+      path: '/newDetail/:id',
+      name: 'newDetail',
+      component: newDetail,
+      meta: {title: '新闻详情'}
     },
     {
       path: '/trail',

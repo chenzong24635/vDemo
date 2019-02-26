@@ -12,7 +12,7 @@
     </div>
     <aside class="aside-nav" v-show="asideNav">
       <div class="close"><img src="/static/images/common/bar-close.jpg" alt=""  @click="close"></div>
-      <div class="nav-top" @click="close"><router-link to="shoppe">专柜导航</router-link></div>
+      <div class="nav-top" @click="close"><router-link to="/shoppe">专柜导航</router-link></div>
       <nav>
         <ul>
           <li v-for="(item, index) in navs" :key="index" >
@@ -121,17 +121,20 @@ export default {
             {
               title: '品牌资讯',
               name: 'news',
-              path: 'news'
+              path: 'news',
+              pid: 1
             },
             {
               title: '优生优育',
               name: 'news',
-              path: 'news'
+              path: 'news',
+              pid: 2
             },
             {
               title: '孕期百科',
               name: 'news',
-              path: 'news'
+              path: 'news',
+              pid: 3
             }
           ],
           status: false

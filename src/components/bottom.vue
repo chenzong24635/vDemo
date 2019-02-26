@@ -23,7 +23,7 @@
               :key='index1'
               @click='close'
             >
-              <router-link :to='item1.url'>{{item1.title}}</router-link>
+              <router-link :to='{name:item1.url, params:{pid:item1.pid}}'>{{item1.title}}</router-link>
               <!-- <a class='vux-1px-b' :href='item1.url'>{{item1.title}}</a> -->
             </li>
           </ul>
@@ -73,14 +73,15 @@ export default {
             },
             {
               title: '品牌动态',
-              url: 'news'
+              url: 'news',
+              pid: 1
             }
           ],
           status: false
         },
         {
-          title: '全选产品',
-          url: '000',
+          title: '全线产品',
+          url: '/product/0',
           lists: [],
           status: false
         },
@@ -137,8 +138,8 @@ nav {
   margin-bottom: 30px;
 }
 .nav-title {
-  height: 70px;
-  line-height: 70px;
+  height: 80px;
+  line-height: 80px;
   width: 100%;
   font-size: 28px; /*px*/
   color: #fff;

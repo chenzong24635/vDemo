@@ -19,6 +19,16 @@ export default {
     Footer,
     Bottom,
     Header
+  },
+  async created () { // 运费
+    let result = await this.axios.post(this.base_url + '/config/syssetlist')
+    console.log(result)
+    if (result.success) {
+      let data = result.data
+      console.log(data[0].value, data[1].value)
+      sessionStorage.setItem('nofreight', data[0].value) // 满多少免运费
+      sessionStorage.setItem('freight', data[1].value) // 运费
+    }
   }
 }
 </script>
@@ -29,7 +39,8 @@ export default {
 <style lang="less">
 @baseBgC:#6a63aa;
 html,body,div,p,span,ul,li,ol,blockquote,
-header,section,aside,footer,main,article
+header,section,aside,footer,main,article,
+h1,h2,h3,h4,h5,h6
 {padding: 0;margin: 0;}
 html,body{
   font-size: 62.5%;
@@ -124,9 +135,8 @@ div  /deep/ .weui-loadmore{
 }
 
 .img-title{width: 100%;vertical-align: top;}
-.swiper img{
-  width: 100%;
-  height: 100%;
+#swiper /deep/ .vux-img{
+  background-size: 100% 100%;
 }
 #swiper /deep/ .dot0,
 #swiper1 /deep/ .dot1{

@@ -281,6 +281,7 @@ export default {
 .six{
   background-color: #dadada;
   .six-lists{
+    align-items: flex-start;
     padding: 20px 0;
     font-size: 14px;/*px*/
     flex-wrap: wrap;
@@ -288,6 +289,7 @@ export default {
       box-sizing: border-box;
       width: 33.3%;
       padding: 20px 14px;
+      color:#494949;
       img{
         width: 70%;
         border-radius: 50%;

@@ -51,19 +51,17 @@ export default {
   data () {
     return {
       banners1: [],
-      banners1Len: 0,
       banners2: [],
-      banners2Len: 0,
       moms: [],
       babies: [],
       trails: []
     }
   },
   destroyed () {
-    this.$store.state.bottomShow = true
+    // this.$store.state.bottomShow = true
   },
   created () {
-    this.$store.state.bottomShow = false
+    // this.$store.state.bottomShow = false
     /* let result = await this.axios.get(this.base_url + 'index.json')
     let banner1 = result.data.banner1 */
     this.getData('banners1', json01)
@@ -79,7 +77,6 @@ export default {
       let result = await this.axios.post(this.base_url + '/web/adlist', json)
       let data = result.data
       let lists = []
-      // this.banners1Len = 0
       data.map((item, index) => {
         if (item.status) {
           lists.push({

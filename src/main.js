@@ -8,7 +8,9 @@ import store from './store'
 import axios from './api/index.js'
 import 'lib-flexible/flexible.js'
 import Mint from 'mint-ui'
+import global from './components/Global' // 引用文件
 
+Vue.prototype.GLOBAL = global // 挂载到Vue实例上面
 Vue.use(Mint)
 Vue.use(VueI18n)
 Vue.prototype.axios = axios

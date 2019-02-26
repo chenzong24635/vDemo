@@ -15,12 +15,12 @@
         {{item.name}}</li>
       </ul>
       <div class="price-range flex01" v-show="range">
-        <input class="vux-1px" type="number" :value="price1">
+        <input class="vux-1px" type="number" v-model="price1" >
         <span>-</span>
-        <input class="vux-1px" type="number" :value="price2">
-        <button type="text">确认</button>
+        <input class="vux-1px" type="number" v-model="price2" >
+        <!-- <button type="text" @click="price"></button> -->
+        <x-button @click.native="price('middle')" type="primary">确认</x-button>
       </div>
-      <!-- <router-link to="/productDetail">productDetail</router-link> -->
       <ul  id="lists" class="flex01-1"
         v-infinite-scroll="loadMore"
         infinite-scroll-disabled="loading"
@@ -35,16 +35,17 @@
           <!-- </router-link> -->
         </li>
       </ul>
-      <load-more v-if="products.length===0" :show-loading="false" :tip="$t('暂无数据')" ></load-more>
+      <load-more v-if="products.length===0" :show-loading="false" tip="暂无数据" ></load-more>
       <div>
-        <load-more  v-if="!isLastPage" :tip="$t('正在加载')"></load-more>
-        <load-more v-if="isLastPage&&products.length!==0" :show-loading="false" :tip="$t('到底了')" ></load-more>
+        <load-more  v-if="!isLastPage" tip="正在加载"></load-more>
+        <load-more v-if="isLastPage&&products.length!==0" :show-loading="false" tip="到底了" ></load-more>
       </div>
     </div>
+    <toast v-model="showPositionValue" type="warn" :time="1000" :is-show-mask="true" text="请填写正确价格" position="middle"></toast>
   </div>
 </template>
 <script>
-import {Swiper, Tab, TabItem, XButton, LoadMore} from 'vux'
+import {Swiper, Tab, TabItem, XButton, LoadMore, Toast} from 'vux'
 // import {InfiniteScroll} from 'mint-ui'
 import scrollTop from '@/components/scrollTop.vue'
 
@@ -52,8 +53,8 @@ const json01 = {code: 'slide4'} // 轮播图
 const json02 = { // 产品
   // cid:cid,
   order: '',
-  pageNum: 0,
-  pageSize: 2,
+  pageNum: 1,
+  pageSize: 4,
   sort: '',
   minamount: '',
   maxamount: ''
@@ -67,11 +68,12 @@ export default {
     Tab,
     TabItem,
     XButton,
-    LoadMore
+    LoadMore,
+    Toast
   },
   data () {
     return {
-      data: {},
+      showPositionValue: false,
       pid: '',
       banners: [],
       tabs: [],
@@ -115,21 +117,21 @@ export default {
   },
   watch: {
     '$route': function (to, from) {
-      // let name = this.$route.name
-      this.pid = this.$route.params.pid / 1
-      console.log(this.pid)
+      let pid = this.$route.params.pid / 1
+      this.pid = pid
       this.reset()
       this.getBanners()
       this.getTabs()
-      this.getProducts(this.pid)
+      this.loadMore()
     }
   },
   async created () {
-    // this.$store.state.bottomShow = false
-    this.pid = this.$route.params.pid / 1
+    let pid = this.$route.params.pid / 1
+    this.pid = pid
+    this.reset()
     this.getBanners()
     this.getTabs()
-    // this.getProducts(this.pid)
+    this.loadMore()
   },
   methods: {
     async getBanners () { // banners
@@ -147,19 +149,31 @@ export default {
       })
       this.banners = lists
     },
-    async getTabs () {
+    async getTabs () { // 获取tab
       let result = await this.axios.post(this.base_url + '/product/proclasslist')
       let data = result.data
       let lists = []
-      lists = data.filter((item, index) => {
-        let bool = (item.pid / 1) === this.pid
-        return bool
-      })
+      if (this.pid === 0) {
+        lists = data
+      } else {
+        lists = data.filter((item, index) => {
+          let bool = (item.pid / 1) === this.pid
+          return bool
+        })
+      }
       this.tabs = lists
     },
-    async getProducts (cid) {
+    tab (item, index) { // tab切换
+      this.reset()
+      this.pid = item.id
+      this.getProducts(item.id)
+    },
+    async getProducts (cid) { // 加载产品
+      console.log('getProducts', cid)
+      if (cid === 0) {
+        cid = ''
+      }
       json02.cid = cid
-      console.log(json02, cid)
       let result = await this.axios.post(this.base_url + '/product/productlist', json02)
       let data = result.data
       console.log(data)
@@ -179,30 +193,21 @@ export default {
         this.products = this.products.concat(lists)
       }
       this.loading = false
-      console.log('this.products', this.products)
+      json02.pageNum++
     },
-    loadMore () {
+    loadMore () { // 上拉加载更多
       if (this.isLastPage) {
         return
       }
-      console.log('load')
       this.loading = true
-      // if (json02.pageNum / 1 === 1) {
-      json02.pageNum++
       this.getProducts(this.pid)
-      // }
-      console.log('loadend')
-    },
-    tab (item, index) { // tab切换
-      this.reset()
-      json02.pageNum = 1
-      this.pid = item.id
-      this.getProducts(item.id)
-      console.log(item, index)
     },
     reset () { // 筛选重置
       json02.pageNum = 1
+      json02.minamount = ''
+      json02.maxamount = ''
       this.isLastPage = false
+      this.range = false
       this.products = []
       this.listsTop.map((item, index) => {
         item.click = false
@@ -271,10 +276,22 @@ export default {
       this.isLastPage = false
       json02.pageNum = 1
       this.products = []
-      console.log(json02, text)
+      json02.minamount = ''
+      json02.maxamount = ''
       this.getProducts(this.pid)
     },
-
+    price () { // 价格区间筛选
+      if (this.price1 && this.price2 && (this.price2 - this.price1) >= 0) {
+        json02.minamount = this.price1 / 1
+        json02.maxamount = this.price2 / 1
+        json02.pageNum = 1
+        this.isLastPage = false
+        this.products = []
+        this.getProducts(this.pid)
+      } else {
+        this.showPositionValue = true
+      }
+    },
     link (item, index) { // 产品详情跳转
       let target = this.products[index]
       this.$router.push({name: 'productDetail', params: {'id': target.id}})
@@ -283,19 +300,27 @@ export default {
 }
 </script>
 <style scoped lang="less">
-/deep/ .vux-tab-wrap{
+div /deep/ .vux-tab-wrap{
+  .vux-tab-ink-bar{display: none!important;}
   margin: 26px 0;
   .vux-tab-container{
-    padding-left: 20px;
+    padding: 0 30px;
+    // padding-left: 20px;
     height: auto;
     .vux-tab{
       border-bottom: 1px solid #eee;/*no*/
       height: auto;
       .vux-tab-item{
+        &.vux-tab-selected{
+          border-bottom: 4px solid #4b376e!important;
+        }
+        font-size: 15px;/*no*/
+        width: auto;
+        padding-bottom: 6px;
+        margin: 0 14px;
+        flex: none;
         color: #000;
         a{color: #000;}
-        font-size: 15px;/*no*/
-        padding-bottom: 10px;
       }
     }
   }
@@ -340,6 +365,7 @@ export default {
       margin: 0;
       margin-left: 20px;
       padding: 0 20px;
+      width: auto;
       background-color: #6a63aa;
       color:#fff;
       border-radius: 6px;
