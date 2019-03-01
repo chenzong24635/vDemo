@@ -23,7 +23,6 @@ import QualityTest from '@/pages/static/qualityTest'
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'history', // 去除网址的 # 但需要后台配置支持 https://router.vuejs.org/zh/guide/essentials/history-mode.html
   scrollBehavior (to, from, savedPosition) {
     return { x: 0, y: 0 } // 路由跳转后页面回到顶部
   },
