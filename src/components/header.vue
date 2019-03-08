@@ -2,8 +2,8 @@
   <div class="container clearfix">
     <div class="cover" @click="close" v-show="asideNav"></div>
     <header class="flex01" id="header">
-      <img class="tab" @click="aside" src="/static/images/common/bar.png" alt="">
-      <router-link to="/"><img class="logo" src="/static/images/common/logo.png" alt=""></router-link>
+      <img class="tab" @click="aside" src="../assets/images/common/bar.png" alt="">
+      <router-link to="/"><img class="logo" src="../assets/images/common/logo.png" alt=""></router-link>
       <div  class="search" @click="searchBox"><icon type="search"></icon></div>
       <!-- <img src="../assets/images/common/search.png" alt=""> -->
     </header>
@@ -11,7 +11,7 @@
       <input type="text">
     </div>
     <aside class="aside-nav" v-show="asideNav">
-      <div class="close"><img src="/static/images/common/bar-close.jpg" alt=""  @click="close"></div>
+      <div class="close"><img src="../assets/images/common/bar-close.jpg" alt=""  @click="close"></div>
       <div class="nav-top" @click="close"><router-link to="/shoppe">专柜导航</router-link></div>
       <nav>
         <ul>
@@ -272,7 +272,7 @@ header{
   height: 100px;
   line-height: 100px;
   padding-left:80px;
-  background: url('/static/images/common/guide.jpg')#8882bb no-repeat 40px center;
+  background: url('../assets/images/common/guide.jpg')#8882bb no-repeat 40px center;
   background-size: 30px 42px;
   a{color:#fff;}
 }
@@ -286,8 +286,6 @@ nav{
       fill:#fff;
       margin: 0 10px 0 60px;
     }
-/*     background:url("/static/images/common/bar-icon-1.jpg")40px center no-repeat;
-    background-size: 20px 2px; */
   }
   .nav-lists{
     background-color: #8882bb;

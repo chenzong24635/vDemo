@@ -27,7 +27,7 @@
         infinite-scroll-distance="10">
         <li @click="link(item, index)" v-for="(item, index) in products" :key="item.id" :data-id="item.id" class="vux-1px">
           <!-- <router-link :to="'/productDetail' + item.id "> -->
-            <img :src="item.pic" alt="" onerror="this.src='/static/images/common/errorImg.jpg'">
+            <img :src="item.pic" alt="" onerror="this.src='static/images/errorImg.jpg'">
             <p class="title ov1">{{item.title}}</p>
             <p class="subtitle ov2">功效：{{item.subtitle}}</p>
             <p class="ggvalue ov1">规格：{{item.ggvalue}}</p>
@@ -339,13 +339,13 @@ div /deep/ .vux-tab-wrap{
     li:nth-child(2),
     li:nth-child(3){
       margin-right: 18px;
-      background: url('/static/images/common/sel-0.jpg')no-repeat right center;
+      background: url('../../assets/images/common/sel-0.jpg')no-repeat right center;
       background-size: 16px 16px;
       &.sel1{
-        background-image: url('/static/images/common/sel-1.jpg');
+        background-image: url('../../assets/images/common/sel-1.jpg');
       }
       &.sel2{
-        background-image: url('/static/images/common/sel-2.jpg');
+        background-image: url('../../assets/images/common/sel-2.jpg');
       }
     }
   }

@@ -1,8 +1,8 @@
 <template>
   <div class="">
-    <img src="/static/images/safe/banner.jpg" alt=""  class="img-title">
+    <img src="../../assets/images/safe/banner.jpg" alt=""  class="img-title">
     <section class="one">
-      <img class="img-title" src="/static/images/safe/sa_1.png" alt="" >
+      <img class="img-title" src="../../assets/images/safe/sa_1.png" alt="" >
       <div class="mes">
         <p>Belli璧丽成为美国专业母婴安全护肤品牌离不开专业优秀的专家研发团队。</p>
         <br>
@@ -13,7 +13,7 @@
       </div>
     </section>
     <section class="two">
-      <img class="img-title" src="/static/images/safe/sa_2.png" alt="">
+      <img class="img-title" src="../../assets/images/safe/sa_2.png" alt="">
       <div class="box">
         <p class="box-title">研发背景</p>
         <div class="box-cnt">
@@ -29,12 +29,12 @@
     <section class="three">
       <div class="img-bd">
         <div>
-          <img src="/static/images/safe/safe-1.jpg" alt="" class="img-title">
+          <img src="../../assets/images/safe/safe-1.jpg" alt="" class="img-title">
         </div>
       </div>
     </section>
     <section class="four">
-      <img class="img-title" src="/static/images/safe/sa_3.png" alt="">
+      <img class="img-title" src="../../assets/images/safe/sa_3.png" alt="">
       <div class="box">
         <p class="box-title">拒绝所有已知不安全成分</p>
         <div class="box-cnt">
@@ -49,70 +49,70 @@
       </div>
       <div class="img-bd">
         <div>
-          <img src="/static/images/safe/safe-2.jpg" alt="" class="img-title">
+          <img src="../../assets/images/safe/safe-2.jpg" alt="" class="img-title">
         </div>
       </div>
     </section>
     <section class="five">
-      <img class="img-title" src="/static/images/safe/sa_4.png" alt="" >
+      <img class="img-title" src="../../assets/images/safe/sa_4.png" alt="" >
       <div class="mes">
         Belli璧丽搜集了大量对于孕妇及胎儿有害的化学物质及成分的数据库，筛选参考的数据库包括MEDLINE、TOXLINE、DART以及TERIS等专业母婴护肤及畸形学索引权威数据库，以确保产品成分中不含对胎儿有害的物质。
       </div>
-      <img class="img-title" src="/static/images/safe/safe-4.png" alt="" >
+      <img class="img-title" src="../../assets/images/safe/safe-4.png" alt="" >
     </section>
     <section class="six">
-      <img class="img-title" src="/static/images/safe/safe-5.png" alt="" >
-      <img class="img-title" src="/static/images/safe/sa_5.png" alt="" >
+      <img class="img-title" src="../../assets/images/safe/safe-5.jpg" alt="" >
+      <img class="img-title" src="../../assets/images/safe/sa_5.png" alt="" >
       <div class="mes">
         Belli璧丽的所有产品在推向市场之前都会经过严格且专业的各种测试，确保护肤品达到更高安全标准，保证不含现代医学已知的对妈妈和宝宝有害的成分。
       </div>
       <p class="title">Belli璧丽保障了妈妈和宝宝的双重健康</p>
-      <img class="img-title" src="/static/images/safe/standard.png" alt="" >
+      <img class="img-title" src="../../assets/images/safe/standard.png" alt="" >
       <ul class="six-lists flex01 tac">
         <li>
-          <img src="/static/images/icon1-4.png" alt="">
+          <img src="../../assets/images/icon1-4.png" alt="">
           <div >
             <p>中国优生科学协会战略合作品牌</p>
           </div>
         </li>
         <li>
-          <img src="/static/images/icon1-5.png" alt="">
+          <img src="../../assets/images/icon1-5.png" alt="">
           <div><p>荣获美国女性选择奖</p></div>
         </li>
         <li>
-          <img src="/static/images/icon1-7.png" alt="">
+          <img src="../../assets/images/icon1-7.png" alt="">
           <div>
             <p >美国食品药品监督</p>
             <p>管理局认可</p>
           </div>
         </li>
         <li>
-          <img src="/static/images/icon1-6.png" alt="">
+          <img src="../../assets/images/icon1-6.png" alt="">
           <div><p >GMP认证</p><p>企业生产</p></div>
         </li>
       </ul>
     </section>
     <section class="seven">
-      <img class="img-title" src="/static/images/safe/sa_6.png" alt="" >
+      <img class="img-title" src="../../assets/images/safe/sa_6.png" alt="" >
       <ul class="seven-lists">
         <li class="flex01 vux-1px-b">
-          <img class="img-title" src="/static/images/safe/safe-6.jpg" alt="">
+          <img class="img-title" src="../../assets/images/safe/safe-6.jpg" alt="">
           <div>
-            <img class="img-title" src="/static/images/safe/sa_7.png" alt="">
+            <img class="img-title" src="../../assets/images/safe/sa_7.png" alt="">
             <p>Belli璧丽怀孕妈妈系列所有产品成分经过了严苛的成分安全体系筛查，证明该系列产品的所有成分都不会导致新生儿出生缺陷，同时不会影响孕妈的健康。</p>
           </div>
         </li>
         <li class="flex01 vux-1px-b">
           <div>
-            <img class="img-title" src="/static/images/safe/sa_8.png" alt="">
+            <img class="img-title" src="../../assets/images/safe/sa_8.png" alt="">
             <p>Belli璧丽怀孕妈妈系列所有产品成分经过了严苛的成分安全体系筛查，证明该系列产品的所有成分都不会导致新生儿出生缺陷，同时不会影响孕妈的健康。</p>
           </div>
-          <img class="img-title" src="/static/images/safe/safe-6-1.jpg" alt="">
+          <img class="img-title" src="../../assets/images/safe/safe-6-1.jpg" alt="">
         </li>
         <li class="flex01">
-          <img class="img-title" src="/static/images/safe/safe-7.jpg" alt="">
+          <img class="img-title" src="../../assets/images/safe/safe-7.jpg" alt="">
           <div>
-            <img class="img-title" src="/static/images/safe/sa_9.png" alt="">
+            <img class="img-title" src="../../assets/images/safe/sa_9.png" alt="">
             <p>Belli璧丽怀孕妈妈系列所有产品成分经过了严苛的成分安全体系筛查，证明该系列产品的所有成分都不会导致新生儿出生缺陷，同时不会影响孕妈的健康。</p>
           </div>
         </li>
@@ -137,7 +137,7 @@ export default {
 .one{
   padding: 40px;
   color:#fff;
-  background: url('/static/images/safe/safe-0.jpg')no-repeat left center;
+  background: url('../../assets/images/safe/safe-0.jpg')no-repeat left center;
   background-size: 100% 100%;
 }
 .vux-x-icon-ios-plus-empty{
@@ -225,7 +225,7 @@ export default {
 .five{
   padding: 0.533333rem;
   color: #fff;
-  background: url(/static/images/safe/safe-3.jpg) no-repeat left center;
+  background: url(../../assets/images/safe/safe-3.jpg) no-repeat left center;
   background-size: 100% 100%;
   .mes{margin: 20px 0;}
 }

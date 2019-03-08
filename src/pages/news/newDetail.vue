@@ -1,5 +1,6 @@
 <template>
   <div class="detail">
+    oo
     <h1 class="title">{{title}}</h1>
     <time class="time">{{date}}</time>
     <div v-html="wap" class="wap"></div>

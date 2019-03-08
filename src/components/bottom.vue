@@ -35,8 +35,8 @@
       <p>消费者热线：<a class='tel' href='tel:4006-210-310'>4006-210-310</a></p>
       <p>电子邮箱：<a class='mail'  href='mailto:beauty@belliskincare.cn'>beauty@belliskincare.cn</a></p>
       <div class='imgs'>
-        <a href='#'><img src='/static/images/common/wx.jpg' alt=''></a>
-        <a href='#'><img src='/static/images/common/wb.jpg' alt=''></a>
+        <a href='#'><img src='../assets/images/common/wx.jpg' alt=''></a>
+        <a href='#'><img src='../assets/images/common/wb.jpg' alt=''></a>
       </div>
     </section>
     <p class='mes-line'>
@@ -99,11 +99,11 @@ export default {
             },
             {
               title: '售后服务',
-              url: 'usualProblem'
+              url: 'faq'
             },
             {
               title: '配送服务',
-              url: 'usualProbleml'
+              url: 'faq'
             }
           ],
           status: false

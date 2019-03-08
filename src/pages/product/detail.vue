@@ -9,7 +9,7 @@
       <div class="activity">活动：
         <p v-if="data.actcommgiftList.length <= 0">暂无</p>
         <ul v-else>
-          
+
         </ul>
       </div>
       <p class="server">服务：满{{nofreight}}包邮</p>
@@ -30,7 +30,7 @@ export default {
     return {
       nofreight: '',
       changeValue: 0,
-      data: {},
+      data: {}
     }
   },
   created () {

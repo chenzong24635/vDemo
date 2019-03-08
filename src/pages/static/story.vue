@@ -1,15 +1,15 @@
 <template>
   <div class="story">
-    <img src="/static/images/story/banner.jpg" alt="" class="img-title">
+    <img src="../../assets/images/story/banner.jpg" alt="" class="img-title">
     <section class="one ">
-      <img src="/static/images/story/story1.jpg" alt="" class="img-title">
+      <img src="../../assets/images/story/story1.jpg" alt="" class="img-title">
       <ul class="clearfix">
         <li>
-          <img src="/static/images/story/s_1.png" alt="" class="img-title">
+          <img src="../../assets/images/story/s_1.png" alt="" class="img-title">
           <div class="">Belli璧丽创始人之一，内科医师兼医疗总顾问Dr. Jason Rubin（杰森•鲁宾）毕业于美国圣•路易斯大学医学院，多年来在产科、儿科以及皮肤科积累了丰富的临床经验和高超的学术能力，是认证的美国全科家庭注册医师，并且被选为畸形学研究及预防学术委员会(简称OTIS)成员之一。</div>
         </li>
         <li>
-          <img src="/static/images/story/s_2.png" alt="" class="img-title">
+          <img src="../../assets/images/story/s_2.png" alt="" class="img-title">
           <div class="">
             Rubin医生的妻子兼Belli璧丽联合创始人Annette Rubin（安妮特•鲁宾）在化妆品行业有着富的从业经验，曾在多家国际知名化妆品公司任高等职。Annette Rubin和Melissa Schweiger联合著有美国孕期护肤宝典《Belli Beautiful》。
           </div>
@@ -17,7 +17,7 @@
       </ul>
     </section>
     <section class="two ">
-      <img src="/static/images/story/s_3.png" alt="" class="img-title">
+      <img src="../../assets/images/story/s_3.png" alt="" class="img-title">
       <div class="mes ">
         <p>创始人Rubin夫妇即将拥有第一个孩子。Annette开始关注一个问题：孕妇每天使用的护肤品成分会不会影响胎儿健康？她咨询了作为医生的丈夫，得知护肤品成分会被体表吸收到血液中，从而可能影响到胎儿的生长发育。</p>
         <br>
@@ -27,16 +27,16 @@
       </div>
       <div class="img-bd">
         <div>
-          <img src="/static/images/story/story2.jpg" alt="" class="img-title">
+          <img src="../../assets/images/story/story2.jpg" alt="" class="img-title">
         </div>
       </div>
       <div class="two-bottom">
-        <img src="/static/images/story/s_4.png" alt="" class="img-title">
+        <img src="../../assets/images/story/s_4.png" alt="" class="img-title">
         <div class="mes ">放任肌肤问题不管，不仅影响准妈妈的孕期心情，产后肌肤损伤也难以恢复。因此，找到孕期能安全使用，并且针对孕期肌肤问题有特别研究的护肤品亟待解决。</div>
       </div>
     </section>
     <section class="three">
-      <img src="/static/images/story/s_5.png" alt="" class="img-title">
+      <img src="../../assets/images/story/s_5.png" alt="" class="img-title">
       <div class="mes">
         <p>Rubin夫妇决定深入研究孕期护肤这个课题，以了解更多信息。数据显示*：出生缺陷的概率为大约3%，这就是所谓“背景风险”。医学研究已经发现某些出生缺陷的原因，但是70%的情况是原因不明。科学家认为与化学品的接触是问题的部分原因。<b>根据已出版的医科研究，大多数个人护理产品中约20%成分会导致出生缺陷，或流产。</b></p><br>
         <p class="tac" style="font-size:18px"><b>有机、天然 ≠ 安全</b></p><br>
@@ -49,22 +49,22 @@
     <section class="four">
       <div class="img-bd">
         <div>
-          <img src="/static/images/story/story3.jpg" alt="" class="img-title">
+          <img src="../../assets/images/story/story3.jpg" alt="" class="img-title">
         </div>
       </div>
     </section>
     <section class="five">
       <div class="five-top">
-        <img src="/static/images/story/s_8.png" alt="" class="img-title">
+        <img src="../../assets/images/story/s_8.png" alt="" class="img-title">
         <div class="mes">Rubin夫妇决定亲自研究高度安全和品质保证俱佳的孕期护肤品，他们组建了专家团队，共同打造Belli璧丽产品。2002年，Belli璧丽推出了最早的产品系列Belli璧丽怀孕妈妈系列（Belli P-regnancy），这在母婴护肤行业有着划时代的意义。</div>
       </div>
       <div class="five-lists">
         <div class="five-list">
-          <router-link to="/product"><img src="/static/images/story/story-4.jpg" alt="" class="img-title"></router-link>
+          <router-link to="/product"><img src="../../assets/images/story/story-4.jpg" alt="" class="img-title"></router-link>
           <p>怀孕妈妈系列</p>
         </div>
         <div class="five-list">
-          <router-link to="/product"><img src="/static/images/story/story-5.jpg" alt="" class="img-title"></router-link>
+          <router-link to="/product"><img src="../../assets/images/story/story-5.jpg" alt="" class="img-title"></router-link>
           <p>婴幼儿系列</p>
         </div>
       </div>
@@ -73,7 +73,7 @@
       </div>
     </section>
     <section class="six">
-      <img src="/static/images/story/story-6.jpg" alt="" class="img-title">
+      <img src="../../assets/images/story/story-6.jpg" alt="" class="img-title">
       <div class="mes">
         <p>Belli璧丽引领了化妆品行业的改革，将产品成分安全筛查体系引入化妆品行业，参考的数据库包括MEDLINE、TOXLINE、DART以及TERIS等权威成分安全索引文献库，制订了更为严苛的母婴护肤品安全标准。Belli璧丽怀孕妈妈系列是所有产品都通过成分安全筛查体系的孕期护肤产品系列，将孕期女性肌肤护理带入了一个全新安全级别。</p>
         <br>
@@ -81,36 +81,36 @@
       </div>
       <ul class="six-lists flex01 tac">
         <li>
-          <img src="/static/images/icon1-1.png" alt="">
+          <img src="../../assets/images/icon1-1.png" alt="">
           <div >
             <p>经过护肤成分安全筛选</p>
           </div>
         </li>
         <li>
-          <img src="/static/images/icon1-2.png" alt="">
+          <img src="../../assets/images/icon1-2.png" alt="">
           <div>
             <p >美国食品药品监督</p>
             <p>管理局认可</p>
           </div>
         </li>
         <li>
-          <img src="/static/images/icon1-3.png" alt="">
+          <img src="../../assets/images/icon1-3.png" alt="">
           <div>
             <p>哺乳及药物医疗数据库认证</p>
           </div>
         </li>
         <li>
-          <img src="/static/images/icon1-4.png" alt="">
+          <img src="../../assets/images/icon1-4.png" alt="">
           <div >
             <p>中国优生科学协会战略合作品牌</p>
           </div>
         </li>
         <li>
-          <img src="/static/images/icon1-5.png" alt="">
+          <img src="../../assets/images/icon1-5.png" alt="">
           <div><p>荣获美国女性选择奖</p></div>
         </li>
         <li>
-          <img src="/static/images/icon1-6.png" alt="">
+          <img src="../../assets/images/icon1-6.png" alt="">
           <div><p >GMP认证</p><p>企业生产</p></div>
         </li>
       </ul>
@@ -197,7 +197,7 @@ export default {
 .three{
   color:#44403f;
   padding: 60px 40px 30px;
-  background: url('/static/images/story/story-bg.jpg')no-repeat center;
+  background: url('../../assets/images/story/story-bg.jpg')no-repeat center;
   background-size: 100% 100%;
 }
 .four{

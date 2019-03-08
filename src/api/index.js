@@ -1,27 +1,39 @@
 import axios from 'axios'
+import store from '../store'
+import {getCookie} from '../utils/index.js'
 
-// const apiRoot = 'http://www.ixuanmi.com/api/'
+axios.defaults.baseURL = 'http://61.155.169.77:10002/' // 接口地址
+axios.defaults.timeout = 5000
+axios.defaults.headers = {
+  'Content-Type': 'application/json'
+}
 let cancel = ''
-let promiseArr = {}
 const CancelToken = axios.CancelToken
-axios.interceptors.request.use(config => {
-  if (promiseArr[config.url]) {
-    promiseArr[config.url]('操作取消')
-    promiseArr[config.url] = cancel
-  } else {
-    promiseArr[config.url] = cancel
+axios.interceptors.request.use(
+  config => {
+/*     if (store.state.login.token) {
+      config.headers['X-Access-Auth-Token'] = store.state.login.token
+    } */
+    config.headers = {
+      'Content-Type':'application/json' // 设置跨域头部
+    }
+    return config
+  }, error => {
+    return Promise.reject(error)
   }
-  config.headers = {
-    'Content-Type': 'application/json'
-  }
-  return config
-}, error => {
-  return Promise.reject(error)
-})
+)
 axios.interceptors.response.use(
   response => {
+    // response.data.errCode是我接口返回的值，如果值为2，说明Cookie丢失，然后跳转到登录页，这里根据大家自己的情况来设定
+    if(response.data.errCode == 2) {
+      router.push({
+        path: '/login',
+        query: {redirect: router.currentRoute.fullPath} // 从哪个页面跳转
+      })
+    }
     return response
-  }, err => {
+  },
+  err => {
     if (err && err.response) {
       switch (err.response.status) {
         case 400:
@@ -66,15 +78,10 @@ axios.interceptors.response.use(
     } else {
       err.message = '连接到服务器失败'
     }
-    // message.err(err.message)
     return Promise.resolve(err.response)
   }
 )
-// axios.defaults.baseURL = '/api'
-axios.defaults.headers = {
-  'Content-Type': 'application/json'
-}
-axios.defaults.timeout = 10000
+
 export default {
   get (url, param) {
     return new Promise((resolve, reject) => {

@@ -8,7 +8,7 @@
       <li @click="link(item, index)" v-for="(item, index) in lists" :key="item.id" :data-id="item.id" class="vux-1px-b ">
         <!-- <router-link :to="{name: '/newDetail', params:{id:item.id}}"> -->
         <div class="clearfix">
-          <img class="list-img fl" :src="item.pic" alt="" onerror="this.src='/static/images/common/errorImg.jpg'">
+          <img class="list-img fl" :src="item.pic" alt="" onerror="this.src='static/images/errorImg.jpg'">
           <div class="list-mes fr">
             <p class="title ov1">{{item.title}}</p>
             <div class="about">{{item.about}}</div>

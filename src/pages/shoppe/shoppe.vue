@@ -153,7 +153,7 @@ h1{
 #lists{
   li{
     padding: 20px 60px;
-    background: url('/static/images/common/guide1.jpg')no-repeat 26px 28px;
+    background: url('../../assets/images/common/guide1.jpg')no-repeat 26px 28px;
     background-size: 26px 30px;
     .title{
       margin: 0;

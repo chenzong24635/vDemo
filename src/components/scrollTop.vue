@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <img class="scroll" @click="scroll" src="/static/images/common/scrolltop.png" alt="">
+    <img class="scroll" @click="scroll" src="../assets/images/common/scrolltop.png" alt="">
   </div>
 </template>
 

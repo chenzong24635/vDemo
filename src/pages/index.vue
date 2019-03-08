@@ -1,9 +1,9 @@
 <template>
   <div class="clearfix">
-    <!-- <router-link to="/News">news</router-link> -->
+    <!-- <router-link to="/Login">Login</router-link> -->
     <swiper height="9rem" auto loop   :list="banners1" id="swiper" :dots-class="banners1.length >=2 ? 'dot0' : 'swiper-hide'" :show-desc-mask="false"></swiper>
-    <div class="">
-      <img class="img-title" src="/static/images/index/m-t.jpg" alt="">
+    <div class="" >
+      <img class="img-title" src="../assets/images/index/m-t.jpg" alt="">
       <ul class="mom">
         <li v-for="item in moms" :key="item.title">
           <a :href="item.url"><img  :src="item.img"></a>
@@ -11,7 +11,7 @@
       </ul>
     </div>
     <div class="">
-      <img class="img-title" src="/static/images/index/b-t.jpg" alt="">
+      <img class="img-title" src="../assets/images/index/b-t.jpg" alt="">
       <ul class="baby">
         <li v-for="item in babies" :key="item.title">
           <a :href="item.url"><img  :src="item.img"></a>
@@ -25,7 +25,7 @@
         </li>
       </ul>
     </div>
-    <img class="img-title" src="/static/images/index/a12.jpg" alt="">
+    <img class="img-title" src="../assets/images/index/a12.jpg" alt="assets">
     <swiper height="3rem" loop auto  :list="banners2"  id="swiper1" dots-class="dot1" :show-desc-mask="false"></swiper>
     <div class="video">
       <video controls="" width="100%" height="100%" >
@@ -50,6 +50,7 @@ export default {
   },
   data () {
     return {
+      imgU: require('../assets/images/index/m-t.jpg'),
       banners1: [],
       banners2: [],
       moms: [],
