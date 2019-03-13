@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <scrollTop></scrollTop>
-    <swiper height="4rem" loop  :list="banners" id="swiper" :dots-class="banners.length >=2 ? 'dot0' : 'swiper-hide'" :show-desc-mask="false"></swiper>
+    <swiper height="160px" loop  :list="banners" id="swiper" :dots-class="banners.length >=2 ? 'dot0' : 'swiper-hide'" :show-desc-mask="false"></swiper>
     <tab bar-active-color="#522d6d" :line-width="2" >
       <tab-item @on-item-click="tab(item, index)" v-for="(item, index) in tabs" :key="item.id" > <!-- :selected="index===0" -->
         {{item.title}}
@@ -41,7 +41,7 @@
         <load-more v-if="isLastPage&&products.length!==0" :show-loading="false" tip="到底了" ></load-more>
       </div>
     </div>
-    <toast v-model="showPositionValue" type="warn" :time="1000" :is-show-mask="true" text="请填写正确价格" position="middle"></toast>
+    <toast v-model="showPositionValue" type="warn" width="130px" :time="1000" :is-show-mask="true" text="请填写正确价格" position="middle"></toast>
   </div>
 </template>
 <script>
@@ -73,6 +73,7 @@ export default {
   },
   data () {
     return {
+      searchVal: '',
       showPositionValue: false,
       pid: '',
       banners: [],
@@ -117,8 +118,10 @@ export default {
   },
   watch: {
     '$route': function (to, from) {
-      let pid = this.$route.params.pid / 1
-      this.pid = pid
+      console.log(this.$route.params)
+      this.pid = this.$route.params.pid / 1
+      let value = this.$route.params.val
+      this.searchVal = value === 'null' ? '' : value // 搜索内容
       this.reset()
       this.getBanners()
       this.getTabs()
@@ -126,8 +129,11 @@ export default {
     }
   },
   async created () {
-    let pid = this.$route.params.pid / 1
-    this.pid = pid
+    console.log(this.$route.params)
+    this.pid = this.$route.params.pid / 1
+    let value = this.$route.params.val
+    this.searchVal = value === 'null' ? '' : value // 搜索内容
+    console.log(this.searchVal, 'this.searchVal')
     this.reset()
     this.getBanners()
     this.getTabs()
@@ -153,24 +159,30 @@ export default {
       let result = await this.axios.post(this.base_url + '/product/proclasslist')
       let data = result.data
       let lists = []
-      if (this.pid === 0) {
-        lists = data
-      } else {
+      if (this.pid === 105 || this.pid === 106) { //
         lists = data.filter((item, index) => {
           let bool = (item.pid / 1) === this.pid
           return bool
         })
+      } else {
+        lists = data
       }
       this.tabs = lists
     },
     tab (item, index) { // tab切换
       this.reset()
+      this.searchVal = ''
       this.pid = item.id
       this.getProducts(item.id)
     },
     async getProducts (cid) { // 加载产品
       console.log('getProducts', cid)
       if (cid === 0) {
+        cid = ''
+      }
+      console.log(this.searchVal)
+      if (this.searchVal) {
+        json02.title = this.searchVal
         cid = ''
       }
       json02.cid = cid
@@ -206,6 +218,7 @@ export default {
       json02.pageNum = 1
       json02.minamount = ''
       json02.maxamount = ''
+      json02.title = ''
       this.isLastPage = false
       this.range = false
       this.products = []
@@ -300,37 +313,43 @@ export default {
 }
 </script>
 <style scoped lang="less">
+@color:#6a63aa;
+@color1:#4b376e;
 div /deep/ .vux-tab-wrap{
   .vux-tab-ink-bar{display: none!important;}
-  margin: 26px 0;
+  margin-top: 10px;
   .vux-tab-container{
-    padding: 0 30px;
     // padding-left: 20px;
     height: auto;
     .vux-tab{
+      padding: 0 10px;
       border-bottom: 1px solid #eee;/*no*/
       height: auto;
+      padding-bottom: 10px;
       .vux-tab-item{
-        &.vux-tab-selected{
-          border-bottom: 4px solid #4b376e!important;
-        }
+        line-height: 1.5;
         font-size: 15px;/*no*/
         width: auto;
-        padding-bottom: 6px;
-        margin: 0 14px;
+        padding-bottom: 3px;
+        margin: 0 8px;
         flex: none;
         color: #000;
         a{color: #000;}
+        &.vux-tab-selected{
+          background: linear-gradient(180deg, @color1,  @color1, rgba(229, 229, 229, 0)) bottom left no-repeat;
+          background-size: 100% 2px;
+          // border-bottom: 2px solid @color1!important;
+        }
       }
     }
   }
 }
 .lists{
-  padding: 20px 40px;
+  padding: 10px 20px;
   .lists-top{
     li{
       font-size: 14px;/*no*/
-      padding: 0 30px 0 20px;
+      padding: 0 15px 0 10px;
       &:first-child{padding-left: 0;}
     }
     .click{
@@ -338,9 +357,9 @@ div /deep/ .vux-tab-wrap{
     }
     li:nth-child(2),
     li:nth-child(3){
-      margin-right: 18px;
+      margin-right: 5px;
       background: url('../../assets/images/common/sel-0.jpg')no-repeat right center;
-      background-size: 16px 16px;
+      background-size: 8px 8px;
       &.sel1{
         background-image: url('../../assets/images/common/sel-1.jpg');
       }
@@ -350,21 +369,21 @@ div /deep/ .vux-tab-wrap{
     }
   }
   .price-range{
-    margin: 20px 0;
+    margin: 10px 0;
     justify-content: flex-end;
     input,button{
-      height: 40px;
-      line-height: 40px;
+      height: 20px;
+      line-height: 20px;
     }
     input{
-      width: 160px;
+      width: 80px;
       text-align: center;
     }
     span{margin: 0 10px;}
     button{
       margin: 0;
-      margin-left: 20px;
-      padding: 0 20px;
+      margin-left: 10px;
+      padding: 0 10px;
       width: auto;
       background-color: #6a63aa;
       color:#fff;
@@ -373,30 +392,30 @@ div /deep/ .vux-tab-wrap{
   }
 }
 #lists{
-  margin-top: 30px;
+  margin-top: 16px;
   flex-wrap: wrap;
   li{
     box-sizing: border-box;
     width: 48%;
-    padding-bottom: 10px;
+    padding: 10px;
     // height: 550px;
     margin-bottom: 4%;
     &:nth-child(2n){margin-left: 4%;}
     a:visited{color:gold}
     img{
       width: 100%;
-      height: 300px;
+      height: 120px
     }
     p{
       color:#000;
-      padding: 0 20px;
       font-size: 13px;/*no*/
-      line-height: 1.5;
+      line-height: 1.3;
     }
+    .title{margin-bottom: 4px;}
     .title,.amount{font-size: 15px;/*no*/}
-    .subtitle{height: 80px;}
-    .subtitle,.ggvalue{color:#a3a3a3;font-size: 13px;/*no*/}
-    .ggvalue{margin: 10px 0;}
+    .subtitle{max-height: 36px;}
+    .subtitle,.ggvalue{color:#a3a3a3;font-size: 12px;/*no*/}
+    .ggvalue{margin: 3px 0;}
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="clearfix">
     <!-- <router-link to="/Login">Login</router-link> -->
-    <swiper height="9rem" auto loop   :list="banners1" id="swiper" :dots-class="banners1.length >=2 ? 'dot0' : 'swiper-hide'" :show-desc-mask="false"></swiper>
+    <swiper height="350px" auto loop   :list="banners1" id="swiper" :dots-class="banners1.length >=2 ? 'dot0' : 'swiper-hide'" :show-desc-mask="false"></swiper>
     <div class="" >
       <img class="img-title" src="../assets/images/index/m-t.jpg" alt="">
       <ul class="mom">

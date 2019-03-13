@@ -22,12 +22,12 @@ export default {
 <style scoped>
 img{
   position: fixed;
-  right: 20px;
+  right: 10px;
   top: 0;
   bottom: 0;
   margin: auto 0;
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   z-index: 3;
 }
 </style>

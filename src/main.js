@@ -6,7 +6,7 @@ import router from './router'
 import VueI18n from 'vue-i18n'
 import store from './store'
 import axios from './api/index.js'
-import 'lib-flexible/flexible.js'
+// import 'lib-flexible/flexible.js'
 import Mint from 'mint-ui'
 import global from './components/Global' // 引用文件
 

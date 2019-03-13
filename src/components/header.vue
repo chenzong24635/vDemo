@@ -8,7 +8,7 @@
       <!-- <img src="../assets/images/common/search.png" alt=""> -->
     </header>
     <div class="search-box vux-1px-t" v-if="searchShow">
-      <input type="text">
+      <input type="text" autofocus  v-model="searchValue" @input="searchIpt" @keyup.enter="submit" />
     </div>
     <aside class="aside-nav" v-show="asideNav">
       <div class="close"><img src="../assets/images/common/bar-close.jpg" alt=""  @click="close"></div>
@@ -19,7 +19,7 @@
             <p class="nav-title vux-1px-b" @click="navListsSHow(index)"><x-icon type="ios-minus-empty" size="25"></x-icon>{{item.title}}</p>
             <ul class="nav-lists" v-show="item.status">
               <li v-for="(item1, index1) in item.lists" :key="index1" @click="close">
-                <router-link :to="{name:item1.name, params:{pid:item1.pid}}" class="nav-link vux-1px-b" >{{item1.title}}</router-link>
+                <router-link :to="{name:item1.name, params:{pid:item1.pid,val: 'null'}}" class="nav-link vux-1px-b" >{{item1.title}}</router-link>
                 <!-- <router-link :to="{path:item1.name, query:{pid:item1.pid}}" class="nav-link vux-1px-b" >{{item1.title}}</router-link> -->
                 <!-- <div class="nav-link vux-1px-b" @click="link(item1, index1)">{{item1.title}}</div> -->
                 </li>
@@ -28,19 +28,29 @@
         </ul>
       </nav>
     </aside>
+    <toast v-model="toastShow" type="cancel" position="middle">请填写搜索内容</toast>
+    <!-- <div v-transfer-dom>
+      <alert v-model="alertShow" title="请填写搜索内容">请填写搜索内容1</alert>
+    </div> -->
   </div>
 </template>
 <script>
-import {Icon} from 'vux'
+import {Icon, Toast, Alert, TransferDomDirective as TransferDom} from 'vux'
 export default {
   name: '',
   directives: {
+    TransferDom
   },
   components: {
-    Icon
+    Icon,
+    Toast,
+    Alert
   },
   data () {
     return {
+      toastShow: false,
+      alertShow: false,
+      searchValue: '',
       searchShow: false,
       asideNav: false,
       navs: [
@@ -77,13 +87,15 @@ export default {
               title: '妈妈系列',
               name: 'product',
               path: 'product',
-              pid: 105
+              pid: 105,
+              val: ''
             },
             {
               title: '婴幼儿系列',
               name: 'product1',
               path: 'product1',
-              pid: 106
+              pid: 106,
+              val: ''
             }
           ],
           status: false
@@ -159,6 +171,20 @@ export default {
     }
   },
   methods: {
+    searchIpt () { // 搜索
+      console.log(this.searchValue)
+    },
+    submit () {
+      if (this.searchValue === '') {
+        // alert(1)
+        this.toastShow = true
+        return false
+      }
+      this.searchShow = false
+      this.searchValue = ''
+      this.$router.push({name: 'product', params: {'pid': 0, 'val': this.searchValue}})
+      console.log('sumit')
+    },
     link (item, index) { // 产品详情
       console.log(index, item)
       this.$router.push({name: item.name, params: {'pid': item.pid}})
@@ -218,29 +244,29 @@ header{
   top:0;
   left: 0;
   width: 100%;
-  padding: 0 40px;
-  height: 120px;
+  padding: 0 20px;
+  height: 60px;
   background-color: #6a63aa;
   z-index: 99;
   .tab{
-    width: 44px;
-    height: 34px;
+    width: 20px;
+    // height: 34px;
   }
   .logo{
-    width: 160px;
-    height: 58px;
+    width: 90px;
+    // height: 58px;
   }
   .search /deep/{
-    i{font-size: 40px;color:#fff;}
+    i{font-size: 20px;color:#fff;}
   }
 }
 .search-box{
   background-color: #6a63aa;
-  padding: 20px 60px;
+  padding: 10px 30px;
   input{
     width: 100%;
-    height: 50px;
-    line-height: 50px;
+    height: 30px;
+    line-height: 30px;
     text-indent: 16px;
     border-radius: 30px;
     background-color: #fff;
@@ -250,51 +276,51 @@ header{
   position: fixed;
   top: 0;
   left: 0;
-  width: 6rem;
+  width: 200px;
   height: 100%;
-  font-size: 30px;
+  font-size: 15px;
   overflow-y: scroll;
   background-color: @baseBgC;
   color:#fff;
   z-index: 9999;
   .close{
-    height: 120px;
-    line-height: 120px;
-    padding: 0 40px;
+    height: 60px;
+    line-height: 60px;
+    padding: 0 30px;
     img{
-      width: 36px;
-      height: 36px;
+      width: 18px;
+      height: 18px;
       vertical-align: middle;
     }
   }
 }
 .nav-top{
-  height: 100px;
-  line-height: 100px;
-  padding-left:80px;
-  background: url('../assets/images/common/guide.jpg')#8882bb no-repeat 40px center;
-  background-size: 30px 42px;
+  height: 40px;
+  line-height: 40px;
+  padding-left:40px;
+  background: url('../assets/images/common/guide.jpg')#8882bb no-repeat 20px center;
+  background-size: 16px 22px;
   a{color:#fff;}
 }
 nav{
   .nav-title{
     // padding-left:80px;
-    height: 120px;
-    line-height: 120px;
+    height: 55px;
+    line-height: 55px;
     .vux-x-icon-ios-minus-empty{
       vertical-align: middle;
       fill:#fff;
-      margin: 0 10px 0 60px;
+      margin: 0 10px 0 15px;
     }
   }
   .nav-lists{
     background-color: #8882bb;
-    padding-left: 30px;
+    padding-left: 20px;
     li:last-child  a:after{border-bottom: none;}
     a,.nav-link{
-      padding-left:70px;
-      height: 120px;
-      line-height: 120px;
+      padding-left:40px;
+      height: 48px;
+      line-height: 48px;
       color:#fff;
       // border-color:
     }

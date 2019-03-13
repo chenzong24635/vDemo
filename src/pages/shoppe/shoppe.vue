@@ -66,6 +66,11 @@ export default {
     }
   },
   created () {
+    json01 = {
+      pname: '',
+      cname: '',
+      rname: ''
+    }
     this.getBanner()
     this.getLists()
   },
@@ -106,20 +111,20 @@ export default {
 </script>
 <style scoped lang="less">
 h1{
-  font-size: 50px;/*px*/
+  font-size: 28px;/*px*/
   text-align: center;
   color: #767676;
-  margin: 60px 0;
+  margin: 20px 0;
   font-weight: normal;
 }
 .p1{
-  font-size: 30px;/*px*/
+  font-size: 16px;/*px*/
   color: #767676;
   text-align: center;
 }
 .address{
   position: relative;
-  margin: 50px 0;
+  margin: 20px 0;
 }
 .address1{
   position: absolute;
@@ -133,35 +138,35 @@ h1{
   text-align: center;
   span{
     display: inline-block;
-    font-size: 28px;/*px*/
-    min-width: 180px;
-    padding: 10px 20px;
+    font-size: 14px;/*px*/
+    min-width: 90px;
+    padding: 5px 10px;
     border: 1px solid #ccc;/*no*/
     color:rgb(89, 89, 89);
   }
 }
 .search{
-  width: 98%;
-  padding: 20px 0;
-  font-size: 28px;/*px*/
+  width: 92%;
+  padding: 10px 0;
+  font-size: 14px;/*px*/
   display: block;
-  margin: 0 auto 30px;
+  margin: 0 auto 15px;
   text-align: center;
   color:#fff;
   background-color: #6a63aa;
 }
 #lists{
   li{
-    padding: 20px 60px;
-    background: url('../../assets/images/common/guide1.jpg')no-repeat 26px 28px;
-    background-size: 26px 30px;
+    padding: 10px 30px;
+    background: url('../../assets/images/common/guide1.jpg')no-repeat 13px 14px;
+    background-size: 13px 15px;
     .title{
       margin: 0;
-      font-size: 30px;/*px*/
+      font-size: 15px;/*px*/
       color:#494949;
     }
     .detail{
-      font-size: 26px;/*px*/
+      font-size: 13px;/*px*/
       letter-spacing: 1px;
       color: #848484;
       line-height: 1.4;

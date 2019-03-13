@@ -81,7 +81,7 @@ export default {
         },
         {
           title: '全线产品',
-          url: '/product/0',
+          url: '/product/0/null',
           lists: [],
           status: false
         },
@@ -132,16 +132,17 @@ export default {
 footer {
   background-color: #6a63aa;
   color: #fff;
-  padding: 20px 40px 40px;
+  padding: 20px;
+  // margin-bottom: 50px;
 }
 nav {
   margin-bottom: 30px;
 }
 .nav-title {
-  height: 80px;
-  line-height: 80px;
+  height: 40px;
+  line-height: 40px;
   width: 100%;
-  font-size: 28px; /*px*/
+  font-size: 15px; /*px*/
   color: #fff;
   .icon-plus{font-size: 12px;/*no*/}
 
@@ -150,24 +151,25 @@ nav {
   padding-left: 10px;
 }
 .nav-lists li {
-  padding: 18px 0;
+  padding: 8px 0;
   a {
     color: #fff;
-    padding-left: 40px;
+    padding-left: 30px;
   }
 }
 
 .contact{
   position: relative;
-  padding: 40px 0 20px;
+  padding: 20px 0 10px;
   .contact-title{
     position: absolute;
-    top: -18px;
+    top: -10px;
     left: 0;
     right: 0;
     margin: 0 auto;
     width: 180px;
-    font-size: 28px; /*px*/
+    height: 20px;
+    font-size: 16px; /*px*/
     background-color: #6a63aa;
   }
   .tel,.mail{
@@ -176,8 +178,8 @@ nav {
   .imgs{
     margin-top: 20px;
     img{
-      width: 40px;
-      height: 40px;
+      width: 25px;
+      height: 25px;
       margin: 0 5px;
     }
   }
@@ -186,13 +188,13 @@ nav {
 .mes-line{
   text-align: center;
   // border: 1px solid rgba(255,255,255,.5);/*no*/
-  margin: 30px 0;
+  margin: 15px 0;
 }
 .back-top{
-  height: 60px;
-  line-height: 60px;
+  height: 30px;
+  line-height: 30px;
   border: 1px solid rgba(255,255,255,.1);/*no*/
-  margin: 30px 0;
+  margin: 15px 0;
   i{vertical-align: middle;}
 }
 .foot-links{

@@ -1,7 +1,8 @@
 <template>
-  <div class="">
-登录
-  </div>
+  <div>
+    <!-- <router-view ></router-view> -->
+    大大
+</div>
 </template>
 <script>
 export default {

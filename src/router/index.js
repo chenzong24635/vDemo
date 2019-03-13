@@ -1,9 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // import store from '../store'
-import Login from '@/pages/login'
+import Login from '@/pages/logons/login'
+import resetPassword from '@/pages/logons/resetPassword'
+import Register from '@/pages/logons/register'
+
 import Index from '@/pages/index'
 import Trail from '@/pages/trail/trail'
+import Test from '@/pages/trail/test'
 import Shoppe from '@/pages/shoppe/shoppe'
 import Cart from '@/pages/cart/cart'
 import My from '@/pages/my/my'
@@ -22,11 +26,11 @@ import Baby from '@/pages/static/baby'
 import Faq from '@/pages/static/faq'
 import QualityTest from '@/pages/static/qualityTest'
 
-import {post} from '../api/index.js'
+/* import {post} from '../api/index.js'
 import {
   getCookie,
   delCookie
-} from '../utils/index.js'
+} from '../utils/index.js' */
 
 Vue.use(Router)
 
@@ -40,6 +44,10 @@ const router = new Router({
   routes: [
     {
       path: '/',
+      redirect: '/index',
+    },
+    {
+      path: '/index',
       name: 'index',
       component: Index,
       meta: {
@@ -52,6 +60,22 @@ const router = new Router({
       component: Login,
       meta: {
         title: '登录'
+      }
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: Register,
+      meta: {
+        title: '注册'
+      }
+    },
+    {
+      path: '/resetPassword',
+      name: 'resetPassword',
+      component: resetPassword,
+      meta: {
+        title: '密码重置'
       }
     },
     {
@@ -84,7 +108,14 @@ const router = new Router({
       component: Trail,
       meta: {
         title: '试用中心'
-      }
+      },
+      children: [
+        {
+          path: 'test',
+          name: 'test',
+          component: Test,
+        }
+      ]
     },
     {
       path: '/shoppe',
@@ -112,7 +143,7 @@ const router = new Router({
       }
     },
     {
-      path: '/product/:pid',
+      path: '/product/:pid/:val',
       name: 'product',
       component: Product,
       meta: {
@@ -128,7 +159,7 @@ const router = new Router({
       }
     },
     {
-      path: '/product1/:pid',
+      path: '/product1/:pid/:val',
       name: 'product1',
       component: Product,
       meta: {
@@ -212,7 +243,7 @@ const router = new Router({
 
 //  全局前置守卫
 router.beforeEach((to, from, next) => {
-  router.beforeEach((to, from, next) => {
+  /* router.beforeEach((to, from, next) => {
     let token = window.localStorage.getItem('token')
     if (to.matched.some(record => record.meta.requiresAuth) && (!token || token === null)) {
       next({
@@ -222,7 +253,7 @@ router.beforeEach((to, from, next) => {
     } else {
       next()
     }
-  })
+  }) */
   // store.state.asideNavExpand = false
   // window.scrollTo(0,0)  // 切换页面时滚动条自动滚动到顶部
   if (to.meta.title) {

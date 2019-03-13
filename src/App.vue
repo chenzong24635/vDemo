@@ -1,22 +1,22 @@
 <template>
-  <div id="app">
-    <Header></Header>
+  <div id="app" :style=" $store.state.footerShow ? 'margin: 60px 0 50px;' : ''">
+    <Header v-if="$store.state.headerShow"></Header>
     <div class="content-div">
       <router-view/>
     </div>
     <Bottom v-if="$store.state.bottomShow"></Bottom>
-    <Footer></Footer>
+    <FooterNav v-if="$store.state.footerShow"></FooterNav>
   </div>
 </template>
 
 <script>
-import Footer from '@/components/FooterBar.vue'
+import FooterNav from '@/components/FooterBar.vue'
 import Header from '@/components/header.vue'
 import Bottom from '@/components/bottom.vue'
 export default {
   name: 'app',
   components: {
-    Footer,
+    FooterNav,
     Bottom,
     Header
   },
@@ -37,13 +37,14 @@ export default {
 @import '../src/assets/fonts/icomoon.css';
 </style>
 <style lang="less">
-@baseBgC:#6a63aa;
+@color:#6a63aa;
 html,body,div,p,span,ul,li,ol,blockquote,
 header,section,aside,footer,main,article,
 h1,h2,h3,h4,h5,h6
 {padding: 0;margin: 0;}
 html,body{
-  font-size: 62.5%;
+  font-size: 12px;
+  // font-size: 62.5%;
   color:#000;
 }
 .tac{text-align: center;}
@@ -62,13 +63,14 @@ html,body{
   line-height: 0;
 }
 a{
+  display: inline-block;
   text-decoration: none;
   tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   -webkit-tap-highlight-color:transparent;
   cursor: pointer;
 }
-#app{ margin: 120px 0 90px;position: relative;}
+#app{position: relative;}
 ul{list-style: none;a{display: block;}}
 input,button{
   padding: 0;
@@ -80,8 +82,20 @@ input,button{
   }
 }
 input,input:focus{
-    border: 1px solid #eee;/*no*/
-  }
+  border: 1px solid #eee;/*no*/
+}
+::-webkit-input-placeholder {/* WebKit, Blink, Edge */
+  color: #d3d2d2;
+}
+:-moz-placeholder {/* Mozilla Firefox 4 to 18 */
+  color: #d3d2d2;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: #d3d2d2;
+}
+:-ms-input-placeholder {/* Internet Explorer 10-11 */
+  color: #d3d2d2;
+}
 button{
   border: none;
 }
@@ -127,14 +141,24 @@ button{
 }
 div  /deep/ .weui-loadmore{
   width: 98%;
-  font-size: 16px/*no*/;
-  .weui-loading{
+  /* .weui-loading{
     width: 40px;
     height: 40px;
-  }
+  } */
 }
 
 .img-title{width: 100%;vertical-align: top;}
+
+div /deep/ .weui-icon_toast.weui-icon-success-no-circle:before{
+  font-size: 40px;
+}
+div /deep/ .vux-tab-container{
+  height:32px;
+  .vux-tab{ height: 32px;}
+  .vux-tab-item{
+    line-height: 32px;
+  }
+}
 #swiper /deep/ .vux-img{
   background-size: 100% 100%;
 }
@@ -152,7 +176,7 @@ div  /deep/ .weui-loadmore{
   background-color: #f1f1f1;
 }
 #swiper /deep/  .vux-icon-dot.active{
-  background-color: @baseBgC;
+  background-color: @color;
 }
 .swiper-hide{display: none;}
 // .banner{width: 100%;vertical-align: top;}

@@ -130,14 +130,13 @@ export default {
 </script>
 <style lang="less" scoped>
 #lists{
-  font-size: 12px;/*no*/
-  li{padding: 20px;}
+  li{padding: 10px 15px;}
   li:last-child{
     border-bottom: none;
   }
   .list-img,.list-mes{
     width: 49%;
-    height: 230px;
+    height: 115px;
   }
   .about{
     display: -webkit-box;
