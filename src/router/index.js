@@ -83,7 +83,8 @@ const router = new Router({
       name: 'order',
       component: Order,
       meta: {
-        title: '订单'
+        title: '订单',
+        requiresAuth: true
       }
     },
     {
@@ -130,7 +131,8 @@ const router = new Router({
       name: 'cart',
       component: Cart,
       meta: {
-        title: '购物车'
+        title: '购物车',
+        requiresAuth: true
       }
     },
     {
@@ -138,8 +140,8 @@ const router = new Router({
       name: 'my',
       component: My,
       meta: {
-        title: '我的'
-        // requiresAuth: true
+        title: '我的',
+        requiresAuth: true
       }
     },
     {
@@ -243,24 +245,21 @@ const router = new Router({
 
 //  全局前置守卫
 router.beforeEach((to, from, next) => {
-  /* router.beforeEach((to, from, next) => {
-    let token = window.localStorage.getItem('token')
-    if (to.matched.some(record => record.meta.requiresAuth) && (!token || token === null)) {
-      next({
-        path: '/login',
-        query: { redirect: to.fullPath }
-      })
+  if (to.meta.requiresAuth) {
+    let token = localStorage.getItem('accessToken')
+    if (!token) {
+      next('/login')
     } else {
       next()
     }
-  }) */
-  // store.state.asideNavExpand = false
+  } else {
+    next()
+  }
   // window.scrollTo(0,0)  // 切换页面时滚动条自动滚动到顶部
   if (to.meta.title) {
     /* 路由发生变化修改页面title */
     document.title = to.meta.title
   }
-  next()
 })
 
 export default router

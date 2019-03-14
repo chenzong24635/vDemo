@@ -38,14 +38,15 @@ export default {
 </style>
 <style lang="less">
 @color:#6a63aa;
+@color1:#4b376e;
 html,body,div,p,span,ul,li,ol,blockquote,
 header,section,aside,footer,main,article,
 h1,h2,h3,h4,h5,h6
 {padding: 0;margin: 0;}
 html,body{
-  font-size: 12px;
+  font-size: 14px;
   // font-size: 62.5%;
-  color:#000;
+  color:#494949;
 }
 .tac{text-align: center;}
 .tal{text-align: left;}
@@ -180,4 +181,38 @@ div /deep/ .vux-tab-container{
 }
 .swiper-hide{display: none;}
 // .banner{width: 100%;vertical-align: top;}
+
+.form-list{
+  font-size: 30px;
+  padding: 2px 0;
+  /deep/ .weui-cells{
+    margin-top: 10px;
+    font-size: 15px;
+    &:before{border-top: none;}
+    &:after{
+      border-bottom-color:@color1;
+    }
+    .weui-label{
+      color:#595959;
+    }
+    .weui-cell{
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .weui-input,.weui-input:focus{
+      border: none;
+      color:#595959;
+    }
+  }
+}
+div /deep/ .weui-btn_primary{
+  background-color: @color;
+  border-radius:0;
+  &:not(.weui-btn_disabled):active{
+    background-color: @color;
+  }
+}
+div /deep/ .weui-btn_disabled.weui-btn_primary{
+  opacity: .6;
+}
 </style>

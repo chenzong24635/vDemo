@@ -9,19 +9,18 @@ axios.defaults.headers = {
 }
 let cancel = ''
 const CancelToken = axios.CancelToken
+// 请求拦截器
 axios.interceptors.request.use(
   config => {
-/*     if (store.state.login.token) {
-      config.headers['X-Access-Auth-Token'] = store.state.login.token
-    } */
-    config.headers = {
-      'Content-Type':'application/json' // 设置跨域头部
+    if (store.state.accessToken) { // 在请求头中加token
+      config.headers['X-Access-Auth-Token'] = store.state.accessToken
     }
     return config
   }, error => {
     return Promise.reject(error)
   }
 )
+// 响应拦截器
 axios.interceptors.response.use(
   response => {
     // response.data.errCode是我接口返回的值，如果值为2，说明Cookie丢失，然后跳转到登录页，这里根据大家自己的情况来设定

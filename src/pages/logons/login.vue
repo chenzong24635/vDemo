@@ -3,9 +3,9 @@
     <div class="login">
       <router-link class="close" to="/index"><img src="../../assets//images/common/login-close.jpg" /></router-link>
       <router-link  class="logo " to="/index"><img src="../../assets//images/common/login-logo.jpg" /></router-link>
-      <form action="">
+      <form class="form">
         <group class="form-list">
-          <x-input title="用户名" type="text" placeholder="请输入用户名、邮箱、手机" v-model="json.username"></x-input>
+          <x-input title="手机号" type="text" placeholder="请输入手机号" v-model="json.username"></x-input>
         </group>
         <group class="form-list">
           <x-input title="密码" type="password" placeholder="请输入密码" v-model="json.password"></x-input>
@@ -22,6 +22,7 @@
   </div>
 </template>
 <script>
+import { mapMutations } from 'vuex'
 import {Group, XInput, XButton, Toast} from 'vux'
 import {cookie} from '../../utils/index.js'
 
@@ -46,11 +47,16 @@ export default {
   destroyed () { //销毁时显示
     this.componentsShow(true)
   },
-  created () { //隐藏头部、底部内容、底部导航
+  mounted () { //隐藏头部、底部内容、底部导航
     this.componentsShow(false)
     console.log(cookie)
   },
   methods: {
+    ...mapMutations([
+      // 将 `this.changeToken(args)` 映射为 `this.$store.commit('changeToken', args)`
+      // 对应store/index.js的mutations方法
+      'changeToken'
+    ]),
     componentsShow(bool) {
       this.$store.state.headerShow = bool
       this.$store.state.bottomShow = bool
@@ -70,16 +76,21 @@ export default {
       let result = await this.axios.post(this.base_url + 'member/login', this.json)
       let data = result.data
       console.log(result)
-      if (result.status !== 200) {
+      if (result.success) {
+        // 设置cookie
+        cookie.set('accessToken', data.accessToken)
+        console.log(this.changeLogin)
+        // 将用户token保存到vuex中
+        this.changeToken({ accessToken: data.accessToken})
+        localStorage.setItem('id', data.id)
+        localStorage.setItem('username', data.username)
+        localStorage.setItem('mobile', data.mobile)
+        localStorage.setItem('password', data.password)
+        this.$router.push({name: 'my'})
+      } else {
         this.showPositionValue = true
         this.errMsg = result.message
         return false
-      }
-      if (result.success) {
-        cookie.set('accessToken', data.accessToken)
-        sessionStorage.setItem('id', data.id)
-        sessionStorage.setItem('username', data.username)
-        this.$router.push({name: 'my'})
       }
     }
   }
@@ -91,7 +102,7 @@ export default {
 .vux-1px-b:after{
   border-bottom-color: @color;
 }
-.login{
+.form{
   padding: 20px;
 }
 .close{
@@ -99,52 +110,25 @@ export default {
   width: 30px;
   height: 30px;
   line-height: 30px;
+  margin: 20px;
   text-align: center;
   img{
-    width: 15px;
+    width: 18px;
   }
 }
 .logo{
   display: block;
-  margin: 50px auto;
+  margin: 40px auto;
   text-align: center;
   img{
     width: 60%;
   }
 }
-.form-list{
-  font-size: 30px;
-  padding: 2px 0;
-  /deep/ .weui-cells{
-    margin-top: 10px;
-    font-size: 15px;
-    &:before{border-top: none;}
-    &:after{
-      border-bottom-color:@color1;
-    }
-    .weui-label{
-      color:#595959;
-    }
-    .weui-cell{
-      padding-left: 0;
-      padding-right: 0;
-    }
-    .weui-input,.weui-input:focus{
-      border: none;
-      color:#595959;
-    }
-  }
-}
+
 .reset{
   font-size: 15px;
   margin: 15px 0;
   a{color:#a6a6a6;}
-}
-.weui-btn_primary{
-  background-color: @color;
-  &:not(.weui-btn_disabled):active{
-    background-color: @color;
-  }
 }
 .register{
   margin-top: 10px;
