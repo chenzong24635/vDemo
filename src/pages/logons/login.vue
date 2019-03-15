@@ -22,7 +22,7 @@
   </div>
 </template>
 <script>
-import { mapMutations } from 'vuex'
+import {mapMutations} from 'vuex'
 import {Group, XInput, XButton, Toast} from 'vux'
 import {cookie} from '../../utils/index.js'
 
@@ -44,10 +44,10 @@ export default {
       }
     }
   },
-  destroyed () { //销毁时显示
+  destroyed () { // 销毁时显示
     this.componentsShow(true)
   },
-  mounted () { //隐藏头部、底部内容、底部导航
+  mounted () { // 隐藏头部、底部内容、底部导航
     this.componentsShow(false)
     console.log(cookie)
   },
@@ -57,7 +57,7 @@ export default {
       // 对应store/index.js的mutations方法
       'changeToken'
     ]),
-    componentsShow(bool) {
+    componentsShow (bool) {
       this.$store.state.headerShow = bool
       this.$store.state.bottomShow = bool
       this.$store.state.footerShow = bool
@@ -81,7 +81,7 @@ export default {
         cookie.set('accessToken', data.accessToken)
         console.log(this.changeLogin)
         // 将用户token保存到vuex中
-        this.changeToken({ accessToken: data.accessToken})
+        this.changeToken({accessToken: data.accessToken})
         localStorage.setItem('id', data.id)
         localStorage.setItem('username', data.username)
         localStorage.setItem('mobile', data.mobile)

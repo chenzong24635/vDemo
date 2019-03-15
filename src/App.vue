@@ -6,6 +6,8 @@
     </div>
     <Bottom v-if="$store.state.bottomShow"></Bottom>
     <FooterNav v-if="$store.state.footerShow"></FooterNav>
+    <toast v-model="showToast" type="warn" width="130px" :time="1000" text="您的账号被迫下线，请重新登录" :is-show-mask="true" position="middle"></toast>
+    <!-- <mytoast :showToast="toast.showToast" :type="toast.type" :text="toast.toastText" :is-show-mask="true" ></mytoast> -->
   </div>
 </template>
 
@@ -13,21 +15,40 @@
 import FooterNav from '@/components/FooterBar.vue'
 import Header from '@/components/header.vue'
 import Bottom from '@/components/bottom.vue'
+import {Toast} from 'vux'
 export default {
   name: 'app',
   components: {
+    Toast,
     FooterNav,
     Bottom,
     Header
   },
+  data () {
+    return {
+      showToast: false,
+    }
+  },
   async created () { // 运费
-    let result = await this.axios.post(this.base_url + '/config/syssetlist')
-    console.log(result)
-    if (result.success) {
-      let data = result.data
-      console.log(data[0].value, data[1].value)
-      sessionStorage.setItem('nofreight', data[0].value) // 满多少免运费
-      sessionStorage.setItem('freight', data[1].value) // 运费
+    {
+      let result = await this.axios.post(this.base_url + '/config/syssetlist')
+      console.log(result)
+      if (result.success) {
+        let data = result.data
+        console.log(data[0].value, data[1].value)
+        sessionStorage.setItem('nofreight', data[0].value) // 满多少免运费
+        sessionStorage.setItem('freight', data[1].value) // 运费
+      }
+    }
+    {
+      let result = await this.axios.post(this.base_url + 'member/detail')
+      if (!result.success) {
+        console.log(1)
+        this.showToast = true
+        setTimeout(() => {
+          this.$router.push({name: 'login'})
+        }, 1000)
+      }
     }
   }
 }
@@ -140,26 +161,8 @@ button{
   -moz-line-clamp: 2;
   -moz-box-orient: vertical;
 }
-div  /deep/ .weui-loadmore{
-  width: 98%;
-  /* .weui-loading{
-    width: 40px;
-    height: 40px;
-  } */
-}
-
 .img-title{width: 100%;vertical-align: top;}
 
-div /deep/ .weui-icon_toast.weui-icon-success-no-circle:before{
-  font-size: 40px;
-}
-div /deep/ .vux-tab-container{
-  height:32px;
-  .vux-tab{ height: 32px;}
-  .vux-tab-item{
-    line-height: 32px;
-  }
-}
 #swiper /deep/ .vux-img{
   background-size: 100% 100%;
 }
@@ -205,14 +208,35 @@ div /deep/ .vux-tab-container{
     }
   }
 }
-div /deep/ .weui-btn_primary{
-  background-color: @color;
-  border-radius:0;
-  &:not(.weui-btn_disabled):active{
-    background-color: @color;
+div /deep/{
+  .weui-loadmore{
+    width: 98%;
   }
-}
-div /deep/ .weui-btn_disabled.weui-btn_primary{
-  opacity: .6;
+  .weui-icon_toast.weui-icon-success-no-circle:before{
+    font-size: 40px;
+  }
+  .vux-tab-container{
+    height:32px;
+    .vux-tab{ height: 32px;}
+    .vux-tab-item{
+      line-height: 32px;
+    }
+  }
+  .weui-btn_primary{
+    background-color: @color;
+    border-radius:0;
+    &:not(.weui-btn_disabled):active{
+      background-color: @color;
+    }
+  }
+  .weui-btn_disabled.weui-btn_primary{
+    opacity: .6;
+  }
+  .weui-icon-success{
+    color:@color;
+  }
+  .weui-icon-success,.weui-icon-circle{
+    font-size: 18px;
+  }
 }
 </style>

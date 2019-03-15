@@ -23,12 +23,15 @@
       <load-more  v-if="!isLastPage" tip="正在加载"></load-more>
       <load-more v-if="isLastPage&&lists.length!==0" :show-loading="false" tip="到底了" ></load-more>
     </div>
+    <scrollTop></scrollTop>
   </div>
 </template>
 
 <script>
 import {Swiper, LoadMore} from 'vux'
 // import {timestampToTime} from '@/utils/index.js'
+import scrollTop from '@/components/scrollTop.vue'
+
 const json = {code: 'b4'}
 const json02 = {
   order: 'ASC',
@@ -38,7 +41,8 @@ const json02 = {
 export default {
   components: {
     Swiper,
-    LoadMore
+    LoadMore,
+    scrollTop
   },
   data () {
     return {

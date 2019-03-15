@@ -26,7 +26,7 @@
       </ul>
     </div>
     <img class="img-title" src="../assets/images/index/a12.jpg" alt="assets">
-    <swiper height="3rem" loop auto  :list="banners2"  id="swiper1" dots-class="dot1" :show-desc-mask="false"></swiper>
+    <swiper height="100px" loop auto  :list="banners2"  id="swiper1" dots-class="dot1" :show-desc-mask="false"></swiper>
     <div class="video">
       <video controls="" width="100%" height="100%" >
         <source src="https://pan.baidu.com/s/16NfMAQF8Yz_p_r8XfXPi7A" type="video/mp4">

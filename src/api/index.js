@@ -1,6 +1,7 @@
 import axios from 'axios'
 import store from '../store'
-import {getCookie} from '../utils/index.js'
+import router from '../router'
+// import {getCookie} from '../utils/index.js'
 
 axios.defaults.baseURL = 'http://61.155.169.77:10002/' // 接口地址
 axios.defaults.timeout = 5000
@@ -24,12 +25,12 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   response => {
     // response.data.errCode是我接口返回的值，如果值为2，说明Cookie丢失，然后跳转到登录页，这里根据大家自己的情况来设定
-    if(response.data.errCode == 2) {
+    /* if (response.) {
       router.push({
         path: '/login',
         query: {redirect: router.currentRoute.fullPath} // 从哪个页面跳转
       })
-    }
+    } */
     return response
   },
   err => {
@@ -77,6 +78,7 @@ axios.interceptors.response.use(
     } else {
       err.message = '连接到服务器失败'
     }
+    console.log(err, err.response)
     return Promise.resolve(err.response)
   }
 )

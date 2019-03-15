@@ -31,7 +31,7 @@
   </div>
 </template>
 <script>
-import {Group, XInput, XButton, Toast, Countup, CheckIcon } from 'vux'
+import {Group, XInput, XButton, Toast, Countup, CheckIcon} from 'vux'
 export default {
   name: '',
   components: {
@@ -86,7 +86,7 @@ export default {
         mobile: this.json.mobile,
         type: 3
       })
-      let data = result.data
+      // let data = result.data
       if (result.success) {
         this.toast('验证码已发送')
         this.buttonStatus = true
@@ -128,7 +128,7 @@ export default {
     },
     async set () {
       let result = await this.axios.post(this.base_url + 'member/register', this.json)
-      let data = result.data
+      // let data = result.data
       if (result.success) {
         this.toast('账号已创建')
         let timer = setTimeout(() => {

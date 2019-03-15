@@ -35,7 +35,7 @@ import {
 Vue.use(Router)
 
 const router = new Router({
-  scrollBehavior(to, from, savedPosition) {
+  scrollBehavior (to, from, savedPosition) {
     return {
       x: 0,
       y: 0
@@ -44,7 +44,7 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      redirect: '/index',
+      redirect: '/index'
     },
     {
       path: '/index',
@@ -114,7 +114,7 @@ const router = new Router({
         {
           path: 'test',
           name: 'test',
-          component: Test,
+          component: Test
         }
       ]
     },
@@ -255,7 +255,7 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
-  // window.scrollTo(0,0)  // 切换页面时滚动条自动滚动到顶部
+  // window.scrollTo(0, 0)  // 切换页面时滚动条自动滚动到顶部
   if (to.meta.title) {
     /* 路由发生变化修改页面title */
     document.title = to.meta.title

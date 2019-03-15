@@ -66,7 +66,7 @@ export default {
         mobile: this.json.mobile,
         type: 3
       })
-      let data = result.data
+      // let data = result.data
       if (result.success) {
         this.toast('验证码已发送')
         this.buttonStatus = true
@@ -104,7 +104,7 @@ export default {
     },
     async reset () {
       let result = await this.axios.post(this.base_url + 'member/pwdedit', this.json)
-      let data = result.data
+      // let data = result.data
       if (result.success) {
         this.toast('已成功重置')
         let timer = setTimeout(() => {

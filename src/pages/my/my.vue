@@ -1,13 +1,13 @@
 <template>
   <div class="">
-    <router-link to="/login">login</router-link>
+    <!-- <router-link to="/login">login</router-link> -->
     <!-- <router-link to="/resetPassword">resetPassword</router-link> -->
     <section class="avatar tac">
       <div class="avatar-img">
-        <img src="../../assets/images/my/avatar.png" alt="">
+        <img :src="detail.pic" alt="">
       </div>
-      <p class="fakename">会员88888</p>
-      <p class="gradeid"><span>一级</span></p>
+      <p class="fakename">{{detail.gradeName}}</p>
+      <p class="gradeid"><span>{{detail.gradeid}}级</span></p>
     </section>
     <section class="tabs vux-1px-b clearfix">
       <ul class="flex01-1">
@@ -24,20 +24,24 @@
     </section>
     <section class="lists">
       <group>
-        <cell :border-intent="false" :title="item.title" :link="item.url" is-link v-for="(item, index) in lists" :key="index">
+        <cell :border-intent="false" :title="item.title" :link="item.url" is-link v-for="(item, index) in mylists" :key="index">
           <!-- <router-link :to="item.url"> -->
             <img slot="icon" width="30" style="display:block;margin-right:10px;" :src="item.icon">
           <!-- </router-link> -->
         </cell>
       </group>
     </section>
+    <mytoast :showToast="toast.showToast" :type="toast.type" :text="toast.toastText" :is-show-mask="true" ></mytoast>
   </div>
 </template>
 <script>
 import {Tab, TabItem, Grid, GridItem, Group, Cell} from 'vux'
+import mytoast from '@/components/toast.vue'
+
 export default {
   name: '',
   components: {
+    mytoast,
     Tab,
     TabItem,
     Grid,
@@ -47,31 +51,49 @@ export default {
   },
   data () {
     return {
+      json: {
+        order: 'ASC',
+        pageNum: 1,
+        pageSize: 100,
+        status: 0,
+        typeid: 1
+      },
+      orderUrl: 'order/orderlist',
+      toast: {
+        showToast: false,
+        type: 'warn',
+        toastText: '您的账号被迫下线，请重新登录'
+      },
       tabIndex: 0,
       tabs: ['我的订单', '积分订单', '试用订单'],
       tabs1: [
         {
+          id: 1,
           img: require('../../assets/images/my/vip1-1.png'),
           title: '代付款',
           nums: 11
         },
         {
+          id: 3,
           img: require('../../assets/images/my/vip1-2.png'),
           title: '待发货',
           nums: 0
         },
         {
+          id: 4,
           img: require('../../assets/images/my/vip1-3.png'),
           title: '待收货',
           nums: 0
         },
         {
+          id: 5,
           img: require('../../assets/images/my/vip1-4.png'),
           title: '已完成',
           nums: 0
         }
       ],
-      lists: [
+      orderLens: [],
+      mylists: [
         {
           icon: require('../../assets/images/my/vip2-1.png'),
           title: '我的订单',
@@ -107,21 +129,80 @@ export default {
           title: '修改密码',
           url: 'setPasword'
         }
-      ]
+      ],
+      detail: {}
     }
   },
   async created () {
     let result = await this.axios.post(this.base_url + 'member/detail')
     if (result.success) {
-
+      this.detail = result.data
     } else {
-      this.$router.path({})
+      this.toast.showToast = true
+      // this.toast.toastText = result.message
+      setTimeout(() => {
+        this.$router.push({name: 'login'})
+      }, 1000)
     }
+    this.getOrderLens()
   },
   methods: {
     tab (index) {
       console.log(index)
       this.tabIndex = index
+      if (index === 0) { // 我的订单
+        this.orderUrl = 'order/orderlist'
+        this.json.typeid = 1
+      } else if (index === 1) { // 积分订单
+        this.orderUrl = 'order/orderintegrallist'
+        this.json.typeid = 1
+      } else if (index === 2) { // 试用订单
+        this.orderUrl = 'order/orderlist'
+        this.json.typeid = 3
+      }
+      this.getOrderLens()
+    },
+    async getOrderLens () {
+      // typeid 分类 1普通订单（我的订单、积分订单）、 3试用订单、 0全部 、(2经销商
+      // status: 订单状态（0全部，1待付款，2已付款，3已配货，4已发货，5确认收货，10取消订单）
+      // status只用到 1、2、4、5
+      console.log(this.orderUrl)
+      let result = await this.axios.post(this.base_url + this.orderUrl, this.json)
+      if (result.success) {
+        let lists = result.data.list // 0全部
+        console.log(lists)
+        this.tabs1.map((item, index) => {
+          item.nums = 0
+        })
+        lists.map((item, index) => {
+          switch (item.status) {
+            case 1:
+              this.tabs1[0].nums++
+              break
+            case 2:
+              this.tabs1[1].nums++
+              break
+            case 4:
+              this.tabs1[2].nums++
+              break
+            case 5:
+              this.tabs1[3].nums++
+              break
+            default: break
+          }
+        })
+        console.log(this.tabs1)
+        /* this.lists.map((item, index) => {
+          switch (item.status){
+            case 1:
+
+              break
+          }
+        }) */
+        /* console.log('1普通订单:', list1, list2, list3)
+        console.log('2经销商:', list1, list2, list3)
+        console.log(this.orderLens) */
+      }
     }
   }
 }
@@ -131,7 +212,7 @@ export default {
 @color1:#4b376e;
 .avatar{
   background: url(../../assets/images/my/top-bg.png)center no-repeat;
-  background-size: contain;
+  background-size: cover;
   padding: 20px 0;
   height: 140px;
   color: #fff;
@@ -139,6 +220,7 @@ export default {
   .avatar-img img{
     width: 80px;
     height: 80px;
+    border-radius: 50%;
   }
   .fakename{
     font-size: 16px;

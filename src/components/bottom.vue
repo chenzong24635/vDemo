@@ -42,7 +42,7 @@
     <p class='mes-line'>
       <span>WHEN SAFETY MATTERS MOST</span>
     </p>
-    <div class='back-top '>返回顶部 <i class="icon-ctrl"></i></div>
+    <div class='back-top ' @click="backTop">返回顶部 <i class="icon-ctrl"></i></div>
     <div class='company-mes'>2015 Belli All Rights Reserved,沪ICP备14043077号-2 上海昭晗贸易有限公司</div>
     <ul class='foot-links tac'>
       <li><router-link to='usualProblem'>帮助中心</router-link></li>
@@ -124,6 +124,9 @@ export default {
         }
         console.log(item, index)
       })
+    },
+    backTop () {
+      window.scrollTo(0, 0)
     }
   }
 }
