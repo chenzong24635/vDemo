@@ -51,7 +51,7 @@
       <p class="amouts">
         合计￥<span>{{amouts}}</span>
       </p>
-      <router-link class="settle" to="">结算</router-link>
+      <router-link class="settle flex01" to="">结算</router-link>
     </section>
     <mytoast :showToast="toast.showToast" :type="toast.type" :text="toast.toastText" :is-show-mask="true" ></mytoast>
   </div>
@@ -204,11 +204,12 @@ export default {
 .bottom1{
   position: fixed;
   left: 0;
-  bottom: 100px;
+  bottom: 90px;
   box-sizing: border-box;
   width: 100%;
   padding: 10px 20px;
   background-color: #fbf9fc;
+  font-size: 12px;
   .cd {
     color: #f58989;
     path{fill: #f58989;}
@@ -220,12 +221,18 @@ export default {
   bottom: 50px;
   box-sizing: border-box;
   width: 100%;
-  height: 80px;
-  padding: 0 20px;
+  height: 40px;
+  padding-left: 10px;
   background-color: #fbf9fc;
+  .amouts span{
+    font-size: 18px;
+    color: @color;
+  }
   .settle {
     text-align: center;
     color: #fff;
+    height: 100%;
+    padding: 0 50px;
     background: #6a63aa;
   }
 }

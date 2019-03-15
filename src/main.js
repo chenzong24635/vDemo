@@ -14,6 +14,7 @@ Vue.prototype.GLOBAL = global // 挂载到Vue实例上面
 Vue.use(Mint)
 Vue.use(VueI18n)
 Vue.prototype.axios = axios
+// 接口地址 http://61.155.169.77:10002/swagger-ui.html
 Vue.prototype.base_url = 'http://61.155.169.77:10002/' // 接口地址
 Vue.prototype.base_img = 'http://61.155.169.77:10005/'// 图片地址
 /* Vue.prototype.base_url = '/static/json/' // 自定义接口地址
