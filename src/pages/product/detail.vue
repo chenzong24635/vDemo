@@ -2,38 +2,93 @@
   <div class="" id="detail">
     <img :src="data.pic" alt="" class="img-title">
     <h1 class="title">{{data.title}}</h1>
-    <div class="top-mes">
+    <section class="top-mes">
       <p class="subtitle ov1">功效：{{data.subtitle}}</p>
       <p class="gg">规格：{{data.gg}}</p>
       <p class="amount">价格：￥{{data.amount}}</p>
       <div class="activity">活动：
         <p class="zw" v-if="len <= 0">暂无</p>
         <ul v-else>
-
         </ul>
       </div>
       <p class="server">服务：满{{nofreight}}包邮</p>
       <group class="nums">
         <cell title="数量：">
-          <inline-x-number style="display:block;" :min="0" width="50px" button-style="square"></inline-x-number>
+          <inline-x-number @on-change="changeNumber" v-model="number" :min="1" width="50px" button-style="square"></inline-x-number>
         </cell>
         <!-- <x-number title="" v-model="changeValue" :min="0" @on-change="change"></x-number> -->
       </group>
-    </div>
+    </section>
+    <section class="detail">
+      <h3 class="vux-1px-b">产品详情</h3>
+      <ul>
+        <li class="detail-list">
+          <p class="detail-head"><span>主要功效</span></p>
+          <div class="detail-mes" v-html="data.wap"></div>
+        </li>
+        <li class="detail-list">
+          <p class="detail-head"><span>使用方法</span></p>
+          <div class="detail-mes" v-html="data.usagemethod"></div>
+        </li>
+        <li class="detail-list">
+          <p class="detail-head"><span>主要成分：</span></p>
+          <div class="detail-mes" v-html="data.component"></div>
+        </li>
+        <li class="detail-list">
+          <p class="detail-head"><span>全部成分：</span></p>
+          <div class="detail-mes" v-html="data.ingredients"></div>
+        </li>
+      </ul>
+      <div class="tip tip1">
+        <div class="tip-box">
+          <p class="tip-title">
+            <span class="p1">健康贴士</span>
+            <span class="p2">Health tips</span>
+          </p>
+          <div class="tip-mes" v-html="data.tips"></div>
+        </div>
+      </div>
+      <div class="tip tip2">
+        <div class="tip-box">
+          <p class="tip-title">
+            <span class="p1">美容提示</span>
+            <span class="p2">Beauty tips</span>
+          </p>
+          <div class="tip-mes" v-html="data.beauty"></div>
+        </div>
+      </div>
+    </section>
+    <section class="btns flex01 vux-1px-t">
+      <router-link to="/cart" class="btn btn1 flex02">
+        <img src="../../assets/images/common/shop.jpg" alt="购物袋" title="购物袋">
+        <p>购物袋</p>
+      </router-link>
+      <div @click="addCart(true)" class="btn btn2">加入购物袋</div>
+      <div @click="buy" class="btn btn3">立即购买 </div>
+    </section>
+    <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="130px" :time="1000"  :is-show-mask="true" position="middle"></toast>
   </div>
 </template>
 <script>
-import {Cell, InlineXNumber, Group} from 'vux'
+import {Toast, Cell, InlineXNumber, Group} from 'vux'
 
 export default {
   name: '',
   components: {
     Cell,
     Group,
-    InlineXNumber
+    InlineXNumber,
+    Toast
   },
   data () {
     return {
+      toastData: {
+        isShow: false,
+        type: 'success',
+        text: '已加入购物车'
+      },
+      id: '',
+      number: 1,
       nofreight: '',
       changeValue: 0,
       len: 0,
@@ -41,24 +96,56 @@ export default {
     }
   },
   created () {
-    let id = this.$route.params.id / 1
+    let id = this.$route.params.id
     this.id = id
     this.nofreight = sessionStorage.getItem('nofreight')
     this.getDetail(id)
   },
   methods: {
-    async getDetail (id) {
-      let result = await this.axios.get(this.base_url + '/product/productdetail/' + id)
-      if (result.success) {
-        let data = result.data
-        data.pic = this.base_img + data.pic
-        this.data = data
-        this.len = data.actcommgiftList.length
-        console.log(data.actcommgiftList.length)
+    getDetail (id) {
+      this.axios.get(this.base_url + 'product/productdetail/' + id).then((result) => {
+        if (result.success) {
+          let data = result.data
+          data.pic = this.base_img + data.pic
+          this.data = data
+          this.len = data.actcommgiftList.length
+          console.log(result)
+        }
+      })
+    },
+    changeNumber (val) {
+      this.number = val
+      console.log('change', val)
+    },
+    addCart (isShowToast) { // 添加到购物车
+      let data = this.data
+      if (data.number > 0) {
+        let json = {
+          mid: localStorage.getItem('username'),
+          number: this.number,
+          proid: data.id,
+          remarks: 2
+        }
+        this.axios.post('cart/cartInsert', json).then((result) => {
+          console.log(result)
+          if (result.success && isShowToast) {
+            this.toastData.isShow = true
+          }
+          /* if (result.status === 500){
+            this.toastData.isShow = true
+            this.toastData.text = '您的账号被迫下线，请重新登录'
+            let timer = setTimeout(() => {
+              clearTimeout(timer)
+            }, 500)
+          } */
+        })
+      } else {
+        console.log('售完')
       }
     },
-    change (val) {
-      console.log('change', val)
+    buy () { // 立即购买
+      this.addCart(false)
+      this.$router.push({name: 'Settle', params: {type: 1}})
     }
   }
 }
@@ -113,6 +200,113 @@ export default {
         line-height: 14px;
       }
     }
+  }
+}
+.detail{
+  border-top: 10px solid rgb(247,247,247);
+  padding: 0 20px;
+  h3{
+    padding: 6px 0;
+    font-weight: normal;
+    color: @color;
+  }
+  .detail-head{
+    margin-bottom: 6px;
+    span{
+      position: relative;
+      padding-left: 6px;
+      color: #494949;
+      &:before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        margin: auto 0;
+        height: 70%;
+        width: 2px;
+        background: #6a63aa;
+      }
+    }
+  }
+  .detail-list{
+    margin: 10px 0 20px;
+  }
+  .detail-mes{
+    white-space:normal;
+    word-break:break-all;
+    word-wrap:break-word;
+    padding-left: 6px;
+    line-height: 1.5;
+  }
+  .tip1:before{background: url('../../assets/images/product/en_03.png')no-repeat center;}
+  .tip2:before{background: url('../../assets/images/product/r_03.png')no-repeat center;}
+  .tip{
+    position: relative;
+    box-sizing: border-box;
+    padding: 6px;
+    background-color: #f3f3f8;
+    margin-bottom: 20px;
+    &:before{
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      width: 30px;
+      height: 30px;
+      background-size: 100%;
+    }
+    .tip-title{margin-bottom: 6px;}
+    .p1{
+      color:@color;
+    }
+    .p2{
+      font-size: 12px;
+      color:#b0b1af;
+    }
+    .tip-box{
+      padding: 10px;
+      border: 1px solid  #a097c2;
+    }
+    .tip-mes{
+      font-size: 13px;
+      color: #717171;
+    }
+  }
+}
+footer{margin-bottom: 80px;}
+.btns{
+  position: fixed;
+  left: 0;
+  bottom: 50px;
+  z-index: 9;
+  width: 100%;
+  background: #f9f9f9;
+  text-align: center;
+  .btn{display: block;}
+  .btn1{
+    flex: 1;
+    font-size: 12px;
+    img{
+      width: 20px;
+      height: 20px;
+    }
+  }
+  .btn2{
+    height: 50px;
+    line-height: 50px;
+    flex: 2;
+    font-size: 15px;
+    color: #6a63aa;
+    background: #d6cfe4;
+  }
+  .btn3{
+    height: 50px;
+    line-height: 50px;
+    flex: 2;
+    font-size: 15px;
+    color: #fff;
+    background: #6a63aa;
   }
 }
 </style>

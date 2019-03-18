@@ -5,7 +5,7 @@
       <router-link  class="logo " to="/index"><img src="../../assets//images/common/login-logo.jpg" /></router-link>
       <form class="form">
         <group class="form-list">
-          <x-input title="手机号" type="text" placeholder="请输入手机号" v-model="json.username"></x-input>
+          <x-input title="手机号" type="text" placeholder="请输入手机号" v-model="json.username" autofocus></x-input>
         </group>
         <group class="form-list">
           <x-input title="密码" type="password" placeholder="请输入密码" v-model="json.password"></x-input>

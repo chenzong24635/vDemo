@@ -40,7 +40,7 @@ export default {
         sessionStorage.setItem('freight', data[1].value) // 运费
       }
     }
-    {
+    /* {
       let result = await this.axios.post(this.base_url + 'member/detail')
       if (!result.success) {
         console.log(1)
@@ -49,7 +49,7 @@ export default {
           this.$router.push({name: 'login'})
         }, 1000)
       }
-    }
+    } */
   }
 }
 </script>
@@ -62,13 +62,19 @@ export default {
 @color1:#4b376e;
 html,body,div,p,span,ul,li,ol,blockquote,
 header,section,aside,footer,main,article,
-h1,h2,h3,h4,h5,h6
-{padding: 0;margin: 0;}
+h1,h2,h3,h4,h5,h6,
+textarea,input,label
+{padding: 0;margin: 0;box-sizing:border-box;}
 html,body{
+  font-family: 'Microsoft YaHei';
   font-size: 14px;
   // font-size: 62.5%;
   color:#494949;
+  line-height: 1.5;
+  overflow-x: hidden;
+  background-color: transparent;
 }
+
 .tac{text-align: center;}
 .tal{text-align: left;}
 .tar{text-align: right;}
@@ -91,6 +97,8 @@ a{
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   -webkit-tap-highlight-color:transparent;
   cursor: pointer;
+  color:#494949;
+  span{color:#494949;}
 }
 #app{position: relative;}
 ul{list-style: none;a{display: block;}}
@@ -105,6 +113,9 @@ input,button{
 }
 input,input:focus{
   border: 1px solid #eee;/*no*/
+}
+input.no,input.no:focus{
+  border: none
 }
 ::-webkit-input-placeholder {/* WebKit, Blink, Edge */
   color: #d3d2d2;
@@ -139,7 +150,10 @@ button{
   justify-content: space-between;
   align-items: center;
 }
-
+.img-title{width: 100%;vertical-align: top;}
+.bb10{border-bottom: 10px solid #f7f7f7;}
+.bt10{border-top: 10px solid #f7f7f7;}
+.p10{padding: 10px;}
 // 单行省略号
 .ov1{
   white-space: nowrap;
@@ -161,7 +175,7 @@ button{
   -moz-line-clamp: 2;
   -moz-box-orient: vertical;
 }
-.img-title{width: 100%;vertical-align: top;}
+
 
 #swiper /deep/ .vux-img{
   background-size: 100% 100%;
@@ -211,6 +225,13 @@ button{
 div /deep/{
   .weui-loadmore{
     width: 98%;
+  }
+  .weui-cells{
+    margin-top: 0;
+    /deep/ .weui-textarea{
+      font-size: 12px;
+      font-family: 'Microsoft YaHei';
+    }
   }
   .weui-icon_toast.weui-icon-success-no-circle:before{
     font-size: 40px;

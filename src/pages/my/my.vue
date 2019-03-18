@@ -31,17 +31,18 @@
         </cell>
       </group>
     </section>
-    <mytoast :showToast="toast.showToast" :type="toast.type" :text="toast.toastText" :is-show-mask="true" ></mytoast>
+    <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="130px" :time="1000"  :is-show-mask="true" position="middle"></toast>
+    <!-- <mytoast :showToast="toast.showToast" :type="toast.type" :text="toast.toastText" :is-show-mask="true" ></mytoast> -->
   </div>
 </template>
 <script>
-import {Tab, TabItem, Grid, GridItem, Group, Cell} from 'vux'
-import mytoast from '@/components/toast.vue'
+import {Toast, Tab, TabItem, Grid, GridItem, Group, Cell} from 'vux'
+// import mytoast from '@/components/toast.vue'
 
 export default {
   name: '',
   components: {
-    mytoast,
+    Toast,
     Tab,
     TabItem,
     Grid,
@@ -51,6 +52,11 @@ export default {
   },
   data () {
     return {
+      toastData: {
+        isShow: false,
+        type: 'warn',
+        text: '您的账号被迫下线，请重新登录'
+      },
       json: {
         order: 'ASC',
         pageNum: 1,
@@ -59,11 +65,6 @@ export default {
         typeid: 1
       },
       orderUrl: 'order/orderlist',
-      toast: {
-        showToast: false,
-        type: 'warn',
-        toastText: '您的账号被迫下线，请重新登录'
-      },
       tabIndex: 0,
       tabs: ['我的订单', '积分订单', '试用订单'],
       tabs1: [
@@ -138,7 +139,7 @@ export default {
     if (result.success) {
       this.detail = result.data
     } else {
-      this.toast.showToast = true
+      this.toastData.isShow = true
       // this.toast.toastText = result.message
       setTimeout(() => {
         this.$router.push({name: 'login'})
@@ -214,7 +215,6 @@ export default {
   background: url(../../assets/images/my/top-bg.png)center no-repeat;
   background-size: cover;
   padding: 20px 0;
-  height: 140px;
   color: #fff;
   text-align: center;
   .avatar-img img{

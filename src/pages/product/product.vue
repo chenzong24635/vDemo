@@ -25,13 +25,14 @@
         v-infinite-scroll="loadMore"
         infinite-scroll-disabled="loading"
         infinite-scroll-distance="10">
-        <li @click="link(item, index)" v-for="(item, index) in products" :key="item.id" :data-id="item.id" class="vux-1px">
-          <!-- <router-link :to="'/productDetail' + item.id "> -->
-            <img :src="item.pic" alt="" onerror="this.src='static/images/errorImg.jpg'">
+        <li @click="link(item, index)" v-for="(item, index) in products" :key="item.id" :data-id="item.id" class="list vux-1px">
+          <!-- <router-link :to="'productDetail' + item.id "> -->
+            <img class="pic" :src="item.pic" alt="" onerror="this.src='static/images/errorImg.jpg'">
             <p class="title ov1">{{item.title}}</p>
             <p class="subtitle ov2">功效：{{item.subtitle}}</p>
             <p class="ggvalue ov1">规格：{{item.ggvalue}}</p>
             <p class="amount">￥{{item.amount}}</p>
+            <img @click.stop="addCart(item, index)" src="../../assets/images/common/addto-cart.png" alt="" class="add-cart">
           <!-- </router-link> -->
         </li>
       </ul>
@@ -41,12 +42,11 @@
         <load-more v-if="isLastPage&&products.length!==0" :show-loading="false" tip="到底了" ></load-more>
       </div>
     </div>
-    <toast v-model="showPositionValue" type="warn" width="130px" :time="1000" :is-show-mask="true" text="请填写正确价格" position="middle"></toast>
+    <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="130px" :time="1000"  :is-show-mask="true" position="middle"></toast>
   </div>
 </template>
 <script>
 import {Swiper, Tab, TabItem, XButton, LoadMore, Toast} from 'vux'
-// import {InfiniteScroll} from 'mint-ui'
 import scrollTop from '@/components/scrollTop.vue'
 
 const json01 = {code: 'slide4'} // 轮播图
@@ -73,9 +73,14 @@ export default {
   },
   data () {
     return {
-      searchVal: '',
-      showPositionValue: false,
       pid: '',
+      type: '',
+      toastData: {
+        isShow: false,
+        type: 'warn',
+        text: ''
+      },
+      searchVal: '',
       banners: [],
       tabs: [],
       listsTop: [
@@ -131,6 +136,7 @@ export default {
   async created () {
     console.log(this.$route.params)
     this.pid = this.$route.params.pid / 1
+    this.type = this.$route.params.type / 1
     let value = this.$route.params.val
     this.searchVal = value === 'null' ? '' : value // 搜索内容
     console.log(this.searchVal, 'this.searchVal')
@@ -222,6 +228,9 @@ export default {
       this.isLastPage = false
       this.range = false
       this.products = []
+      this.toastData.text = ''
+      this.toastData.isShow = false
+      this.toastData.type = 'warn'
       this.listsTop.map((item, index) => {
         item.click = false
         if (item.sel) {
@@ -230,6 +239,8 @@ export default {
       })
     },
     sel (item, index) { // 筛选
+      this.toastData.text = ''
+      this.toastData.isShow = false
       this.listsTop.map((key, val) => {
         key.click = false
         if (val === index) {
@@ -302,12 +313,34 @@ export default {
         this.products = []
         this.getProducts(this.pid)
       } else {
-        this.showPositionValue = true
+        this.toastData.text = '请填写正确价格'
+        this.toastData.type = 'warn'
+        this.toastData.isShow = true
       }
     },
+    addCart (item, index) {
+      if (item.number > 0) {
+        let json = {
+          mid: localStorage.getItem('username'),
+          number: 1,
+          proid: item.id,
+          remarks: 2
+        }
+        this.axios.post('cart/cartInsert', json).then((result) => {
+          console.log(result)
+          this.toastData.text = '已添加到购物车'
+          this.toastData.type = 'success'
+          this.toastData.isShow = true
+        })
+      } else {
+        console.log('售完')
+      }
+      console.log(item, index)
+    },
     link (item, index) { // 产品详情跳转
+      // type: 1(普通产品) 、2(小样)、 3(积分)
       let target = this.products[index]
-      this.$router.push({name: 'productDetail', params: {'id': target.id}})
+      this.$router.push({name: 'productDetail', params: {'type': 1, 'id': target.id}})
     }
   }
 }
@@ -381,6 +414,7 @@ div /deep/ .vux-tab-wrap{
     }
     span{margin: 0 10px;}
     button{
+      font-size: 12px;
       margin: 0;
       margin-left: 10px;
       padding: 0 10px;
@@ -388,13 +422,15 @@ div /deep/ .vux-tab-wrap{
       background-color: #6a63aa;
       color:#fff;
       border-radius: 6px;
+
     }
   }
 }
 #lists{
   margin-top: 16px;
   flex-wrap: wrap;
-  li{
+  .list{
+    position: relative;
     box-sizing: border-box;
     width: 48%;
     padding: 10px;
@@ -402,9 +438,16 @@ div /deep/ .vux-tab-wrap{
     margin-bottom: 4%;
     &:nth-child(2n){margin-left: 4%;}
     a:visited{color:gold}
-    img{
+    .add-cart{
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      width: 25px;
+      height: 25px;
+    }
+    .pic{
       width: 100%;
-      height: 120px
+      height: 120px;
     }
     p{
       color:#000;

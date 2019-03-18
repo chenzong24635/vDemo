@@ -84,7 +84,7 @@ export default {
       }
       let result = await this.axios.post(this.base_url + 'common/sendMessageAnd', {
         mobile: this.json.mobile,
-        type: 3
+        type: 1
       })
       // let data = result.data
       if (result.success) {
@@ -133,7 +133,7 @@ export default {
         this.toast('账号已创建')
         let timer = setTimeout(() => {
           console.log('login')
-          // this.$router.push({name: 'login'})
+          this.$router.push({name: 'login'})
           clearTimeout(timer)
         }, 1000)
       } else {

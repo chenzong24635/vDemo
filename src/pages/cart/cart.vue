@@ -9,7 +9,7 @@
               <icon v-show="!item.checked" type="circle"></icon>
             </div>
             <div class="list-div">
-              <router-link :to="{name: 'productDetail', params: {id: item.proid}}">
+              <router-link :to="{name: 'productDetail', params: {type: 1, id: item.proid}}">
                 <img class="img" :src="item.img" :alt="item.proname"
               onerror="this.src='static/images/errorImg.jpg'" />
               </router-link>
@@ -51,14 +51,13 @@
       <p class="amouts">
         合计￥<span>{{amouts}}</span>
       </p>
-      <router-link class="settle flex01" to="">结算</router-link>
+      <div @click="settle" class="settle flex01" >结算</div>
     </section>
-    <mytoast :showToast="toast.showToast" :type="toast.type" :text="toast.toastText" :is-show-mask="true" ></mytoast>
+    <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="130px" :time="1000"  :is-show-mask="true" position="middle"></toast>
   </div>
 </template>
 <script>
-import {Icon, Cell, XNumber, Group} from 'vux'
-import mytoast from '@/components/toast.vue'
+import {Toast, Icon, Cell, XNumber, Group} from 'vux'
 export default {
   name: '',
   components: {
@@ -66,7 +65,7 @@ export default {
     Cell,
     XNumber,
     Group,
-    mytoast
+    Toast
   },
   destroyed () { // 销毁时显示
     this.componentsShow(true)
@@ -76,20 +75,20 @@ export default {
   },
   data () {
     return {
-      checked: true,
-      toast: {
-        nofreight: '',
-        showToast: false,
+      toastData: {
+        isShow: false,
         type: 'warn',
-        toastText: '已成功删除'
+        text: '已成功删除'
       },
+      checked: true,
+      nofreight: '',
       lists: [],
       amouts: 0
     }
   },
   async created () {
     this.nofreight = sessionStorage.getItem('nofreight')
-    // this.getLists()
+    this.getLists()
   },
   methods: {
     componentsShow (bool) {
@@ -100,31 +99,40 @@ export default {
       this.lists.map((item, index) => {
         item.checked = this.checked
       })
+      this.accounts(this.lists) // 计算总额
     },
     check (item, index) { // 单选
       this.lists.some((item1, index1) => {
         if (index === index1) {
           item1.checked = !item1.checked
+          return true
         }
-        return (index === index1)
       })
-      console.log(this.lists)
+      let bool = this.lists.every((item1, index1) => { // 全选
+        return item1.checked
+      })
+      this.checked = bool
+      this.accounts(this.lists) // 计算总额
     },
     async changeNumber (index, id) { // 增减
-      console.log(index, id)
-      console.log(this.lists)
+      this.accounts(this.lists) // 计算总额
       /* let result = await this.axios.get(this.base_url + 'cart/cartnumberadd/' + id)
       if (result.success) {
       }  */
     },
     async del (index, id) { // 删除
-      console.log(index, id)
-      console.log(this.lists)
+      let _this = this
       let result = await this.axios.get(this.base_url + 'cart/cartdel/' + id)
       if (result.success) {
-        this.toast.showToast = true
+        this.toastData.isShow = true
         let timer = setTimeout(() => {
-          this.getLists()
+          // _this.getLists()
+          _this.lists.some((item1, index1) => {
+            if (item1.id === id) {
+              _this.lists.splice(index1, 1)
+            }
+          })
+          _this.accounts(_this.lists) // 计算总额
           clearTimeout(timer)
         }, 100)
       }
@@ -137,7 +145,28 @@ export default {
           item.img = this.base_img + item.propic
         })
         this.lists = result.data
+        this.accounts(result.data) // 计算总额
       }
+    },
+    accounts (lists) { // 计算总额 proamount * number
+      this.amouts = 0
+      lists.map((item) => {
+        if (item.checked) {
+          this.amouts += Number(item.proamount) * Number(item.number)
+        }
+      })
+    },
+    settle () { // 结算
+      let settleLists = [] //下单列表
+      this.lists.map((item, index) => {
+        if (item.checked)
+          settleLists.push(item)
+      })
+      settleLists = JSON.stringify(settleLists)
+      console.log(settleLists)
+      sessionStorage.setItem('settleLists', settleLists)
+      this.$router.push({name: 'Settle', params: {type: 2}})
+      // this.$router.push({name: 'Settle', params: {type: 2, array: settleLists}})
     }
   }
 }
@@ -149,7 +178,7 @@ export default {
   font-size: 14px;
   color:@color;
 }
-
+.lists{margin-bottom: 150px;}
 .list{
   .list-box{padding: 2px 10px;}
   .proname{
@@ -158,6 +187,7 @@ export default {
   .price{
     color:@color;
     margin-right: 45px;
+    width: 90px;
   }
   .img{
     width: 85px;
@@ -207,7 +237,7 @@ export default {
   bottom: 90px;
   box-sizing: border-box;
   width: 100%;
-  padding: 10px 20px;
+  padding: 10px;
   background-color: #fbf9fc;
   font-size: 12px;
   .cd {

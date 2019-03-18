@@ -16,6 +16,15 @@ const store = new Vuex.Store({
     changeToken (state, user) {
       state.accessToken = user.accessToken
       localStorage.setItem('accessToken', user.accessToken)
+    },
+    clearToken (state) {
+      state.accessToken = ''
+      localStorage.removeItem('accessToken')
+    }
+  },
+  actions: {
+    clearToken ({ commit }) {
+      commit('clearToken')
     }
   }
 })

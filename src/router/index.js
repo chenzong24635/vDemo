@@ -16,6 +16,11 @@ import News from '@/pages/news/news'
 import newDetail from '@/pages/news/newDetail'
 import Product from '@/pages/product/product'
 import ProductDetail from '@/pages/product/detail'
+import Settle from '@/pages/product/settle'
+import Address from '@/pages/address/address'
+
+import QualityTest from '@/pages/static/qualityTest'
+// 静态页面
 import Story from '@/pages/static/story'
 import Safe from '@/pages/static/safe'
 import America from '@/pages/static/america'
@@ -24,7 +29,6 @@ import YunWen from '@/pages/static/yunwen'
 import Facial from '@/pages/static/facial'
 import Baby from '@/pages/static/baby'
 import Faq from '@/pages/static/faq'
-import QualityTest from '@/pages/static/qualityTest'
 
 /* import {post} from '../api/index.js'
 import {
@@ -153,7 +157,15 @@ const router = new Router({
       }
     },
     {
-      path: '/productDetail/:id',
+      path: '/product1/:pid/:val',
+      name: 'product1',
+      component: Product,
+      meta: {
+        title: '产品1'
+      }
+    },
+    {
+      path: '/productDetail/:type/:id',
       name: 'productDetail',
       component: ProductDetail,
       meta: {
@@ -161,11 +173,19 @@ const router = new Router({
       }
     },
     {
-      path: '/product1/:pid/:val',
-      name: 'product1',
-      component: Product,
+      path: '/settle/:type',
+      name: 'Settle',
+      component: Settle,
       meta: {
-        title: '产品1'
+        title: '结算'
+      }
+    },
+    {
+      path: '/address',
+      name: 'Address',
+      component: Address,
+      meta: {
+        title: '地址'
       }
     },
     {

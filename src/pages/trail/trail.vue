@@ -62,15 +62,16 @@ export default {
       ]
     }
   },
-  async created () {
-    let result = await this.axios.post(this.base_url + '/web/adlist', json)
-    if (result.success) {
-      this.banner = this.base_img + result.data[0].img
-    }
-    this.lists.map((item, index) => {
-      // item.checked = true
+  created () {
+    this.axios.post(this.base_url + '/web/adlist', json).then((result) => {
+      if (result.success) {
+        this.banner = this.base_img + result.data[0].img
+      }
+      this.lists.map((item, index) => {
+        item.checked = true
+      })
+      console.log(result)
     })
-    console.log(result)
   },
   methods: {
     check (item, index) {
