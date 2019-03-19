@@ -1,13 +1,13 @@
 <template>
   <div class="">
     <!-- type:1 详情页结算、 2：购物车结算 -->
-    <router-link to="/address" id="address" class="flex01">
+    <router-link to="/address/1" id="address" class="flex01">
       <div class="address-l">
         <p class="flex01">
-          <span class="name">姓名</span>
-          <span class="phone">17855832016</span>
+          <span class="name">{{defaultAddress.recive}}</span>
+          <span class="phone">{{defaultAddress.mobile}}</span>
         </p>
-        <p class="address">登出的发达</p>
+        <p class="address">{{defaultAddress.pname}}{{defaultAddress.cname}}{{defaultAddress.rname}}{{defaultAddress.address}}</p>
       </div>
       <x-icon type="ios-arrow-right" size="25"></x-icon>
     </router-link>
@@ -75,7 +75,7 @@
     <section class="bottom1 flex01">
       <p class="flex01">
         <icon type="warn" ></icon>
-        提示：实付满{{nofreight}}元 即赠免物流费
+        提示：实付满{{yunfei}}元 即赠免物流费
       </p>
       <router-link class="cd flex01" :to="{name: 'product', params:{pid: 0,val: 'null'}}">
         去凑单
@@ -83,15 +83,15 @@
       </router-link>
     </section>
     <section class="bottom2 flex01">
-      <p class="amouts">
-        合计￥<span>{{amouts}}</span>
+      <p class="amounts">
+        合计￥<span>{{amounts}}</span>
       </p>
       <div class="settle flex01" >结算</div>
     </section>
   </div>
 </template>
 <script>
-import { Flexbox, FlexboxItem, Checker, CheckerItem, XInput, Group, XTextarea } from 'vux'
+import { Flexbox, FlexboxItem, Checker, CheckerItem, XInput, Group, XTextarea, Icon } from 'vux'
 export default {
   name: '',
   components: {
@@ -101,10 +101,12 @@ export default {
     CheckerItem,
     XInput,
     Group,
-    XTextarea
+    XTextarea,
+    Icon
   },
   data () {
     return {
+      defaultAddress: {},
       lists: [],
       amounts: 0,
       yunfei: 0,
@@ -132,6 +134,7 @@ export default {
   },
   created () {
     let lists = JSON.parse(sessionStorage.getItem('settleLists'))
+    this.defaultAddress = JSON.parse(localStorage.getItem('defaultAddress'))
     this.lists = lists
     this.amounts = lists.reduce((sum, item, index, array) => {
       console.log(sum, item, index, array)
@@ -159,6 +162,10 @@ export default {
 <style scoped lang="less">
 @color:#6a63aa;
 @color1:#4b376e;
+/deep/ .weui-icon-warn{
+  font-size: 14px;
+  color:@color;
+}
 #address{
   position: relative;
   font-size: 15px;
@@ -222,7 +229,7 @@ export default {
   height: 40px;
   padding-left: 10px;
   background-color: #fbf9fc;
-  .amouts span{
+  .amounts span{
     font-size: 18px;
     color: @color;
   }

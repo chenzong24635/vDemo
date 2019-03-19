@@ -157,10 +157,11 @@ export default {
       })
     },
     settle () { // 结算
-      let settleLists = [] //下单列表
+      let settleLists = [] // 下单列表
       this.lists.map((item, index) => {
-        if (item.checked)
+        if (item.checked) {
           settleLists.push(item)
+        }
       })
       settleLists = JSON.stringify(settleLists)
       console.log(settleLists)

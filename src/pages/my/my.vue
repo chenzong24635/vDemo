@@ -24,7 +24,7 @@
     </section>
     <section class="lists">
       <group>
-        <cell :border-intent="false" :title="item.title" :link="item.url" is-link v-for="(item, index) in mylists" :key="index">
+        <cell :border-intent="false" :title="item.title" :link="{name: item.url, params: {type: item.type, id: item.id}}" is-link v-for="(item, index) in mylists" :key="index">
           <!-- <router-link :to="item.url"> -->
             <img slot="icon" width="30" style="display:block;margin-right:10px;" :src="item.icon">
           <!-- </router-link> -->
@@ -98,12 +98,16 @@ export default {
         {
           icon: require('../../assets/images/my/vip2-1.png'),
           title: '我的订单',
-          url: 'order'
+          url: 'order',
+          type: 1,
+          id: 0
         },
         {
           icon: require('../../assets/images/my/vip2-2.png'),
           title: '试用订单',
-          url: 'order'
+          url: 'order',
+          type: 3,
+          id: 0
         },
         {
           icon: require('../../assets/images/my/vip2-3.png'),
@@ -123,19 +127,19 @@ export default {
         {
           icon: require('../../assets/images/my/vip2-6.png'),
           title: '地址管理',
-          url: 'address'
+          url: 'address/0'
         },
         {
           icon: require('../../assets/images/my/vip2-7.png'),
           title: '修改密码',
-          url: 'setPasword'
+          url: 'changePassword'
         }
       ],
       detail: {}
     }
   },
   async created () {
-    let result = await this.axios.post(this.base_url + 'member/detail')
+    let result = await this.axios.post('member/detail')
     if (result.success) {
       this.detail = result.data
     } else {
@@ -168,7 +172,7 @@ export default {
       // status: 订单状态（0全部，1待付款，2已付款，3已配货，4已发货，5确认收货，10取消订单）
       // status只用到 1、2、4、5
       console.log(this.orderUrl)
-      let result = await this.axios.post(this.base_url + this.orderUrl, this.json)
+      let result = await this.axios.post(this.orderUrl, this.json)
       if (result.success) {
         let lists = result.data.list // 0全部
         console.log(lists)

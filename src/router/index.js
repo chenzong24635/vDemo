@@ -3,6 +3,7 @@ import Router from 'vue-router'
 // import store from '../store'
 import Login from '@/pages/logons/login'
 import resetPassword from '@/pages/logons/resetPassword'
+import changePassword from '@/pages/logons/changePassword'
 import Register from '@/pages/logons/register'
 
 import Index from '@/pages/index'
@@ -11,6 +12,7 @@ import Test from '@/pages/trail/test'
 import Shoppe from '@/pages/shoppe/shoppe'
 import Cart from '@/pages/cart/cart'
 import My from '@/pages/my/my'
+import Detail from '@/pages/my/detail'
 import Order from '@/pages/order/order'
 import News from '@/pages/news/news'
 import newDetail from '@/pages/news/newDetail'
@@ -18,6 +20,7 @@ import Product from '@/pages/product/product'
 import ProductDetail from '@/pages/product/detail'
 import Settle from '@/pages/product/settle'
 import Address from '@/pages/address/address'
+import addressEdit from '@/pages/address/edit'
 
 import QualityTest from '@/pages/static/qualityTest'
 // 静态页面
@@ -83,7 +86,15 @@ const router = new Router({
       }
     },
     {
-      path: '/order',
+      path: '/changePassword',
+      name: 'changePassword',
+      component: changePassword,
+      meta: {
+        title: '密码修改'
+      }
+    },
+    { // type: 1(我的订单)、2(积分订单)、3(试用订单) ,id: 0(全部)、1(代付款)、2(代发货)、3(代收货)、4(已完成)
+      path: '/order/:type/:id',
       name: 'order',
       component: Order,
       meta: {
@@ -149,6 +160,15 @@ const router = new Router({
       }
     },
     {
+      path: '/detail',
+      name: 'detail',
+      component: Detail,
+      meta: {
+        title: '个人信息',
+        requiresAuth: true
+      }
+    },
+    {
       path: '/product/:pid/:val',
       name: 'product',
       component: Product,
@@ -181,11 +201,19 @@ const router = new Router({
       }
     },
     {
-      path: '/address',
+      path: '/address/:type',
       name: 'Address',
       component: Address,
       meta: {
         title: '地址'
+      }
+    },
+    {
+      path: '/addressEdit/:id',
+      name: 'addressEdit',
+      component: addressEdit,
+      meta: {
+        title: '地址编辑'
       }
     },
     {

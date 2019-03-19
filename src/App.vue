@@ -26,7 +26,7 @@ export default {
   },
   data () {
     return {
-      showToast: false,
+      showToast: false
     }
   },
   async created () { // 运费
@@ -176,6 +176,14 @@ button{
   -moz-box-orient: vertical;
 }
 
+#check{
+  margin: 20px 0;
+  font-size: 12px;
+  /deep/ .vux-check-icon > .weui-icon-success:before,
+  /deep/ .vux-check-icon > .weui-icon-success-circle:before{
+    color:@color;
+  }
+}
 
 #swiper /deep/ .vux-img{
   background-size: 100% 100%;
@@ -243,11 +251,13 @@ div /deep/{
       line-height: 32px;
     }
   }
-  .weui-btn_primary{
+  .weui-btn_primary,.weui-btn_default{
     background-color: @color;
     border-radius:0;
+    color: #fff;
     &:not(.weui-btn_disabled):active{
       background-color: @color;
+      color: #fff;
     }
   }
   .weui-btn_disabled.weui-btn_primary{

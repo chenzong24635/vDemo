@@ -161,14 +161,7 @@ export default {
     fill: @color1;
   }
 }
-#check{
-  margin: 20px 0;
-  font-size: 12px;
-  /deep/ .vux-check-icon > .weui-icon-success:before,
-  /deep/ .vux-check-icon > .weui-icon-success-circle:before{
-    color:@color;
-  }
-}
+
 .form{
   padding: 20px;
   .form-list{
