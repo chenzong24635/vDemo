@@ -40,7 +40,7 @@ export default {
   },
   data () {
     return {
-      type: '',
+      type: '', // 1: (结算页面的跳转)
       toastData: {
         isShow: false,
         type: 'success',

@@ -10,7 +10,9 @@ const store = new Vuex.Store({
     headerShow: true, // 头部是否显示
     bottomShow: true, // 底部是否显示
     footerShow: true, // 底部导航是否显示
-    defaultAddress: localStorage.getItem('defaultAddress') ? localStorage.getItem('defaultAddress') : '' // 结算页面默认地址
+    defaultAddress: localStorage.getItem('defaultAddress') ? localStorage.getItem('defaultAddress') : '', // 结算页面默认地址
+    nofreight: localStorage.getItem('nofreight') ? localStorage.getItem('nofreight') : '', // 满多少免运费
+    freight: localStorage.getItem('freight') ? localStorage.getItem('freight') : '' // 运费
   },
   mutations: {
     // 修改token，并将token存入localStorage

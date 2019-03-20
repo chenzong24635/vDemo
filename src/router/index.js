@@ -14,6 +14,7 @@ import Cart from '@/pages/cart/cart'
 import My from '@/pages/my/my'
 import Detail from '@/pages/my/detail'
 import Order from '@/pages/order/order'
+import orderDetail from '@/pages/order/detail'
 import News from '@/pages/news/news'
 import newDetail from '@/pages/news/newDetail'
 import Product from '@/pages/product/product'
@@ -93,12 +94,21 @@ const router = new Router({
         title: '密码修改'
       }
     },
-    { // type: 1(我的订单)、2(积分订单)、3(试用订单) ,id: 0(全部)、1(代付款)、2(代发货)、3(代收货)、4(已完成)
+    { // 订单类型type: 0(全部)、1(我的订单)、2(积分订单)、3(试用订单) , 订单状态id: 0(全部)
       path: '/order/:type/:id',
       name: 'order',
       component: Order,
       meta: {
         title: '订单',
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/orderDetail/:type/:id',
+      name: 'orderDetail',
+      component: orderDetail,
+      meta: {
+        title: '订单详情',
         requiresAuth: true
       }
     },
@@ -202,7 +212,7 @@ const router = new Router({
     },
     {
       path: '/address/:type',
-      name: 'Address',
+      name: 'address',
       component: Address,
       meta: {
         title: '地址'

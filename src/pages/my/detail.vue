@@ -6,7 +6,7 @@
         <input class="avatar-ipt" @change="uploadImg($event)" ref="upload" type="file"/>
       </div>
       <group class="form-list">
-        <x-input title="昵称" v-model="json.gradeName" required type="text" placeholder="请填写昵称"  autofocus></x-input>
+        <x-input title="会员级别" v-model="json.gradeName" readonly type="text" placeholder="请填写昵称"  ></x-input>
       </group>
       <group class="form-list">
         <x-input title="真实姓名" v-model="json.realname"   required type="text" placeholder="请填写真实姓名"  autofocus></x-input>
@@ -53,7 +53,6 @@ export default {
       addressValue: ['黑龙江省', '哈尔滨市', '道里区'],
       onLoadShow: true,
       json: {
-        address: '',
         pname: '',
         cname: '',
         rname: '',
@@ -99,24 +98,17 @@ export default {
       })
     },
     uploadImg (event) {
-      let _this = this
       let file = event.target.files[0]
+      // let file = this.$refs.upload.files[0]
       let reader = new FileReader()
       let dataURL = ''
       reader.onloadend = () => {
         // 图片的 base64 格式, 可以直接当成 img 的 src 属性值
         dataURL = reader.result
-        _this.json.pic = dataURL // 插入到 DOM 中预览
+        this.json.pic = dataURL // 插入到 DOM 中预览
         console.log('dataURL', dataURL)
       }
       reader.readAsDataURL(file) // 读出 base64
-      console.log('读出 base64reader.readAsDataURL(file)')
-      let formData = new FormData()
-      formData.append('file', dataURL)
-      console.log(formData)
-      this.axios.post(this.base_url + 'file/uploadImage', formData).then((response) => {
-        console.log(response)
-      })
     },
     onShadowChange (ids, names) { // 省市区改变
       this.json.pname = names[0]
@@ -138,7 +130,46 @@ export default {
       console.log('dateChange', this.json, value)
     },
     save () {
-      console.log('save')
+      let _this = this
+      let file = this.$refs.upload.files[0]
+      console.log('this.json.pic', this.json.pic)
+      console.log('file', file)
+      if (file) {
+        let formData = new FormData()
+        formData.append('file', file)
+        console.log(formData)
+        this.axios.post('file/uploadImage', formData).then((response) => {
+          if (response.success) {
+            console.log('图片上传成功')
+            this.json.pic = response.data
+          } else {
+            this.json.pic = ''
+          }
+        }).then(() => {
+          this.axios.post('member/memberedit', this.json).then((response) => {
+            _this.toastFunc(response.success)
+          })
+        })
+      } else {
+        this.axios.post('member/memberedit', this.json).then((response) => {
+          _this.toastFunc(response.success)
+        })
+      }
+    },
+    toastFunc (bool) {
+      if (bool) {
+        this.toastData = {
+          isShow: true,
+          type: 'success',
+          text: '编辑成功'
+        }
+      } else {
+        this.toastData = {
+          isShow: true,
+          type: 'warn',
+          text: '保存失败'
+        }
+      }
     }
   }
 }

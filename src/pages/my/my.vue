@@ -11,14 +11,16 @@
     </section>
     <section class="tabs vux-1px-b clearfix">
       <ul class="flex01-1">
-        <li :class="[tabIndex === index ? 'active' : '', 'tab']" v-for="(item, index) in tabs" :key="index" @click="tab(index)">{{item}}</li>
+        <li :class="[tabIndex === index ? 'active' : '', 'tab']" v-for="(item, index) in tabs" :key="index" @click="tab(index)">{{item.title}}</li>
       </ul>
     </section>
     <section class="tabs1 tac clearfix">
       <grid :show-vertical-dividers="false" :show-lr-borders="false">
         <grid-item  v-for="(item, index) in tabs1" :key="index">
-          <img :src="item.img" alt="">
-          <p><span>{{item.title}}</span><span class="nums">{{item.nums}}</span></p>
+          <router-link :to="{name: 'order', params: {type: tabs[tabIndex].type, id: item.id}}">
+            <img :src="item.img" alt="">
+            <p><span>{{item.title}}</span><span class="nums">{{item.nums}}</span></p>
+          </router-link>
         </grid-item>
       </grid>
     </section>
@@ -66,35 +68,48 @@ export default {
       },
       orderUrl: 'order/orderlist',
       tabIndex: 0,
-      tabs: ['我的订单', '积分订单', '试用订单'],
+      tabs: [
+        {
+          title: '我的订单',
+          type: 1
+        },
+        {
+          title: '积分订单',
+          type: 2
+        },
+        {
+          title: '试用订单',
+          type: 3
+        }
+      ],
       tabs1: [
         {
           id: 1,
           img: require('../../assets/images/my/vip1-1.png'),
           title: '代付款',
-          nums: 11
+          nums: 0
         },
         {
-          id: 3,
+          id: 2,
           img: require('../../assets/images/my/vip1-2.png'),
           title: '待发货',
           nums: 0
         },
         {
-          id: 4,
+          id: 3,
           img: require('../../assets/images/my/vip1-3.png'),
           title: '待收货',
           nums: 0
         },
         {
-          id: 5,
+          id: 4,
           img: require('../../assets/images/my/vip1-4.png'),
           title: '已完成',
           nums: 0
         }
       ],
       orderLens: [],
-      mylists: [
+      mylists: [ // 订单类型type: 0(全部)、1(我的订单)、2(积分订单)、3(试用订单) , 订单状态id: 0(全部)
         {
           icon: require('../../assets/images/my/vip2-1.png'),
           title: '我的订单',
@@ -127,7 +142,8 @@ export default {
         {
           icon: require('../../assets/images/my/vip2-6.png'),
           title: '地址管理',
-          url: 'address/0'
+          url: 'address',
+          type: 0
         },
         {
           icon: require('../../assets/images/my/vip2-7.png'),
@@ -142,12 +158,6 @@ export default {
     let result = await this.axios.post('member/detail')
     if (result.success) {
       this.detail = result.data
-    } else {
-      this.toastData.isShow = true
-      // this.toast.toastText = result.message
-      setTimeout(() => {
-        this.$router.push({name: 'login'})
-      }, 1000)
     }
     this.getOrderLens()
   },

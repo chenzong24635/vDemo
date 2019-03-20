@@ -32,12 +32,12 @@ export default {
   async created () { // 运费
     {
       let result = await this.axios.post(this.base_url + '/config/syssetlist')
-      console.log(result)
       if (result.success) {
         let data = result.data
-        console.log(data[0].value, data[1].value)
         sessionStorage.setItem('nofreight', data[0].value) // 满多少免运费
         sessionStorage.setItem('freight', data[1].value) // 运费
+        localStorage.setItem('nofreight', data[0].value) // 满多少免运费
+        localStorage.setItem('freight', data[1].value) // 运费
       }
     }
     /* {
@@ -231,6 +231,12 @@ button{
   }
 }
 div /deep/{
+  .vux-flex-row{
+    .img-title{
+      max-width: 85px;
+      max-height: 85px;
+    }
+  }
   .weui-loadmore{
     width: 98%;
   }

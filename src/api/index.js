@@ -24,6 +24,7 @@ axios.interceptors.request.use(
 // 响应拦截器
 axios.interceptors.response.use(
   response => {
+    // console.log('响应拦截器 response', response)
     // response.data.errCode是我接口返回的值，如果值为2，说明Cookie丢失，然后跳转到登录页，这里根据大家自己的情况来设定
     /* if (response.) {
       router.push({
@@ -78,7 +79,14 @@ axios.interceptors.response.use(
     } else {
       err.message = '连接到服务器失败'
     }
-    console.log(err, err.response)
+    /* if (err.response.status === 500 && err.response.message === '') {
+      localStorage.removeItem('accessToken')
+      router.push({
+        path: '/login',
+        query: {redirect: router.currentRoute.fullPath} // 从哪个页面跳转
+      })
+    } */
+    console.log('err', err.response)
     return Promise.resolve(err.response)
   }
 )
