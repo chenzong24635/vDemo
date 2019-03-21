@@ -20,12 +20,64 @@
         <p>{{data.pname}}{{data.cname}}{{data.rname}}{{data.address}}</p>
       </div>
     </section>
+    <section class="bb10" v-if="data.invoice">
+      <p class="p5-20 vux-1px-b">发票类型：{{data.invoicebank}}</p>
+      <p class="p5-20 vux-1px-b">发票抬头：{{data.invoicetitle}}</p>
+      <p class="p5-20">发票内容：{{data.invoicecontext}}</p>
+    </section>
+    <section class="bb10">
+      <ul class="">
+        <li v-for="(item, index) in data.orderprolist" :key="index" class="list1 vux-1px-b">
+          <flexbox>
+            <flexbox-item :span="3">
+              <router-link  class="flex-demo" :to="{name: 'productDetail', params: {type: type, id: item.pid}}">
+                <img class="img-title" :src="base_img + item.pic" onerror="this.src='static/images/errorImg.jpg'">
+              </router-link>
+            </flexbox-item>
+            <flexbox-item :span="7">
+              <p class="ptitle">{{item.ptitle}}</p>
+              <p class="type">{{item.type}}</p>
+            </flexbox-item>
+            <flexbox-item :span="2">
+              <div class="flex-demo">
+                <p>￥{{item.amount / item.num}}</p>
+                <p class="flex01-1"><x-icon type="ios-close-empty" size="20"></x-icon>{{item.num}}</p>
+              </div>
+            </flexbox-item>
+          </flexbox>
+        </li>
+      </ul>
+      <p class="p5-20 tar">共{{data.orderLength}}件商品 实付金额：{{data.payamount}}</p>
+    </section>
+    <section class="bb10">
+      <p class="p5-20">买家留言：{{data.buyer}}</p>
+    </section>
+    <section class="createDate">
+      <p class="p5-20">成交时间：<span>{{data.createDate}}</span></p>
+    </section>
   </div>
 </template>
 <script>
+import { dateFormat, Toast, TransferDomDirective as TransferDom, Confirm, Flexbox, FlexboxItem, Checker, CheckerItem, XButton, XInput, Group, XTextarea, Icon, LoadMore } from 'vux'
 export default {
-  name: '',
-  components: {},
+  directives: {
+    TransferDom
+  },
+  components: {
+    dateFormat,
+    Toast,
+    Confirm,
+    Flexbox,
+    FlexboxItem,
+    Checker,
+    CheckerItem,
+    XButton,
+    XInput,
+    Group,
+    XTextarea,
+    Icon,
+    LoadMore
+  },
   data () {
     return {
       type: '',
@@ -35,21 +87,36 @@ export default {
     }
   },
   created () {
-    let type = this.$route.params.type / 1 // 订单类型：产品订单、积分订单
+    let type = this.$route.params.type / 1 // 订单类型: 1(普通产品) 、2(积分)、 3(试用
     let id = this.$route.params.id // 订单id
     let url = ''
+    this.type = type
     if (type === 2) { // 积分订单
       url = 'order/orderintegraldetail/'
     } else {
       url = 'order/orderdetail/'
     }
-    this.getDetail (url, id)
+    this.getDetail(url, id)
   },
   methods: {
     getDetail (url, id) {
       this.axios.get(url + id).then((response) => {
         if (response.success) {
-          this.data = response.data
+          let data = response.data
+          data.orderLength = data.orderprolist.length
+          data.createDate = dateFormat(data.createDate, 'YYYY-MM-DD HH:mm:ss')
+          data.orderprolist.map((item, index) => {
+            switch (item.types / 1) {
+              case 0: item.type = ''
+                break
+              case 1: item.type = '满赠'
+                break
+              case 2: item.type = '买赠'
+                break
+              default: break
+            }
+          })
+          this.data = data
         }
       })
     }
@@ -68,5 +135,13 @@ export default {
     height: 32px;
     margin-right: 15px;
   }
+}
+.createDate{
+  padding: 10px 0;
+  min-height: 80px;
+  span{color:#a5a5a5}
+}
+.list1{
+  padding: 0 10px;
 }
 </style>

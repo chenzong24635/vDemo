@@ -153,6 +153,10 @@ export default {
       } else {
         this.axios.post('member/memberedit', this.json).then((response) => {
           _this.toastFunc(response.success)
+          let timer = setTimeout(() => {
+            this.$router.push({name: 'my'})
+            clearTimeout(timer)
+          }, 1000)
         })
       }
     },

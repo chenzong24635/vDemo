@@ -13,6 +13,7 @@ import Shoppe from '@/pages/shoppe/shoppe'
 import Cart from '@/pages/cart/cart'
 import My from '@/pages/my/my'
 import Detail from '@/pages/my/detail'
+import Points from '@/pages/my/points'
 import Order from '@/pages/order/order'
 import orderDetail from '@/pages/order/detail'
 import News from '@/pages/news/news'
@@ -91,7 +92,8 @@ const router = new Router({
       name: 'changePassword',
       component: changePassword,
       meta: {
-        title: '密码修改'
+        title: '密码修改',
+        requiresAuth: true
       }
     },
     { // 订单类型type: 0(全部)、1(我的订单)、2(积分订单)、3(试用订单) , 订单状态id: 0(全部)
@@ -183,18 +185,26 @@ const router = new Router({
       name: 'product',
       component: Product,
       meta: {
-        title: '产品'
+        title: '妈妈系列'
       }
     },
-    {
+    { // pid：105妈妈 、 106婴幼儿
       path: '/product1/:pid/:val',
       name: 'product1',
       component: Product,
       meta: {
-        title: '产品1'
+        title: '婴幼儿系列'
       }
     },
     {
+      path: '/productjs',
+      name: 'productjs',
+      component: Product,
+      meta: {
+        title: '积分商城'
+      }
+    },
+    { // type: 1(普通产品) 、2(积分)、 3(试用)
       path: '/productDetail/:type/:id',
       name: 'productDetail',
       component: ProductDetail,
@@ -202,12 +212,13 @@ const router = new Router({
         title: '产品详情'
       }
     },
-    {
+    { // type:1 详情页结算、 2：购物车结算 3:试用下单
       path: '/settle/:type',
       name: 'Settle',
       component: Settle,
       meta: {
-        title: '结算'
+        title: '结算',
+        requiresAuth: true
       }
     },
     {
@@ -215,15 +226,26 @@ const router = new Router({
       name: 'address',
       component: Address,
       meta: {
-        title: '地址'
+        title: '地址',
+        requiresAuth: true
       }
     },
-    {
-      path: '/addressEdit/:id',
+    {// type:1 (结算页面跳转) type:0 (其他)
+      path: '/addressEdit/:id/:type',
       name: 'addressEdit',
       component: addressEdit,
       meta: {
-        title: '地址编辑'
+        title: '地址编辑',
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/points',
+      name: 'points',
+      component: Points,
+      meta: {
+        title: '我的积分',
+        requiresAuth: true
       }
     },
     {

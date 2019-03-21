@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <!-- type:1 详情页结算、 2：购物车结算 -->
+    <!-- type:1 详情页结算、 2：购物车结算 3:试用下单-->
     <router-link to="/address/1" id="address" class="flex01">
       <div class="address-l">
         <p class="flex01">
@@ -39,14 +39,14 @@
       <div class='invoice vux-1px-b flex01-1'>
         <span>开具发票：</span>
         <checker v-model="json.invoice" radio-required default-item-class="selected0" selected-item-class="selected1">
-          <checker-item value="yes">是</checker-item>
-          <checker-item value="no">否</checker-item>
+          <checker-item :value="1">是</checker-item>
+          <checker-item :value="0">否</checker-item>
         </checker>
       </div>
-      <div  v-show="json.invoice === 'yes'" >
+      <div  v-show="json.invoice" >
         <div class='invoice vux-1px-b flex01-1'>
           <span>发票类型：</span>
-          <checker v-model="billType" radio-required default-item-class="selected0" selected-item-class="selected1">
+          <checker v-model="json.invoicebank" radio-required default-item-class="selected0" selected-item-class="selected1">
             <checker-item value="个人发票">个人发票</checker-item>
             <checker-item value="企业普通发票">企业普通发票</checker-item>
             <checker-item value="企业增值发票">企业增值发票</checker-item>
@@ -54,14 +54,14 @@
         </div>
         <div class='invoice vux-1px-b flex01-1'>
           <span>发票抬头：</span>
-          <input class="no" type="text" :value="json.invoicetitle" placeholder="请输入发票抬头">
+          <input class="no" type="text" v-model="json.invoicetitle" placeholder="请输入发票抬头">
           <!-- <group>
             <x-input title="发票抬头：" v-model="json.invoicetitle" placeholder="请输入发票抬头"></x-input>
           </group> -->
         </div>
         <div class='invoice flex01-1'>
           <span>发票内容：</span>
-          <input class="no" :value="json.invoicecontext" readonly type="text"  placeholder="请输入发票抬头">
+          <input class="no" v-model="json.invoicecontext" readonly type="text"  placeholder="请输入发票内容">
         </div>
       </div>
       <group class="bt10">
@@ -70,12 +70,12 @@
     </section>
     <section class="js tar">
       <p class="p10 vux-1px-b">共{{lists.length}}件商品 合计：￥{{amounts}}</p>
-      <p class="p10 vux-1px-b">运费：{{yunfei}}</p>
+      <p class="p10 vux-1px-b">运费：{{freight}}</p>
     </section>
     <section class="bottom1 flex01">
       <p class="flex01">
         <icon type="warn" ></icon>
-        提示：实付满{{yunfei}}元 即赠免物流费
+        提示：实付满{{nofreight}}元 即赠免物流费
       </p>
       <router-link class="cd flex01" :to="{name: 'product', params:{pid: 0,val: 'null'}}">
         去凑单
@@ -84,9 +84,9 @@
     </section>
     <section class="bottom2 flex01">
       <p class="amounts">
-        合计￥<span>{{amounts}}</span>
+        应付金额￥<span>{{amounts}}</span>
       </p>
-      <div class="settle flex01" >结算</div>
+      <div @click="settle" class="settle flex01" >提交订单</div>
     </section>
   </div>
 </template>
@@ -106,22 +106,22 @@ export default {
   },
   data () {
     return {
+      ids: [],
       defaultAddress: {},
       lists: [],
       amounts: 0,
-      yunfei: 0,
-      isBill: 'yes',
-      billType: '个人发票',
+      freight: 0,
+      nofreight: 0,
+      isBill: 0,
+      billType: '',
       json: {
         addressid: '',
         buyer: '',
-        invoice: 'yes',
-        invoicebank: '',
+        invoice: 0,
+        invoicebank: '个人发票',
         invoicecode: '',
         invoicetitle: '',
         invoicecontext: '化妆品',
-        proid: '',
-        proscar: '',
         source: 2
       }
     }
@@ -133,21 +133,36 @@ export default {
     this.componentsShow(false)
   },
   created () {
+    let type = this.$route.params.type / 1
     let lists = JSON.parse(sessionStorage.getItem('settleLists'))
-    this.defaultAddress = JSON.parse(localStorage.getItem('defaultAddress'))
+    let address0 = JSON.parse(localStorage.getItem('defaultAddress'))
+    this.type = type
+    if (address0) {
+      this.defaultAddress = address0
+    } else {
+      this.getAddressList()
+    }
     this.lists = lists
+    if (type === 1) { // 详情页结算
+      this.ids = [lists[0].proscar]
+    } else {
+      lists.map((item, index) => {
+        this.ids.push(item.id) // 产品ids
+      })
+    }
+    console.log(this.ids)
     this.amounts = lists.reduce((sum, item, index, array) => {
-      console.log(sum, item, index, array)
       sum += item.proamount * item.number
       return sum
     }, 0)
     let nofreight = sessionStorage.getItem('nofreight') / 1
+    let freight = sessionStorage.getItem('freight') / 1
+    this.nofreight = nofreight
     if (this.amounts >= nofreight) {
-      this.yunfei = 0
+      this.freight = 0
     } else {
-      this.yunfei = nofreight
+      this.freight = freight
     }
-    console.log(lists)
   },
   methods: {
     componentsShow (bool) {
@@ -155,6 +170,33 @@ export default {
     },
     change (val) {
       console.log(val)
+    },
+    getAddressList () { // 获取所有地址
+      this.axios.post('member/addresslist', {
+        order: 'ASC',
+        pageNum: 1,
+        pageSize: 100
+      }).then((response) => {
+        this.defaultAddress = response.data[0]
+        localStorage.setItem('defaultAddress', JSON.stringify(response.data[0]))
+      })
+    },
+    settle () { // 下单
+      let url = ''
+      this.json.addressid = this.defaultAddress.id
+      if (this.type === 3) { // 试用下单
+        // this.json.pros = this.ids.join()
+        url = 'account/accountsmall'
+      } else {
+        this.json.proscar = this.ids.join()
+        url = 'account/account'
+      }
+      this.axios.post(url, this.json).then((response) => {
+        if (response.success) {
+          sessionStorage.removeItem('settleLists')
+          this.$router.push({name: 'my'})
+        }
+      })
     }
   }
 }
@@ -224,20 +266,24 @@ export default {
   position: fixed;
   left: 0;
   bottom: 50px;
+  justify-content: flex-end;
   box-sizing: border-box;
   width: 100%;
   height: 40px;
   padding-left: 10px;
   background-color: #fbf9fc;
-  .amounts span{
-    font-size: 18px;
-    color: @color;
+  .amounts{
+    margin-right: 20px;
+    span{
+      font-size: 18px;
+      color: @color;
+    }
   }
   .settle {
     text-align: center;
     color: #fff;
     height: 100%;
-    padding: 0 50px;
+    padding: 0 40px;
     background: #6a63aa;
   }
 }

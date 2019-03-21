@@ -4,7 +4,7 @@
     <!-- <router-link to="/resetPassword">resetPassword</router-link> -->
     <section class="avatar tac">
       <div class="avatar-img">
-        <img :src="detail.pic" alt="">
+        <img :src="detail.pic || avatar" alt="">
       </div>
       <p class="fakename">{{detail.gradeName}}</p>
       <p class="gradeid"><span>{{detail.gradeid}}级</span></p>
@@ -54,6 +54,7 @@ export default {
   },
   data () {
     return {
+      avatar: require('../../assets/images/my/avatar.png'),
       toastData: {
         isShow: false,
         type: 'warn',
@@ -158,6 +159,7 @@ export default {
     let result = await this.axios.post('member/detail')
     if (result.success) {
       this.detail = result.data
+      localStorage.setItem('integral', result.data.integral)
     }
     this.getOrderLens()
   },

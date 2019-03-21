@@ -79,14 +79,13 @@ axios.interceptors.response.use(
     } else {
       err.message = '连接到服务器失败'
     }
-    /* if (err.response.status === 500 && err.response.message === '') {
+    if (err.response.status === 500 && err.response.data.message === '您的账号被迫下线，请重新登录') {
       localStorage.removeItem('accessToken')
       router.push({
         path: '/login',
         query: {redirect: router.currentRoute.fullPath} // 从哪个页面跳转
       })
-    } */
-    console.log('err', err.response)
+    }
     return Promise.resolve(err.response)
   }
 )

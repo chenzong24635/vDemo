@@ -22,9 +22,9 @@
             <li v-for="(item1, index1) in item.orderprolist" :key="index1" class="list1 vux-1px-b">
               <flexbox>
                 <flexbox-item :span="3">
-                  <div class="flex-demo">
+                  <router-link  class="flex-demo" :to="{name: 'productDetail', params: {type: type, id: item1.pid}}">
                     <img class="img-title" :src="item1.pic" onerror="this.src='static/images/errorImg.jpg'">
-                  </div>
+                  </router-link>
                 </flexbox-item>
                 <flexbox-item :span="7">
                   <p class="ptitle">{{item1.ptitle}}</p>
@@ -220,9 +220,9 @@ export default {
                 let type = '' // 活动类型 0:无、 1：满赠、 2：买赠
                 if (item1.types === 0) {
                   type = ''
-                } else if(item1.types === 1) {
+                } else if (item1.types === 1) {
                   type = '满赠'
-                } else if(item1.types === 2) {
+                } else if (item1.types === 2) {
                   type = '买赠'
                 }
                 item1.type = type

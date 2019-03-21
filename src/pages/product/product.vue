@@ -3,36 +3,39 @@
     <scrollTop></scrollTop>
     <swiper height="160px" loop  :list="banners" id="swiper" :dots-class="banners.length >=2 ? 'dot0' : 'swiper-hide'" :show-desc-mask="false"></swiper>
     <tab bar-active-color="#522d6d" :line-width="2" >
-      <tab-item @on-item-click="tab(item, index)" v-for="(item, index) in tabs" :key="item.id" > <!-- :selected="index===0" -->
+      <tab-item @on-item-click="tab(item, index)" v-for="(item, index) in tabs" :key="index" > <!-- :selected="index===0" -->
         {{item.title}}
         <!-- <router-link :to="{name:'product',params:{pid:item.pid, id:item.id}}" >{{item.title}}</router-link> -->
       </tab-item>
     </tab>
     <div class="lists">
-      <ul class="lists-top flex01-1">
-        <li @click="sel(item, index)" v-for="(item, index) in listsTop"
-        :key="item.name" :class="[item.sel && item.click?'sel'+item.status:'', index===0?'':'vux-1px-l', item.click?'click':'']">
-        {{item.name}}</li>
-      </ul>
-      <div class="price-range flex01" v-show="range">
-        <input class="vux-1px" type="number" v-model="price1" >
-        <span>-</span>
-        <input class="vux-1px" type="number" v-model="price2" >
-        <!-- <button type="text" @click="price"></button> -->
-        <x-button @click.native="price('middle')" type="primary">确认</x-button>
-      </div>
+      <section v-if="!isJf">
+        <ul class="lists-top flex01-1">
+          <li @click="sel(item, index)" v-for="(item, index) in listsTop"
+          :key="index" :class="[item.sel && item.click?'sel'+item.status:'', index===0?'':'vux-1px-l', item.click?'click':'']">
+          {{item.name}}</li>
+        </ul>
+        <div class="price-range flex01" v-show="range">
+          <input class="vux-1px" type="number" v-model="price1" >
+          <span>-</span>
+          <input class="vux-1px" type="number" v-model="price2" >
+          <!-- <button type="text" @click="price"></button> -->
+          <x-button @click.native="price('middle')" type="primary">确认</x-button>
+        </div>
+      </section>
       <ul  id="lists" class="flex01-1"
         v-infinite-scroll="loadMore"
         infinite-scroll-disabled="loading"
         infinite-scroll-distance="10">
-        <li @click="link(item, index)" v-for="(item, index) in products" :key="item.id" :data-id="item.id" class="list vux-1px">
+        <li @click="link(item, index)" v-for="(item, index) in products" :key="index" :data-id="item.id" class="list vux-1px">
           <!-- <router-link :to="'productDetail' + item.id "> -->
             <img class="pic" :src="item.pic" alt="" onerror="this.src='static/images/errorImg.jpg'">
             <p class="title ov1">{{item.title}}</p>
             <p class="subtitle ov2">功效：{{item.subtitle}}</p>
             <p class="ggvalue ov1">规格：{{item.ggvalue}}</p>
-            <p class="amount">￥{{item.amount}}</p>
-            <img @click.stop="addCart(item, index)" src="../../assets/images/common/addto-cart.png" alt="" class="add-cart">
+            <p v-if="isJf" class="amount">{{item.integral}}分</p> <!-- 积分 -->
+            <p v-else class="amount">￥{{item.amount}}</p>
+            <img v-if="!isJf" @click.stop="addCart(item, index)" src="../../assets/images/common/addto-cart.png" alt="" class="add-cart">
           <!-- </router-link> -->
         </li>
       </ul>
@@ -59,6 +62,12 @@ const json02 = { // 产品
   minamount: '',
   maxamount: ''
 }
+const json03 = { // 积分
+  cid: '',
+  order: 'ASC',
+  pageNum: 1,
+  pageSize: 4
+}
 
 export default {
   name: '',
@@ -73,6 +82,7 @@ export default {
   },
   data () {
     return {
+      isJf: false,
       pid: '',
       type: '',
       toastData: {
@@ -123,31 +133,34 @@ export default {
   },
   watch: {
     '$route': function (to, from) {
-      console.log(this.$route.params)
-      this.pid = this.$route.params.pid / 1
-      let value = this.$route.params.val
-      this.searchVal = value === 'null' ? '' : value // 搜索内容
-      this.reset()
-      this.getBanners()
-      this.getTabs()
-      this.loadMore()
+      this.loadFunc()
     }
   },
   async created () {
-    console.log(this.$route.params)
-    this.pid = this.$route.params.pid / 1
-    this.type = this.$route.params.type / 1
-    let value = this.$route.params.val
-    this.searchVal = value === 'null' ? '' : value // 搜索内容
-    console.log(this.searchVal, 'this.searchVal')
-    this.reset()
-    this.getBanners()
-    this.getTabs()
-    this.loadMore()
+    this.loadFunc()
   },
   methods: {
+    async loadFunc () {
+      console.log(this.$route)
+      if (this.$route.name === 'productjs') {
+        this.isJf = true // 是否积分商城 页面
+        json03.cid = ''
+        json03.pageNum = 1
+        // this.getProductsJf()
+      } else {
+        this.isJf = false
+        this.pid = this.$route.params.pid / 1
+        this.type = this.$route.params.type / 1
+        let value = this.$route.params.val
+        this.searchVal = value === 'null' ? '' : value // 搜索内容
+        this.reset()
+      }
+      this.getBanners()
+      this.getTabs()
+      this.loadMore()
+    },
     async getBanners () { // banners
-      let result = await this.axios.post(this.base_url + '/web/adlist', json01)
+      let result = await this.axios.post('web/adlist', json01)
       let data = result.data
       let lists = []
       data.map((item, index) => {
@@ -162,24 +175,38 @@ export default {
       this.banners = lists
     },
     async getTabs () { // 获取tab
-      let result = await this.axios.post(this.base_url + '/product/proclasslist')
-      let data = result.data
       let lists = []
-      if (this.pid === 105 || this.pid === 106) { //
-        lists = data.filter((item, index) => {
-          let bool = (item.pid / 1) === this.pid
-          return bool
-        })
-      } else {
-        lists = data
+      if (!this.isJf) {
+        let result = await this.axios.post('product/proclasslist')
+        let data = result.data
+        if (this.pid === 105 || this.pid === 106) { //
+          lists = data.filter((item, index) => {
+            let bool = (item.pid / 1) === this.pid
+            return bool
+          })
+        } else {
+          lists = data
+        }
+      } else { // 积分
+        let result = await this.axios.post('product/prointegralclasslist')
+        lists = result.data
       }
       this.tabs = lists
+      console.log(lists)
     },
     tab (item, index) { // tab切换
-      this.reset()
-      this.searchVal = ''
-      this.pid = item.id
-      this.getProducts(item.id)
+      if (this.isJf) {
+        json03.cid = item.id
+        this.products = []
+        this.isLastPage = false
+        json03.pageNum = 1
+        this.getProductsJf()
+      } else {
+        this.reset()
+        this.searchVal = ''
+        this.pid = item.id
+        this.getProducts(item.id)
+      }
     },
     async getProducts (cid) { // 加载产品
       console.log('getProducts', cid)
@@ -192,7 +219,7 @@ export default {
         cid = ''
       }
       json02.cid = cid
-      let result = await this.axios.post(this.base_url + '/product/productlist', json02)
+      let result = await this.axios.post('product/productlist', json02)
       let data = result.data
       console.log(data)
       if (this.isLastPage) { return }
@@ -213,12 +240,38 @@ export default {
       this.loading = false
       json02.pageNum++
     },
+    async getProductsJf () { // 加载积分
+      let result = await this.axios.post('product/prointegrallist', json03)
+      let data = result.data
+      console.log(data)
+      if (this.isLastPage) { return }
+      if (data.isLastPage) {
+        this.isLastPage = true
+      }
+      let lists = data.list
+      lists = lists.filter((item, index) => {
+        // 筛选 status=1 的产品，同时添加图片路径
+        item.pic = this.base_img + item.pic
+        return item.status / 1
+      })
+      if (json03.pageNum / 1 === 1) {
+        this.products = lists
+      } else {
+        this.products = this.products.concat(lists)
+      }
+      this.loading = false
+      json03.pageNum++
+    },
     loadMore () { // 上拉加载更多
       if (this.isLastPage) {
         return
       }
       this.loading = true
-      this.getProducts(this.pid)
+      if (this.isJf) {
+        this.getProductsJf()
+      } else {
+        this.getProducts(this.pid)
+      }
     },
     reset () { // 筛选重置
       json02.pageNum = 1
@@ -319,6 +372,15 @@ export default {
       }
     },
     addCart (item, index) {
+      if (!localStorage.getItem('accessToken')) {
+        this.toastData.text = '请先登录'
+        this.toastData.type = 'warn'
+        this.toastData.isShow = true
+        let timer = setTimeout(() => {
+          // this.$router.push({name: 'login'})
+          clearTimeout(timer)
+        }, 1000)
+      }
       if (item.number > 0) {
         let json = {
           mid: localStorage.getItem('username'),
@@ -340,7 +402,14 @@ export default {
     link (item, index) { // 产品详情跳转
       // type: 1(普通产品) 、2(小样)、 3(积分)
       let target = this.products[index]
-      this.$router.push({name: 'productDetail', params: {'type': 1, 'id': target.id}})
+      let type = 1
+      if (this.isJf) {
+        type = 3
+      } else {
+        type = 1
+      }
+      console.log(type)
+      this.$router.push({name: 'productDetail', params: {'type': type, 'id': target.id}})
     }
   }
 }
@@ -433,8 +502,9 @@ div /deep/ .vux-tab-wrap{
     position: relative;
     box-sizing: border-box;
     width: 48%;
-    padding: 10px;
+    // padding: 10px;
     // height: 550px;
+    padding-bottom: 6px;
     margin-bottom: 4%;
     &:nth-child(2n){margin-left: 4%;}
     a:visited{color:gold}
@@ -449,10 +519,10 @@ div /deep/ .vux-tab-wrap{
       width: 100%;
       height: 120px;
     }
-    p{
+    &>p{
+      padding: 0 10px;
       color:#000;
       font-size: 13px;/*no*/
-      line-height: 1.3;
     }
     .title{margin-bottom: 4px;}
     .title,.amount{font-size: 15px;/*no*/}

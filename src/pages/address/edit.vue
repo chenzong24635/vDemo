@@ -1,6 +1,6 @@
 <template>
   <div class="">
-      <form class="form">
+      <div class="form">
         <group class="form-list">
           <x-input title="收货人" v-model="json.recive" required type="text" placeholder="请输入收件人名称"  autofocus></x-input>
         </group>
@@ -15,8 +15,8 @@
           <x-input title="手机号码"  v-model.number="json.mobile" required type="tel" placeholder="请输入手机号" ></x-input>
         </group>
         <div id="check" class="tac"><check-icon class="flex01" :value.sync="json.default">设置为默认地址</check-icon></div>
-        <div class="btn-link"><x-button @click.native="save" type="default" >保存</x-button></div>
-      </form>
+        <div class="btn-link"><x-button @click.native="save" type="primary" >保存</x-button></div>
+      </div>
       <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="130px" :time="1000"  :is-show-mask="true" position="middle"></toast>
   </div>
 </template>
@@ -35,6 +35,7 @@ export default {
   },
   data () {
     return {
+      type: '',
       detail: {},
       toastData: {
         isShow: false,
@@ -57,6 +58,7 @@ export default {
   },
   created () {
     let id = this.$route.params.id
+    this.type = this.$route.params.type
     if (id && id !== 'null') {
       this.json.id = id
       this.getDetail(id)
@@ -142,7 +144,7 @@ export default {
       _this.toastData.isShow = true
       _this.toastData.type = 'success'
       let timer = setTimeout(() => {
-        this.$router.go(-1)
+        this.$router.push({name: 'address', params: {type: this.type}})
         clearTimeout(timer)
         return false
       }, 1000)

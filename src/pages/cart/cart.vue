@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <section class="lists">
+    <section v-if="lists.length > 0" class="lists">
       <ul>
         <li v-for="(item, index) in lists" :key="index" class="list" >
           <div class="list-box flex01-1  vux-1px-b">
@@ -32,6 +32,7 @@
         </li>
       </ul>
     </section>
+    <p class="no" v-else><divider>暂无商品</divider></p>
     <section class="bottom1 flex01">
       <p class="flex01">
         <icon type="warn" ></icon>
@@ -57,10 +58,11 @@
   </div>
 </template>
 <script>
-import {Toast, Icon, Cell, XNumber, Group} from 'vux'
+import {Divider, Toast, Icon, Cell, XNumber, Group} from 'vux'
 export default {
   name: '',
   components: {
+    Divider,
     Icon,
     Cell,
     XNumber,
@@ -179,6 +181,10 @@ export default {
   font-size: 14px;
   color:@color;
 }
+.no{
+  margin: 50px 0;
+  font-size: 22px;
+}
 .lists{margin-bottom: 150px;}
 .list{
   .list-box{padding: 2px 10px;}
@@ -210,10 +216,12 @@ export default {
     }
     .vux-number-input{
       font-size: 16px;
+      height: 22px;
       padding: 0;
     }
     .vux-number-selector{
       padding: 0 4px;
+      line-height: 14px;
       svg{
         fill:@color;
         width: 12px;

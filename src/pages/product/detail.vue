@@ -1,6 +1,6 @@
 <template>
   <div class="" id="detail">
-    <img :src="data.pic" alt="" class="img-title">
+    <img :src="data.img" alt="" class="img-title">
     <h1 class="title">{{data.title}}</h1>
     <section class="top-mes">
       <p class="subtitle ov1">功效：{{data.subtitle}}</p>
@@ -106,7 +106,7 @@ export default {
       this.axios.get(this.base_url + 'product/productdetail/' + id).then((result) => {
         if (result.success) {
           let data = result.data
-          data.pic = this.base_img + data.pic
+          data.img = this.base_img + data.pic
           this.data = data
           this.len = data.actcommgiftList.length
           console.log(result)
@@ -128,16 +128,18 @@ export default {
         }
         this.axios.post('cart/cartInsert', json).then((result) => {
           console.log(result)
-          if (result.success && isShowToast) {
+          if (result.success && isShowToast) { // 加入购物车btn
             this.toastData.isShow = true
+          } else { // 立即购买btn
+            this.data.proscar = result.data.id // 结算页面的json id参数值
+            // 同步 详情页下单的数据与购物车下单 数据格式一致
+            this.data.proname = this.data.title
+            this.data.proskuname = this.data.ggvalue
+            this.data.proamount = this.data.amount
+            this.data.number = this.number
+            sessionStorage.setItem('settleLists', JSON.stringify([this.data]))
+            this.$router.push({name: 'Settle', params: {type: 1}})
           }
-          /* if (result.status === 500){
-            this.toastData.isShow = true
-            this.toastData.text = '您的账号被迫下线，请重新登录'
-            let timer = setTimeout(() => {
-              clearTimeout(timer)
-            }, 500)
-          } */
         })
       } else {
         console.log('售完')
@@ -145,7 +147,6 @@ export default {
     },
     buy () { // 立即购买
       this.addCart(false)
-      this.$router.push({name: 'Settle', params: {type: 1}})
     }
   }
 }
@@ -189,9 +190,11 @@ export default {
     }
     .vux-number-input{
       font-size: 16px;
+      height: 22px;
       padding: 0;
     }
     .vux-number-selector{
+      line-height: 14px;
       padding: 0 4px;
       svg{
         fill:@color;
