@@ -5,7 +5,6 @@
       <img class="tab" @click="aside" src="../assets/images/common/bar.png" alt="">
       <router-link to="/"><img class="logo" src="../assets/images/common/logo.png" alt=""></router-link>
       <div  class="search" @click="searchBox"><icon type="search"></icon></div>
-      <!-- <img src="../assets/images/common/search.png" alt=""> -->
     </header>
     <div class="search-box vux-1px-t" v-if="searchShow">
       <input type="text" autofocus  v-model="searchValue" @input="searchIpt" @keyup.enter="submit" />
@@ -28,7 +27,7 @@
         </ul>
       </nav>
     </aside>
-    <toast v-model="toastShow" type="cancel" position="middle">请填写搜索内容</toast>
+    <toast v-model="toastShow" type="cancel" width="130px" :time="1000" position="middle">请填写搜索内容</toast>
     <!-- <div v-transfer-dom>
       <alert v-model="alertShow" title="请填写搜索内容">请填写搜索内容1</alert>
     </div> -->
@@ -181,8 +180,8 @@ export default {
         return false
       }
       this.searchShow = false
-      this.searchValue = ''
       this.$router.push({name: 'product', params: {'pid': 0, 'val': this.searchValue}})
+      this.searchValue = ''
       console.log('sumit')
     },
     link (item, index) { // 产品详情
@@ -202,10 +201,10 @@ export default {
     open () { // 侧边栏打开
       this.asideNav = true
       // this.searchShow = true
-      document.querySelector('html').style.cssText += 'overflow-y:auto;'
-      document.querySelector('body').style.cssText += 'overflow-y:auto;'
-      document.querySelector('#app').style.left = '6rem'
-      document.querySelector('header').style.left = '6rem'
+      document.querySelector('html').style.cssText += 'overflow-y:hidden;'
+      document.querySelector('body').style.cssText += 'overflow-y:hidden;'
+      document.querySelector('#app').style.left = '200px'
+      document.querySelector('header').style.left = '200px'
     },
     close () { // 侧边栏关闭
       this.asideNav = false
@@ -265,8 +264,8 @@ header{
   padding: 10px 30px;
   input{
     width: 100%;
-    height: 30px;
-    line-height: 30px;
+    height: 26px;
+    line-height: 26px;
     text-indent: 16px;
     border-radius: 30px;
     background-color: #fff;

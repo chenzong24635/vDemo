@@ -62,7 +62,7 @@ export default {
         this.toast1('请填写手机号')
         return false
       }
-      let result = await this.axios.post(this.base_url + 'common/sendMessageAnd', {
+      let result = await this.axios.post('common/sendMessageAnd', {
         mobile: this.json.mobile,
         type: 3
       })
@@ -103,7 +103,7 @@ export default {
       }
     },
     async reset () {
-      let result = await this.axios.post(this.base_url + 'member/pwdedit', this.json)
+      let result = await this.axios.post('member/pwdedit', this.json)
       // let data = result.data
       if (result.success) {
         this.toast('已成功重置')

@@ -1,7 +1,6 @@
 import axios from 'axios'
 import store from '../store'
 import router from '../router'
-// import {getCookie} from '../utils/index.js'
 
 axios.defaults.baseURL = 'http://61.155.169.77:10002/' // 接口地址
 axios.defaults.timeout = 5000

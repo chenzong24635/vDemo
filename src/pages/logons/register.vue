@@ -82,7 +82,7 @@ export default {
         this.toast1('请填写手机号')
         return false
       }
-      let result = await this.axios.post(this.base_url + 'common/sendMessageAnd', {
+      let result = await this.axios.post('common/sendMessageAnd', {
         mobile: this.json.mobile,
         type: 1
       })
@@ -127,7 +127,7 @@ export default {
       }
     },
     async set () {
-      let result = await this.axios.post(this.base_url + 'member/register', this.json)
+      let result = await this.axios.post('member/register', this.json)
       // let data = result.data
       if (result.success) {
         this.toast('账号已创建')

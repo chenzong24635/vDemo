@@ -150,7 +150,7 @@ button{
   justify-content: space-between;
   align-items: center;
 }
-.img-title{width: 100%;vertical-align: top;}
+.img-title{width: 100%;vertical-align: top;display: inline-block;}
 .bb10{border-bottom: 10px solid #f7f7f7;}
 .bt10{border-top: 10px solid #f7f7f7;}
 .p10{padding: 10px;}
@@ -184,7 +184,26 @@ button{
     color:@color;
   }
 }
-
+.vux-swiper .vux-swiper-item{
+  overflow: hidden;
+  .vux-img{
+    transform:scale(1.1,1.1);
+    -webkit-transition: all 0.4s ease 1.2s;
+    -moz-transition: all 0.4s ease 1.2s;
+    -ms-transition: all 0.4s ease 1.2s;
+    -o-transition: all 0.4s ease 1.2s;
+    transition: all 0.4s ease 1.2s;
+  }
+  &.active .vux-img{
+    transition-delay: 0.4s;
+    transform: scale(1,1);
+    -webkit-transition: all 7.0s ease;
+    -moz-transition: all 7.0s ease;
+    -ms-transition: all 7.0s ease;
+    -o-transition: all 7.0s ease;
+    transition: all 7.0s ease;
+  }
+}
 #swiper /deep/ .vux-img{
   background-size: 100% 100%;
 }
@@ -197,8 +216,8 @@ button{
 }
 #swiper /deep/ .dot0 a,#swiper1 /deep/ .dot1 a{float: none;margin-left: 12px;}
 #swiper /deep/  .vux-icon-dot{
-  width: 50px;
-  height: 2px;
+  width: 30px;
+  height: 1px;
   background-color: #f1f1f1;
 }
 #swiper /deep/  .vux-icon-dot.active{
@@ -233,8 +252,8 @@ button{
 div /deep/{
   .vux-flex-row{
     .img-title{
-      max-width: 85px;
-      max-height: 85px;
+      max-width: 100%;
+      max-height: 100%;
     }
   }
   .weui-loadmore{

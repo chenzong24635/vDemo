@@ -31,7 +31,7 @@
           <flexbox>
             <flexbox-item :span="3">
               <router-link  class="flex-demo" :to="{name: 'productDetail', params: {type: type, id: item.pid}}">
-                <img class="img-title" :src="base_img + item.pic" onerror="this.src='static/images/errorImg.jpg'">
+                <img class="img-title" :src="item.pic" onerror="this.src='static/images/errorImg.jpg'">
               </router-link>
             </flexbox-item>
             <flexbox-item :span="7">
@@ -40,14 +40,20 @@
             </flexbox-item>
             <flexbox-item :span="2">
               <div class="flex-demo">
-                <p>￥{{item.amount / item.num}}</p>
+                <p v-if="type === 2">{{item.amount / item.num}}积分</p>
+                <p v-else>￥{{item.amount / item.num}}</p>
                 <p class="flex01-1"><x-icon type="ios-close-empty" size="20"></x-icon>{{item.num}}</p>
               </div>
             </flexbox-item>
           </flexbox>
         </li>
       </ul>
-      <p class="p5-20 tar">共{{data.orderLength}}件商品 实付金额：{{data.payamount}}</p>
+      <p  class="p5-20 tar">
+        共{{data.orderLength}}件商品 实付
+        <span v-if="type === 2">积分</span>
+        <span v-else>金额</span>：{{data.payamount}}
+        <span v-if="data.amount <= nofreight ">(含运费：{{freight}})</span>
+      </p>
     </section>
     <section class="bb10">
       <p class="p5-20">买家留言：{{data.buyer}}</p>
@@ -80,6 +86,8 @@ export default {
   },
   data () {
     return {
+      nofreight: localStorage.getItem('nofreight') || '',
+      freight: localStorage.getItem('freight') || '',
       type: '',
       id: '',
       url: '',
@@ -103,19 +111,34 @@ export default {
       this.axios.get(url + id).then((response) => {
         if (response.success) {
           let data = response.data
-          data.orderLength = data.orderprolist.length
           data.createDate = dateFormat(data.createDate, 'YYYY-MM-DD HH:mm:ss')
-          data.orderprolist.map((item, index) => {
-            switch (item.types / 1) {
-              case 0: item.type = ''
-                break
-              case 1: item.type = '满赠'
-                break
-              case 2: item.type = '买赠'
-                break
-              default: break
+          if (this.type !== 2) {
+            if (data.orderprolist.length > 0) {
+              data.orderLength = data.orderprolist.length
+              data.orderprolist.map((item, index) => {
+                item.pic = this.base_img + item.pic
+                switch (item.types / 1) {
+                  case 0: item.type = ''
+                    break
+                  case 1: item.type = '满赠'
+                    break
+                  case 2: item.type = '买赠'
+                    break
+                  default: break
+                }
+              })
             }
-          })
+          } else { // 积分
+            data.orderLength = 1
+            data.payamount = data.integral
+            data.orderprolist = [{
+              pid: data.proid,
+              pic: this.base_img + data.propic,
+              num: data.pronumber,
+              ptitle: data.proname,
+              amount: data.integral
+            }]
+          }
           this.data = data
         }
       })
@@ -142,6 +165,6 @@ export default {
   span{color:#a5a5a5}
 }
 .list1{
-  padding: 0 10px;
+  padding: 8px 10px;
 }
 </style>

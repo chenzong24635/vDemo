@@ -8,7 +8,7 @@
             <span class="mobile fr">{{item.mobile}}</span></p>
             <p class="address">{{item.pname}}{{item.cname}}{{item.rname}}{{item.address}}</p>
           </div>
-          <div class="btns  vux-1px-t flex01">
+          <div class="address-btns  vux-1px-t flex01">
             <!-- <button>设为默认</button> -->
             <x-button @click.native="setDefault(item, index)" mini type="primary" >设为默认</x-button>
             <div class="edit-del flex01">
@@ -70,7 +70,7 @@ export default {
       })
     },
     del (id) {
-      this.axios.get(this.base_url + 'member/addressdel/' + id).then((response) => {
+      this.axios.get('member/addressdel/' + id).then((response) => {
         if (response.success) {
           this.toastData.text = '删除成功'
           this.toastData.type = 'success'
@@ -118,9 +118,9 @@ export default {
     chooseAddress (item) { // 结算页面跳转，选择地址
       // type:1 (结算页面跳转)
       // type:0 (其他)
-      if (this.type / 1 === 1) {
+      if (this.type / 1 !== 0) {
         this.editAddress(item)
-        this.$router.push({name: 'Settle'})
+        this.$router.push({name: 'Settle', params: {type: this.type}})
       }
     }
   }
@@ -150,7 +150,7 @@ export default {
     padding-bottom: 10px;
     font-size: 13px;
   }
-  .btns{
+  .address-btns{
     padding-top: 8px;
     padding-bottom: 8px;
     font-size: 13px;

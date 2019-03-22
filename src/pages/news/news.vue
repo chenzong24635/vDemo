@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     async getBanners () {
-      let result = await this.axios.post(this.base_url + '/web/adlist', json)
+      let result = await this.axios.post('/web/adlist', json)
       let data = result.data
       let lists = []
       data.map((item, index) => {
@@ -91,7 +91,7 @@ export default {
         cid = ''
       }
       json02.cid = cid
-      let result = await this.axios.post(this.base_url + '/web/newlist', json02)
+      let result = await this.axios.post('/web/newlist', json02)
       let data = result.data
       console.log(data)
       if (this.isLastPage) { return }
@@ -143,16 +143,18 @@ export default {
     height: 115px;
   }
   .about{
+    font-size: 12px;
     display: -webkit-box;
     overflow: hidden;
     text-overflow: ellipsis;
     word-break: break-all;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 4;
-    margin: 12px 0 4px 0;
+    margin: 4px 0;
   }
   .title{font-weight: bold;}
   .date{
+    font-size: 12px;
     color:#a5a5a5;
   }
 }

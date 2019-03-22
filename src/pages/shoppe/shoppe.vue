@@ -76,11 +76,11 @@ export default {
   },
   methods: {
     async getBanner () {
-      let result = await this.axios.post(this.base_url + '/web/adlist', json)
+      let result = await this.axios.post('/web/adlist', json)
       this.bannerImg = this.base_img + result.data[0].img
     },
     async getLists () {
-      let result = await this.axios.post(this.base_url + '/web/storelist', json01)
+      let result = await this.axios.post('/web/storelist', json01)
       if (result.success) {
         this.lists = result.data
       }

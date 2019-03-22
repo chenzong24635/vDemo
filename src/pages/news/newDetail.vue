@@ -21,7 +21,7 @@ export default {
   async created () {
     let id = this.$route.params.id / 1
     this.id = id
-    let result = await this.axios.get(this.base_url + '/web/newdetail/' + id)
+    let result = await this.axios.get('/web/newdetail/' + id)
     this.title = result.data.title
     this.date = timestampToTime(result.data.createDate)
     this.wap = result.data.wap

@@ -74,7 +74,7 @@ export default {
       }
     },
     async reset () {
-      let result = await this.axios.post(this.base_url + 'member/memberpwdedit', this.json)
+      let result = await this.axios.post('member/memberpwdedit', this.json)
       // let data = result.data
       if (result.success) {
         this.toast('已成功修改')

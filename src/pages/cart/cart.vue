@@ -1,8 +1,8 @@
 <template>
   <div class="">
-    <section v-if="lists.length > 0" class="lists">
+    <section v-if="len > 0" class="lists">
       <ul>
-        <li v-for="(item, index) in lists" :key="index" class="list" >
+        <li  v-for="(item, index) in lists" :key="index" class="list" >
           <div class="list-box flex01-1  vux-1px-b">
             <div class="list-div" @click="check(item, index)">
               <icon v-show="item.checked" type="success"></icon>
@@ -18,10 +18,12 @@
               <p class="proname">{{item.proname}}</p>
               <div class="flex01 ">
                 <p class="price">￥{{item.proamount}}/{{item.proskuname}}</p>
-                <group class="nums">
-                  <!-- <x-number @on-change="changeNumber(index, item.id)" :value="item.number" :min="1" width="50px" button-style="square"></x-number> -->
-                  <x-number @on-change="changeNumber(index, item.id)" v-model="item.number"  :min="1" width="50px" button-style="square"></x-number>
-                </group>
+                <div >
+                  <group class="nums" >
+                    <!-- <x-number @on-change="changeNumber(index, item.id)" :value="item.number" :min="1" width="50px" button-style="square"></x-number> -->
+                    <x-number @on-change="changeNumber(index, item.id)"  v-model="item.number"  :min="1" width="50px" button-style="square"></x-number>
+                  </group>
+                </div>
               </div>
             </div>
           </div>
@@ -77,6 +79,7 @@ export default {
   },
   data () {
     return {
+      len: 1,
       toastData: {
         isShow: false,
         type: 'warn',
@@ -116,37 +119,20 @@ export default {
       this.checked = bool
       this.accounts(this.lists) // 计算总额
     },
-    async changeNumber (index, id) { // 增减
+    changeNumber (index, id) { // 增减
+      console.log(this.lists)
       this.accounts(this.lists) // 计算总额
-      /* let result = await this.axios.get(this.base_url + 'cart/cartnumberadd/' + id)
-      if (result.success) {
-      }  */
-    },
-    async del (index, id) { // 删除
-      let _this = this
-      let result = await this.axios.get(this.base_url + 'cart/cartdel/' + id)
-      if (result.success) {
-        this.toastData.isShow = true
-        let timer = setTimeout(() => {
-          // _this.getLists()
-          _this.lists.some((item1, index1) => {
-            if (item1.id === id) {
-              _this.lists.splice(index1, 1)
-            }
-          })
-          _this.accounts(_this.lists) // 计算总额
-          clearTimeout(timer)
-        }, 100)
-      }
+      // this.addNum(index, id)
     },
     async getLists () {
-      let result = await this.axios.post(this.base_url + 'cart/cartlist')
+      let result = await this.axios.post('cart/cartlist')
       if (result.success) {
         result.data.map((item, index) => {
           item.checked = true
           item.img = this.base_img + item.propic
         })
         this.lists = result.data
+        this.len = result.data.length
         this.accounts(result.data) // 计算总额
       }
     },
@@ -165,11 +151,45 @@ export default {
           settleLists.push(item)
         }
       })
-      settleLists = JSON.stringify(settleLists)
-      console.log(settleLists)
-      sessionStorage.setItem('settleLists', settleLists)
-      this.$router.push({name: 'Settle', params: {type: 2}})
-      // this.$router.push({name: 'Settle', params: {type: 2, array: settleLists}})
+      if (settleLists.length > 0) {
+        settleLists = JSON.stringify(settleLists)
+        console.log(settleLists)
+        sessionStorage.setItem('settleLists', settleLists)
+        this.$router.push({name: 'Settle', params: {type: 3}})
+      } else {
+        this.toastData = {
+          isShow: true,
+          type: 'warn',
+          text: '请选择商品'
+        }
+      }
+    },
+    async del (index, id) { // 删除
+      let _this = this
+      let result = await this.axios.get('cart/cartdel/' + id)
+      if (result.success) {
+        this.toastData.isShow = true
+        let timer = setTimeout(() => {
+          // _this.getLists()
+          _this.lists.some((item1, index1) => {
+            if (item1.id === id) {
+              _this.lists.splice(index1, 1)
+            }
+          })
+          _this.accounts(_this.lists) // 计算总额
+          clearTimeout(timer)
+        }, 100)
+      }
+    },
+    async addNum (index, id) { // 加
+      let result = await this.axios.get('cart/cartnumberadd/' + id)
+      if (result.success) {
+      }
+    },
+    async subNum (index, id) { // 减
+      let result = await this.axios.get('cart/cartnumbersub/' + id)
+      if (result.success) {
+      }
     }
   }
 }

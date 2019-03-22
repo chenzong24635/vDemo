@@ -63,7 +63,7 @@ export default {
   },
   created () {
     // this.$store.state.bottomShow = false
-    /* let result = await this.axios.get(this.base_url + 'index.json')
+    /* let result = await this.axios.get('index.json')
     let banner1 = result.data.banner1 */
     this.getData('banners1', json01)
     this.getData('banners2', json05)
@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     async getData (target, json) {
-      let result = await this.axios.post(this.base_url + '/web/adlist', json)
+      let result = await this.axios.post('/web/adlist', json)
       let data = result.data
       let lists = []
       data.map((item, index) => {
@@ -117,8 +117,8 @@ export default {
   }
 
   #swiper1 /deep/  .vux-icon-dot{
-    width: 10px;
-    height: 10px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
   }
   #swiper1 /deep/ .dot1{

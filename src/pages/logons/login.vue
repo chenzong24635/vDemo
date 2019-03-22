@@ -23,8 +23,8 @@
 </template>
 <script>
 import {mapMutations} from 'vuex'
-import {Group, XInput, XButton, Toast} from 'vux'
-import {cookie} from '../../utils/index.js'
+import {cookie, Group, XInput, XButton, Toast} from 'vux'
+// import {cookie} from '../../utils/index.js'
 
 export default {
   name: '',
@@ -73,7 +73,7 @@ export default {
         this.errMsg = '密码不能为空'
         return false
       }
-      let result = await this.axios.post(this.base_url + 'member/login', this.json)
+      let result = await this.axios.post('member/login', this.json)
       let data = result.data
       console.log(result)
       if (result.success) {

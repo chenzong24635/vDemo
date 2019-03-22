@@ -1,0 +1,31 @@
+{
+  "code": 0,
+  "data":[
+    {
+      "code": "slide3",
+      "createBy": "00ba8ca8220a46989f4cf63af6e85f6d",
+      "createDate": 1534125671000,
+      "delFlag": "0",
+      "etime": 1670947199000,
+      "id": "059c4918b3824d3290df19331f565dbc",
+      "img": "3e2c256dd74043cdbf8222c650728f8b.jpg",
+      "linkurl": "productTest.html",
+      "remarks": null,
+      "sort": 10,
+      "status": 1,
+      "stime": 1533398400000,
+      "target": "_blank",
+      "title": "首页轮播3",
+      "title1": "首页轮播3",
+      "title2": "首页轮播3",
+      "updateBy": "00ba8ca8220a46989f4cf63af6e85f6d",
+      "updateDate": 1543482332000
+    }
+  ],
+  "errMsg": null,
+  "exception": null,
+  "httpStatus": 200,
+  "path": null,
+  "success": true,
+  "timestamp": 1550799896035
+}

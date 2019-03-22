@@ -67,7 +67,7 @@ export default {
   methods: {
     getDetail (id) {
       let _this = this
-      this.axios.post(this.base_url + 'member/addresslist', {
+      this.axios.post('member/addresslist', {
         order: 'ASC',
         pageNum: 1,
         pageSize: 100
@@ -116,7 +116,7 @@ export default {
         console.log(this.json.id)
         if (this.json.id) { // 修改地址
           console.log('c')
-          this.axios.post(this.base_url + 'member/addressedit', this.json).then((response) => {
+          this.axios.post('member/addressedit', this.json).then((response) => {
             if (response.success) {
               text = '修改成功'
               this.link(text)
@@ -124,7 +124,7 @@ export default {
           })
         } else { // 添加地址
           console.log('add')
-          this.axios.post(this.base_url + 'member/addressadd', json).then((response) => {
+          this.axios.post('member/addressadd', json).then((response) => {
             if (response.success) {
               text = '添加成功'
               this.link(text)

@@ -24,22 +24,16 @@ import Settle from '@/pages/product/settle'
 import Address from '@/pages/address/address'
 import addressEdit from '@/pages/address/edit'
 
-import QualityTest from '@/pages/static/qualityTest'
+import QualityTest from '@/pages/others/qualityTest'
 // 静态页面
-import Story from '@/pages/static/story'
-import Safe from '@/pages/static/safe'
-import America from '@/pages/static/america'
-import China from '@/pages/static/china'
-import YunWen from '@/pages/static/yunwen'
-import Facial from '@/pages/static/facial'
-import Baby from '@/pages/static/baby'
-import Faq from '@/pages/static/faq'
-
-/* import {post} from '../api/index.js'
-import {
-  getCookie,
-  delCookie
-} from '../utils/index.js' */
+import Story from '@/pages/others/story'
+import Safe from '@/pages/others/safe'
+import America from '@/pages/others/america'
+import China from '@/pages/others/china'
+import YunWen from '@/pages/others/yunwen'
+import Facial from '@/pages/others/facial'
+import Baby from '@/pages/others/baby'
+import Faq from '@/pages/others/faq'
 
 Vue.use(Router)
 
@@ -212,7 +206,7 @@ const router = new Router({
         title: '产品详情'
       }
     },
-    { // type:1 详情页结算、 2：购物车结算 3:试用下单
+    { // type:1 详情页结算、2:积分详情页结算、 3：购物车结算、 4:试用下单
       path: '/settle/:type',
       name: 'Settle',
       component: Settle,

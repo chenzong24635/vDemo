@@ -1,8 +1,9 @@
 <template>
   <div class="">
     <router-view ></router-view>
-    <router-link to="/trail/test">的放大的</router-link>
+    <!-- <router-link to="/trail/test">的放大的</router-link> -->
     <img class="img-title" :src="banner" alt="">
+    <p class="trail-top">请选择您要试用的产品</p>
     <ul id="lists" class="flex01-1">
       <li v-for="(item, index) in lists" class="list vux-1px" :key="index" :data-id="item.id">
         <p class="ck" @click="check(item, index)">
@@ -63,7 +64,7 @@ export default {
     }
   },
   created () {
-    this.axios.post(this.base_url + '/web/adlist', json).then((result) => {
+    this.axios.post('/web/adlist', json).then((result) => {
       if (result.success) {
         this.banner = this.base_img + result.data[0].img
       }

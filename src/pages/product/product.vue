@@ -400,11 +400,11 @@ export default {
       console.log(item, index)
     },
     link (item, index) { // 产品详情跳转
-      // type: 1(普通产品) 、2(小样)、 3(积分)
+      // type: 1(普通产品) 、3(小样)、 2(积分)
       let target = this.products[index]
       let type = 1
       if (this.isJf) {
-        type = 3
+        type = 2
       } else {
         type = 1
       }

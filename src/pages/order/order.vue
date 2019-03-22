@@ -22,7 +22,7 @@
             <li v-for="(item1, index1) in item.orderprolist" :key="index1" class="list1 vux-1px-b">
               <flexbox>
                 <flexbox-item :span="3">
-                  <router-link  class="flex-demo" :to="{name: 'productDetail', params: {type: type, id: item1.pid}}">
+                  <router-link  class="flex-demo flex-demo-img" :to="{name: 'productDetail', params: {type: type, id: item1.pid}}">
                     <img class="img-title" :src="item1.pic" onerror="this.src='static/images/errorImg.jpg'">
                   </router-link>
                 </flexbox-item>
@@ -32,18 +32,22 @@
                 </flexbox-item>
                 <flexbox-item :span="2">
                   <div class="flex-demo">
-                    <p>￥{{item1.amount / item1.num}}</p>
+                    <p v-if="type ===2">{{item1.amount / item1.num}} 积分</p>
+                    <p v-else>￥{{item1.amount / item1.num}}</p>
                     <p class="flex01-1"><x-icon type="ios-close-empty" size="20"></x-icon>{{item1.num}}</p>
                   </div>
                 </flexbox-item>
               </flexbox>
             </li>
           </ul>
-          <p class="total tar">
-            共{{item.orderprolist.length}}件商品：合计￥<span>{{item.amount}}</span>
-            (含运费：{{item.amount >= nofreight ? 0 : freight}})
+          <p v-if="type ===2" class="total tar">
+            共{{item.orderprolist.length}}件商品, 合计：<span>{{item.amount}} 积分</span>
           </p>
-          <div class="btns tar">
+          <p v-else class="total tar">
+            共{{item.orderprolist.length}}件商品, 合计:￥<span>{{item.payamount}}</span>
+            (含运费：{{item.amount > nofreight ? 0 : freight}})
+          </p>
+          <div class="x-btns tar">
             <x-button @click.native="cancle(item.id)" v-show="item.status === 1" mini type="default" plain>取消订单</x-button>
             <x-button @click.native="detailLink(item.id)"  mini type="default" plain>订单详情</x-button>
             <x-button @click.native="pay(item.id)"  v-show="item.status === 1" mini type="default" plain>付款</x-button>
@@ -174,14 +178,9 @@ export default {
   },
   methods: {
     tab (index) {
-      console.log(index)
       this.tabIndex = index
-      // this.json.status =
-      console.log(this.json)
       this.reset()
       this.getLists(this.tabs[index].status)
-      /*
-      this.getOrderLens() */
     },
     getLists (status) {
       this.json.status = status
@@ -214,20 +213,36 @@ export default {
               default:
                 break
             }
-            console.log(item.orderprolist.length)
-            if (item.orderprolist.length > 0) {
-              item.orderprolist.map((item1, index1) => {
-                let type = '' // 活动类型 0:无、 1：满赠、 2：买赠
-                if (item1.types === 0) {
-                  type = ''
-                } else if (item1.types === 1) {
-                  type = '满赠'
-                } else if (item1.types === 2) {
-                  type = '买赠'
-                }
-                item1.type = type
-                item1.pic = this.base_img + item1.pic
-              })
+            if (item.orderprolist) {
+              console.log(item.orderprolist.length)
+              if (item.orderprolist.length > 0) {
+                item.orderprolist.map((item1, index1) => {
+                  let type = '' // 活动类型 0:无、 1：满赠、 2：买赠
+                  if (item1.types === 0) {
+                    type = ''
+                  } else if (item1.types === 1) {
+                    type = '满赠'
+                  } else if (item1.types === 2) {
+                    type = '买赠'
+                  }
+                  item1.type = type
+                  item1.pic = this.base_img + item1.pic
+                })
+              }
+            } else { // 积分
+              // 同步积分订单、产品订单 数据格式
+              if (item.status === status || status === 0) {
+                item.pic = this.base_img + item.propic
+                item.pid = item.proid
+                item.num = item.pronumber
+                item.ptitle = item.proname
+                item.amount = item.integral
+                item.orderprolist = [item]
+              } else {
+                lists = []
+                item.orderprolist = []
+              }
+              console.log(item)
             }
           })
           if (this.json.pageNum / 1 === 1) {
@@ -306,6 +321,7 @@ export default {
   }
 }
 .list{
+  // &>ul{padding: 10px 0;}
   .list-top{
     font-size: 13px;
     padding: 5px 20px;
@@ -315,7 +331,13 @@ export default {
     height: 85px;
   }
   .list1{
-    padding: 5px 20px;
+    padding: 2px 20px;
+    .flex-demo-img{
+      width: 80px;
+      height: 80px;
+      line-height: 80px;
+      img{vertical-align: middle;}
+    }
   }
   .status{color:@color;}
   .ptitle{color:#000}
@@ -328,7 +350,7 @@ export default {
     span{color: #787878;}
   }
 }
-.btns{
+.x-btns{
   padding-bottom: 15px;
   padding-right: 20px;
   /deep/ .weui-btn_mini{
