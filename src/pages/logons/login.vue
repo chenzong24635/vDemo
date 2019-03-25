@@ -5,7 +5,7 @@
       <router-link  class="logo " to="/index"><img src="../../assets//images/common/login-logo.jpg" /></router-link>
       <form class="form">
         <group class="form-list">
-          <x-input title="手机号" type="text" placeholder="请输入手机号" v-model="json.username" autofocus></x-input>
+          <x-input title="手机号" type="tel" placeholder="请输入手机号" v-model="json.username" autofocus></x-input>
         </group>
         <group class="form-list">
           <x-input title="密码" type="password" placeholder="请输入密码" v-model="json.password"></x-input>
@@ -18,13 +18,13 @@
         </p>
       </form>
     </div>
-    <toast v-model="showPositionValue" type="warn" width="130px" :time="1000" :is-show-mask="true" :text="errMsg" position="middle"></toast>
+    <toast v-model="showPositionValue" type="warn" width="45vw" :time="1000" :is-show-mask="true" :text="errMsg" position="middle"></toast>
   </div>
 </template>
 <script>
 import {mapMutations} from 'vuex'
 import {cookie, Group, XInput, XButton, Toast} from 'vux'
-// import {cookie} from '../../utils/index.js'
+import {verifyPhone} from '../../utils/index.js'
 
 export default {
   name: '',
@@ -45,17 +45,19 @@ export default {
     }
   },
   destroyed () { // 销毁时显示
-    this.componentsShow(true)
+    this.components([true, true, true])
+    // this.componentsShow(true)
   },
   mounted () { // 隐藏头部、底部内容、底部导航
-    this.componentsShow(false)
-    console.log(cookie)
+    // this.componentsShow(false)
+    this.components([false, false, false])
   },
   methods: {
     ...mapMutations([
       // 将 `this.changeToken(args)` 映射为 `this.$store.commit('changeToken', args)`
       // 对应store/index.js的mutations方法
-      'changeToken'
+      'changeToken',
+      'components'
     ]),
     componentsShow (bool) {
       this.$store.state.headerShow = bool
@@ -63,9 +65,9 @@ export default {
       this.$store.state.footerShow = bool
     },
     async submit () {
-      if (!this.json.username) {
+      if (!this.json.username || !verifyPhone(this.json.username)) {
         this.showPositionValue = true
-        this.errMsg = '用户名不能为空'
+        this.errMsg = '请填写正确手机号'
         return false
       }
       if (!this.json.password) {

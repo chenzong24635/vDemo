@@ -2,7 +2,7 @@
   <div class="">
     <section v-if="len > 0" class="lists">
       <ul>
-        <li  v-for="(item, index) in lists" :key="index" class="list" >
+        <li  v-for="(item, index) in lists" :key="item.id" class="list" >
           <div class="list-box flex01-1  vux-1px-b">
             <div class="list-div" @click="check(item, index)">
               <icon v-show="item.checked" type="success"></icon>
@@ -18,16 +18,18 @@
               <p class="proname">{{item.proname}}</p>
               <div class="flex01 ">
                 <p class="price">￥{{item.proamount}}/{{item.proskuname}}</p>
-                <div >
-                  <group class="nums" >
-                    <!-- <x-number @on-change="changeNumber(index, item.id)" :value="item.number" :min="1" width="50px" button-style="square"></x-number> -->
-                    <x-number @on-change="changeNumber(index, item.id)"  v-model="item.number"  :min="1" width="50px" button-style="square"></x-number>
-                  </group>
+                <div id ="number" class="vux-1px flex01">
+                  <x-icon  @click="reduceNum(item.id)"  type="ios-minus-empty"></x-icon>
+                  <input v-model="item.number" type="number" readonly />
+                  <x-icon @click="addNum(item.id)" type="ios-plus-empty"></x-icon>
+                  <!-- <group class="nums" > 无法判断加减
+                    <x-number @on-change="changeNumber(index, item.id)"    :min="1" width="50px" button-style="square"></x-number>
+                  </group> -->
                 </div>
               </div>
             </div>
           </div>
-          <div @click="del(index, item.id)" class="delete-btn flex01-1">
+          <div @click="del(item.id)" class="delete-btn flex01-1">
             <img src="../../assets/images/common/del.jpg" alt="">
             <span>删除</span>
           </div>
@@ -38,7 +40,7 @@
     <section class="bottom1 flex01">
       <p class="flex01">
         <icon type="warn" ></icon>
-        提示：实付满{{nofreight}}元 即赠免物流费
+        提示：实付满{{nofreight}}元 免物流费
       </p>
       <router-link class="cd flex01" :to="{name: 'product', params:{pid: 0,val: 'null'}}">
         去凑单
@@ -56,20 +58,30 @@
       </p>
       <div @click="settle" class="settle flex01" >结算</div>
     </section>
-    <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="130px" :time="1000"  :is-show-mask="true" position="middle"></toast>
+    <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="45vw" :time="1000"  :is-show-mask="true" position="middle"></toast>
+    <div v-transfer-dom>
+      <confirm v-model="confirmShow"
+      title="是否删除？"
+      @on-confirm="onConfirm">
+      </confirm>
+    </div>
   </div>
 </template>
 <script>
-import {Divider, Toast, Icon, Cell, XNumber, Group} from 'vux'
+import {Divider, Toast, Confirm, Icon, Cell, XNumber, Group, TransferDomDirective as TransferDom} from 'vux'
 export default {
   name: '',
+  directives: {
+    TransferDom
+  },
   components: {
     Divider,
     Icon,
     Cell,
     XNumber,
     Group,
-    Toast
+    Toast,
+    Confirm
   },
   destroyed () { // 销毁时显示
     this.componentsShow(true)
@@ -79,6 +91,7 @@ export default {
   },
   data () {
     return {
+      confirmShow: false,
       len: 1,
       toastData: {
         isShow: false,
@@ -88,7 +101,18 @@ export default {
       checked: true,
       nofreight: '',
       lists: [],
-      amouts: 0
+      delId: '',
+    }
+  },
+  computed: {
+    amouts () { // 金额计算
+      let s = 0
+      this.lists.map((item) => {
+        if (item.checked) {
+          s += Number(item.proamount) * Number(item.number)
+        }
+      })
+      return s
     }
   },
   async created () {
@@ -104,7 +128,7 @@ export default {
       this.lists.map((item, index) => {
         item.checked = this.checked
       })
-      this.accounts(this.lists) // 计算总额
+      // this.accounts(this.lists) // 计算总额
     },
     check (item, index) { // 单选
       this.lists.some((item1, index1) => {
@@ -117,12 +141,7 @@ export default {
         return item1.checked
       })
       this.checked = bool
-      this.accounts(this.lists) // 计算总额
-    },
-    changeNumber (index, id) { // 增减
-      console.log(this.lists)
-      this.accounts(this.lists) // 计算总额
-      // this.addNum(index, id)
+      // this.accounts(this.lists) // 计算总额
     },
     async getLists () {
       let result = await this.axios.post('cart/cartlist')
@@ -133,17 +152,17 @@ export default {
         })
         this.lists = result.data
         this.len = result.data.length
-        this.accounts(result.data) // 计算总额
+        // this.accounts(result.data) // 计算总额
       }
     },
-    accounts (lists) { // 计算总额 proamount * number
+    /* accounts (lists) { // 计算总额 proamount * number
       this.amouts = 0
       lists.map((item) => {
         if (item.checked) {
           this.amouts += Number(item.proamount) * Number(item.number)
         }
       })
-    },
+    }, */
     settle () { // 结算
       let settleLists = [] // 下单列表
       this.lists.map((item, index) => {
@@ -164,31 +183,65 @@ export default {
         }
       }
     },
-    async del (index, id) { // 删除
-      let _this = this
-      let result = await this.axios.get('cart/cartdel/' + id)
-      if (result.success) {
-        this.toastData.isShow = true
-        let timer = setTimeout(() => {
-          // _this.getLists()
-          _this.lists.some((item1, index1) => {
-            if (item1.id === id) {
-              _this.lists.splice(index1, 1)
-            }
-          })
-          _this.accounts(_this.lists) // 计算总额
-          clearTimeout(timer)
-        }, 100)
-      }
+    async del (id) { // 删除
+      this.confirmShow = true
+      this.delId = id
     },
-    async addNum (index, id) { // 加
+    async onConfirm () {
+      let _this = this
+      let result = await this.axios.get('cart/cartdel/' + this.delId)
+      if (result.success) {
+        this.toastData = {
+          isShow: true,
+          type: 'success',
+          text: '已成功删除'
+        }
+        _this.lists.some((item, index) => {
+          if (item.id === _this.delId) {
+            _this.lists.splice(index, 1)
+          }
+        })
+        // _this.accounts(_this.lists) // 计算总额
+      } else {
+        this.toastData = {
+          isShow: true,
+          type: 'warn',
+          text: '删除失败'
+        }
+      }
+
+    },
+    async addNum (id) { // 加
+      this.lists.some((item, index) => {
+        if (item.id === id) {
+          item.number++
+          return true
+        }
+      })
       let result = await this.axios.get('cart/cartnumberadd/' + id)
       if (result.success) {
       }
     },
-    async subNum (index, id) { // 减
-      let result = await this.axios.get('cart/cartnumbersub/' + id)
-      if (result.success) {
+    async reduceNum (id) { // 减
+      let bool = true
+      this.lists.some((item, index) => {
+        if (item.id === id && item.number > 1) { // 最少一个
+          item.number--
+          return true
+        } else {
+          bool = false
+          this.toastData = {
+            isShow: true,
+            type: 'warn',
+            text: '不能再少了'
+          }
+          return false
+        }
+      })
+      if (bool) {
+        let result = await this.axios.get('cart/cartnumbersub/' + id)
+        if (result.success) {
+        }
       }
     }
   }
@@ -197,6 +250,20 @@ export default {
 <style scoped lang="less">
 @color:#6a63aa;
 @color1:#4b376e;
+#number {
+  svg{
+    position: relative;
+    z-index: 9;
+    fill:@color1;
+  }
+  input{
+    border-top: none;
+    border-bottom: none;
+    text-align: center;
+    width: 50px;
+    height: 24px;
+  }
+}
 /deep/ .weui-icon-warn{
   font-size: 14px;
   color:@color;

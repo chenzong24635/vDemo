@@ -1,3 +1,22 @@
+function verifyPhone (val) { // 手机号验证
+  let valnew = (val + '').replace(/(^\s*)|(\s*$)/g, '')
+  if (valnew.match(/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/)) {
+    return true
+  } else {
+    return false
+  }
+}
+
+function verifyEmail (val) { // 邮箱验证
+  let reg = /^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/
+  let res = reg.test(val)
+  if (res) {
+    return true
+  } else {
+    return false
+  }
+}
+
 function timestampToTime (times) {
   if (times.lentgh > 10) { // 时间戳为10位需*1000，时间戳为13位的话不需乘1000
     times *= 1000
@@ -70,6 +89,8 @@ function delCookie (name) {
 }
 
 export {
+  verifyPhone,
+  verifyEmail,
   timestampToTime,
   cookie,
   getCookie,

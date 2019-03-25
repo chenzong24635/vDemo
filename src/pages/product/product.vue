@@ -1,9 +1,9 @@
 <template>
   <div class="">
     <scrollTop></scrollTop>
-    <swiper height="160px" loop  :list="banners" id="swiper" :dots-class="banners.length >=2 ? 'dot0' : 'swiper-hide'" :show-desc-mask="false"></swiper>
+    <swiper height="45vw" loop  :list="banners" id="swiper" :dots-class="banners.length >=2 ? 'dot0' : 'swiper-hide'" :show-desc-mask="false"></swiper>
     <tab bar-active-color="#522d6d" :line-width="2" >
-      <tab-item @on-item-click="tab(item, index)" v-for="(item, index) in tabs" :key="index" > <!-- :selected="index===0" -->
+      <tab-item @on-item-click="tab(item, index)" v-for="(item, index) in tabs" :key="item.title" > <!-- :selected="index===0" -->
         {{item.title}}
         <!-- <router-link :to="{name:'product',params:{pid:item.pid, id:item.id}}" >{{item.title}}</router-link> -->
       </tab-item>
@@ -12,7 +12,7 @@
       <section v-if="!isJf">
         <ul class="lists-top flex01-1">
           <li @click="sel(item, index)" v-for="(item, index) in listsTop"
-          :key="index" :class="[item.sel && item.click?'sel'+item.status:'', index===0?'':'vux-1px-l', item.click?'click':'']">
+          :key="item.id" :class="[item.sel && item.click?'sel'+item.status:'', index===0?'':'vux-1px-l', item.click?'click':'']">
           {{item.name}}</li>
         </ul>
         <div class="price-range flex01" v-show="range">
@@ -27,9 +27,9 @@
         v-infinite-scroll="loadMore"
         infinite-scroll-disabled="loading"
         infinite-scroll-distance="10">
-        <li @click="link(item, index)" v-for="(item, index) in products" :key="index" :data-id="item.id" class="list vux-1px">
+        <li @click="link(item, index)" v-for="(item, index) in products" :key="item.id" :data-id="item.id" class="list vux-1px">
           <!-- <router-link :to="'productDetail' + item.id "> -->
-            <img class="pic" :src="item.pic" alt="" onerror="this.src='static/images/errorImg.jpg'">
+            <div class="pic"><img :src="item.pic" alt="" onerror="this.src='static/images/errorImg.jpg'"></div>
             <p class="title ov1">{{item.title}}</p>
             <p class="subtitle ov2">功效：{{item.subtitle}}</p>
             <p class="ggvalue ov1">规格：{{item.ggvalue}}</p>
@@ -45,7 +45,7 @@
         <load-more v-if="isLastPage&&products.length!==0" :show-loading="false" tip="到底了" ></load-more>
       </div>
     </div>
-    <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="130px" :time="1000"  :is-show-mask="true" position="middle"></toast>
+    <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="40vw" :time="1000"  :is-show-mask="true" position="middle"></toast>
   </div>
 </template>
 <script>
@@ -432,8 +432,9 @@ div /deep/ .vux-tab-wrap{
         line-height: 1.5;
         font-size: 15px;/*no*/
         width: auto;
+        padding: 0 5px;
         padding-bottom: 3px;
-        margin: 0 8px;
+        margin: 0 5px;
         flex: none;
         color: #000;
         a{color: #000;}
@@ -517,7 +518,13 @@ div /deep/ .vux-tab-wrap{
     }
     .pic{
       width: 100%;
-      height: 120px;
+      height: 45vw;
+      img{
+        width: 100%;
+        max-height: 100%;
+        // vertical-align: middle;
+        // height: 100%;
+      }
     }
     &>p{
       padding: 0 10px;
@@ -526,7 +533,7 @@ div /deep/ .vux-tab-wrap{
     }
     .title{margin-bottom: 4px;}
     .title,.amount{font-size: 15px;/*no*/}
-    .subtitle{max-height: 36px;}
+    .subtitle{height: 36px;}
     .subtitle,.ggvalue{color:#a3a3a3;font-size: 12px;/*no*/}
     .ggvalue{margin: 3px 0;}
   }

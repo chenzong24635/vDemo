@@ -1,5 +1,5 @@
 <template>
-  <footer class='tac'>
+  <footer class='tac' :style="$route.name === 'productDetail' ? 'margin-bottom: 100px;' : ''">
     <nav class='tal'>
       <ul>
         <li v-for='(item, index) in navs' :key='index'>
@@ -136,6 +136,7 @@ footer {
   background-color: #6a63aa;
   color: #fff;
   padding: 20px;
+  margin-bottom: 0;
   // margin-bottom: 50px;
 }
 nav {

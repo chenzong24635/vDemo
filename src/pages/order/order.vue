@@ -63,7 +63,7 @@
     <div v-transfer-dom>
       <confirm v-model="confirmShow" title="确认删除?"  @on-confirm="onConfirm"></confirm>
     </div>
-    <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="130px" :time="1000"  :is-show-mask="true" position="middle"></toast>
+    <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="45vw" :time="1000"  :is-show-mask="true" position="middle"></toast>
   </div>
 </template>
 <script>

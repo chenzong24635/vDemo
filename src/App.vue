@@ -1,28 +1,27 @@
 <template>
   <div id="app" :style=" $store.state.footerShow ? 'margin: 60px 0 50px;' : ''">
-    <Header v-if="$store.state.headerShow"></Header>
+    <header-nav v-if="$store.state.headerShow"></header-nav>
     <div class="content-div">
       <router-view/>
     </div>
-    <Bottom v-if="$store.state.bottomShow"></Bottom>
-    <FooterNav v-if="$store.state.footerShow"></FooterNav>
-    <toast v-model="showToast" type="warn" width="130px" :time="1000" text="您的账号被迫下线，请重新登录" :is-show-mask="true" position="middle"></toast>
+    <bottom-mes v-if="$store.state.bottomShow"></bottom-mes>
+    <footer-nav v-if="$store.state.footerShow"></footer-nav>
+    <toast v-model="showToast" type="warn" width="45vw" :time="1000" text="您的账号被迫下线，请重新登录" :is-show-mask="true" position="middle"></toast>
     <!-- <mytoast :showToast="toast.showToast" :type="toast.type" :text="toast.toastText" :is-show-mask="true" ></mytoast> -->
   </div>
 </template>
-
 <script>
+import HeaderNav from '@/components/header.vue'
+import BottomMes from '@/components/bottom.vue'
 import FooterNav from '@/components/FooterBar.vue'
-import Header from '@/components/header.vue'
-import Bottom from '@/components/bottom.vue'
 import {Toast} from 'vux'
 export default {
   name: 'app',
   components: {
     Toast,
-    FooterNav,
-    Bottom,
-    Header
+    HeaderNav,
+    BottomMes,
+    FooterNav
   },
   data () {
     return {
@@ -67,8 +66,8 @@ textarea,input,label
 {padding: 0;margin: 0;box-sizing:border-box;}
 html,body{
   font-family: 'Microsoft YaHei';
-  font-size: 14px;
-  // font-size: 62.5%;
+  // font-size: 14px;
+  font-size: 62.5%;
   color:#494949;
   line-height: 1.5;
   overflow-x: hidden;

@@ -3,13 +3,13 @@
     <router-link to="/login" class="return"> <x-icon type="ios-arrow-left" size="30"></x-icon></router-link>
     <form class="form" action="">
       <group class="form-list">
-        <x-input title="手机号" v-model="json.mobile" type="text" placeholder="请输入手机号"></x-input>
+        <x-input title="手机号" v-model="json.mobile" type="tel" placeholder="请输入手机号"></x-input>
       </group>
       <group class="form-list">
-        <x-input title="密码" v-model="json.password" type="text" placeholder="请输入密码"></x-input>
+        <x-input title="密码" v-model="json.password" type="password" placeholder="请输入密码"></x-input>
       </group>
       <group class="form-list">
-        <x-input title="确认密码" v-model="password1" type="text" placeholder="请再次输入密码"></x-input>
+        <x-input title="确认密码" v-model="password1" type="password" placeholder="请再次输入密码"></x-input>
       </group>
       <group class="form-list">
         <x-input title="验证码" v-model="json.code" type="text" placeholder="请输入验证码"></x-input>
@@ -26,12 +26,14 @@
       </div>
       <x-button @click.native="submit" id="sure" type="primary" action-type="button" >创建账号</x-button>
     </form>
-    <toast v-model="showToast" type="success" width="130px" :time="1000" :is-show-mask="true" :text="toastText" position="middle"></toast>
-    <toast v-model="showToast1" type="warn" width="130px" :time="1000" :is-show-mask="true" :text="toastText1" position="middle"></toast>
+    <toast v-model="showToast" type="success" width="45vw" :time="1000" :is-show-mask="true" :text="toastText" position="middle"></toast>
+    <toast v-model="showToast1" type="warn" width="45vw" :time="1000" :is-show-mask="true" :text="toastText1" position="middle"></toast>
   </div>
 </template>
 <script>
+import {mapMutations} from 'vuex'
 import {Group, XInput, XButton, Toast, Countup, CheckIcon} from 'vux'
+import {verifyPhone} from '../../utils/index.js'
 export default {
   name: '',
   components: {
@@ -65,21 +67,19 @@ export default {
     }
   },
   destroyed () { // 销毁时显示
-    this.componentsShow(true)
+    this.components([true, true, true])
   },
   mounted () { // 隐藏
-    this.componentsShow(false)
+    this.components([false, false, false])
   },
   methods: {
-    componentsShow (bool) {
-      this.$store.state.headerShow = bool
-      this.$store.state.bottomShow = bool
-      this.$store.state.footerShow = bool
-    },
+    ...mapMutations([
+      'components'
+    ]),
     async sendCode () {
       let mobile = this.json.mobile
-      if (!mobile) {
-        this.toast1('请填写手机号')
+      if (!mobile || !verifyPhone(mobile)) {
+        this.toast1('请填写正确手机号')
         return false
       }
       let result = await this.axios.post('common/sendMessageAnd', {

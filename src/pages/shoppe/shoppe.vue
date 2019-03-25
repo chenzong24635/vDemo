@@ -25,10 +25,10 @@
     <button class="search primary" @click='search'>搜索专柜</button>
     <section>
       <ul id="lists" v-if="lists.length > 0">
-        <li  v-for="(item, index) in lists" :key="index" :data-id="item.id" class="vux-1px-b">
+        <li @click="addressLink(item)" v-for="item in lists" :key="item.id" class="vux-1px-b">
           <h3 class="title">{{item.title}}</h3>
           <div class='detail'>
-            {{item.pname}}{{item.cname}}{{item.rname}}{{item.address}}
+            {{item.fullAddress}}
           </div>
         </li>
       </ul>
@@ -82,7 +82,12 @@ export default {
     async getLists () {
       let result = await this.axios.post('/web/storelist', json01)
       if (result.success) {
-        this.lists = result.data
+        let data = result.data
+        data.map((item, index) => {
+          item.fullAddress = item.pname + item.cname + item.rname + item.address
+          item.coordinate = item.coordinate.split(',')
+        })
+        this.lists = data
       }
     },
     search () {
@@ -105,6 +110,11 @@ export default {
       if (!bool && (this.pname === '省')) { // 如果取消
         this.onLoadShow = true
       }
+    },
+    addressLink (item) {
+      console.log(item)
+      let address = 'https://uri.amap.com/marker?position=' + item.coordinate[0] + ',' + item.coordinate[1] + '&name=' + item.fullAddress
+      window.open(address)
     }
   }
 }

@@ -134,7 +134,7 @@ export default {
   word-break: break-all;
   font-size: 14px;/*no*/
 }
-.one,.two,.three,.six{padding: 0 40px;}
+.one,.two,.three,.six{padding: 0 20px;}
 .one{
   background: #f6f5fb;
   li{margin-bottom: 60px;}
@@ -142,7 +142,7 @@ export default {
 }
 .img-bd{
   position: relative;
-  margin-top: 40px;
+  margin-top: 20px;
   padding: 0 0 30px 30px;
   // img{margin: 0 0 40px 0px;}
   &:before{
@@ -150,8 +150,8 @@ export default {
     position: absolute;
     top: 0;
     right: 0;
-    width: 400px;
-    height: 36px;
+    width: 60vw;
+    height: 16px;
     background-color: @bgc;
     z-index: 2;
   }
@@ -160,29 +160,29 @@ export default {
     position: absolute;
     top: 0;
     right: 0;
-    width: 36px;
-    height: 600px;
+    width:16px;
+    height: 60vw;
     background-color: @bgc;
   }
   &>div{
     position: relative;
-    padding: 36px;
+    padding: 16px;
     &:before{
       content:'';
       position: absolute;
       bottom: 0;
-      left: -20px;
-      width: 400px;
+      left: -10px;
+      width: 70vw;
       height: 6px;
       background-color: @bgc;
     }
     &:after{
       content:'';
       position: absolute;
-      bottom: -20px;
+      bottom: -10px;
       left: 0;
       width: 6px;
-      height: 600px;
+      height: 70vw;
       background-color: @bgc;
     }
   }
@@ -190,54 +190,54 @@ export default {
 .two-bottom{
   border-radius: 20px;
   padding: 30px;
-  margin: 40px 0 100px;
+  margin: 10px 0 20px;
   background-color: @bgc;
   color:#fff;
 }
 .three{
   color:#44403f;
-  padding: 60px 40px 30px;
+  padding: 30px 20px 15px;
   background: url('../../assets/images/story/story-bg.jpg')no-repeat center;
   background-size: 100% 100%;
 }
 .four{
   background-color: #f6f5fa;
-  padding: 40px 50px;
+  padding: 10px 20px;
   .img-bd{
     margin: 0;
     img{display: block; border:6px solid #fff;/*no*/}
     &:before{
-      right: -20px;
-      width: 400px;
-      height: 12px;
+      right: -10px;
+      width: 60vw;
+      height: 6px;
     }
     &:after{
-      top:-20px;
-      width: 12px;
-      height: 300px;
+      top:-10px;
+      width: 6px;
+      height: 60vw;
     }
     &>div{
       &:before{
-      left: -20px;
-      width: 400px;
-      height: 12px;
+      left: -10px;
+      width: 60vw;
+      height: 6px;
       }
       &:after{
-        bottom:-20px;
-        width: 12px;
-        height: 300px;
+        bottom:-10px;
+        width: 6px;
+        height: 60vw;
       }
     }
   }
 }
 
 .five{
-  padding: 60px 40px;
+  padding: 30px 20px;
   color:#fff;
   background-color: @bgc;
   .five-top{
     position: relative;
-    padding: 0 30px 30px;
+    padding: 0 15px 15px;
     img{margin: 20px 0 10px;}
     &:before{
       content:'';
@@ -259,36 +259,36 @@ export default {
     }
   }
   .five-lists{
-    margin-top: 30px;
-    padding: 40px 60px 0;
+    margin-top: 15px;
+    padding: 10px 15px 0;
     .five-list{
       img{
         box-sizing: border-box;
-        border:20px solid #fff;
-        border-bottom-width: 40px;
+        border:10px solid #fff;
+        border-bottom-width: 20px;
       }
       p{
-        margin: 30px 0;
-        font-size: 34px;/*px*/
+        margin: 15px 0;
+        font-size: 18px;/*px*/
       }
     }
   }
   .five-bottom{
     border-top: 1px solid #7f69a9;
-    padding: 20px 60px 0 60px;
+    padding: 10px 15px 0 15px;
   }
 }
 .six{
   background-color: #dadada;
   .six-lists{
     align-items: flex-start;
-    padding: 20px 0;
-    font-size: 14px;/*px*/
+    padding: 10px 0;
     flex-wrap: wrap;
     li{
       box-sizing: border-box;
+      font-size: 12px;
       width: 33.3%;
-      padding: 20px 14px;
+      padding: 10px 5px;
       color:#494949;
       img{
         width: 70%;

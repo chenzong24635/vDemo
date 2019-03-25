@@ -26,7 +26,7 @@
       </ul>
     </section>
     <div class="btn-link"><x-button :link="{name: 'addressEdit', params: { id: 'null', type: type}}" type="primary">添加新地址</x-button></div>
-    <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="130px" :time="1000"  :is-show-mask="true" position="middle"></toast>
+    <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="45vw" :time="1000"  :is-show-mask="true" position="middle"></toast>
   </div>
 </template>
 <script>

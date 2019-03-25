@@ -1,6 +1,6 @@
 <template>
   <div>
-    <swiper height="5rem" auto loop   :list="banners" id="swiper" :dots-class="banners.length >=2 ? 'dot0' : 'swiper-hide'" :show-desc-mask="false"></swiper>
+    <swiper height="35vw" auto loop   :list="banners" id="swiper" :dots-class="banners.length >=2 ? 'dot0' : 'swiper-hide'" :show-desc-mask="false"></swiper>
     <ul  id="lists"
       v-infinite-scroll="loadMore"
       infinite-scroll-disabled="loading"

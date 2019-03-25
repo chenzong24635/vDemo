@@ -17,11 +17,12 @@
         <div id="check" class="tac"><check-icon class="flex01" :value.sync="json.default">设置为默认地址</check-icon></div>
         <div class="btn-link"><x-button @click.native="save" type="primary" >保存</x-button></div>
       </div>
-      <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="130px" :time="1000"  :is-show-mask="true" position="middle"></toast>
+      <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="45vw" :time="1000"  :is-show-mask="true" position="middle"></toast>
   </div>
 </template>
 <script>
 import {Group, XInput, XButton, XTextarea, Toast, ChinaAddressData, XAddress, CheckIcon} from 'vux'
+import {verifyPhone} from '../../utils/index.js'
 export default {
   name: '',
   components: {
@@ -110,8 +111,8 @@ export default {
         text = '请选择地址'
       } else if (!json.address) {
         text = '请填写详细地址'
-      } else if (!json.mobile) {
-        text = '请填写手机号'
+      } else if (!json.mobile || !verifyPhone(json.mobile)) {
+        text = '请填写正确的手机号'
       } else {
         console.log(this.json.id)
         if (this.json.id) { // 修改地址

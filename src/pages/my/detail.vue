@@ -27,11 +27,12 @@
       </group>
       <div class="btn-link"><x-button @click.native="save" type="default" >保存</x-button></div>
     </div>
-    <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="130px" :time="1000"  :is-show-mask="true" position="middle"></toast>
+    <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="45vw" :time="1000"  :is-show-mask="true" position="middle"></toast>
   </div>
 </template>
 <script>
 import {dateFormat, Group, XInput, XButton, Toast, ChinaAddressData, XAddress, Datetime} from 'vux'
+import {verifyPhone, verifyEmail} from '../../utils/index.js'
 export default {
   name: '',
   components: {
@@ -132,8 +133,23 @@ export default {
     save () {
       let _this = this
       let file = this.$refs.upload.files[0]
-      console.log('this.json.pic', this.json.pic)
-      console.log('file', file)
+      console.log(verifyPhone, typeof this.json.mobile)
+      if (!this.json.mobile || !verifyPhone(this.json.mobile)) {
+        this.toastData = {
+          isShow: true,
+          type: 'warn',
+          text: '请填写正确的手机号'
+        }
+        return false
+      }
+      if (!this.json.email || !verifyEmail(this.json.email)) {
+        this.toastData = {
+          isShow: true,
+          type: 'warn',
+          text: '请填写正确的邮箱'
+        }
+        return false
+      }
       if (file) {
         let formData = new FormData()
         formData.append('file', file)
@@ -148,6 +164,10 @@ export default {
         }).then(() => {
           this.axios.post('member/memberedit', this.json).then((response) => {
             _this.toastFunc(response.success)
+            let timer = setTimeout(() => {
+              this.$router.push({name: 'my'})
+              clearTimeout(timer)
+            }, 1000)
           })
         })
       } else {

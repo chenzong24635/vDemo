@@ -19,7 +19,7 @@ export default {
     },
     width: {
       type: String,
-      default: '130px'
+      default: '45vw'
     },
     text: String,
     time: {

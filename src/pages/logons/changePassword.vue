@@ -12,11 +12,12 @@
       </group>
       <x-button @click.native="submit" id="sure" type="primary" action-type="button" >确认修改</x-button>
     </form>
-    <toast v-model="showToast" type="success" width="130px" :time="1000" :is-show-mask="true" :text="toastText" position="middle"></toast>
-    <toast v-model="showToast1" type="warn" width="130px" :time="1000" :is-show-mask="true" :text="toastText1" position="middle"></toast>
+    <toast v-model="showToast" type="success" width="45vw" :time="1000" :is-show-mask="true" :text="toastText" position="middle"></toast>
+    <toast v-model="showToast1" type="warn" width="45vw" :time="1000" :is-show-mask="true" :text="toastText1" position="middle"></toast>
   </div>
 </template>
 <script>
+import {mapMutations} from 'vuex'
 import {Group, XInput, XButton, Toast} from 'vux'
 export default {
   name: '',
@@ -42,15 +43,12 @@ export default {
     }
   },
   destroyed () { // 销毁时显示
-    this.componentsShow(true)
+    this.$store.commit('components', [true, true, true])
   },
   mounted () { // 隐藏
-    this.componentsShow(false)
+    this.$store.commit('components', [true, false, true])
   },
   methods: {
-    componentsShow (bool) {
-      this.$store.state.bottomShow = bool
-    },
     submit () {
       console.log('s')
       let text = ''

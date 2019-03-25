@@ -33,18 +33,20 @@
         </cell>
       </group>
     </section>
-    <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="130px" :time="1000"  :is-show-mask="true" position="middle"></toast>
+    <div class="btn-link"><x-button @click.native="logout" type="default" >退出登录</x-button></div>
+    <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="45vw" :time="1000"  :is-show-mask="true" position="middle"></toast>
     <!-- <mytoast :showToast="toast.showToast" :type="toast.type" :text="toast.toastText" :is-show-mask="true" ></mytoast> -->
   </div>
 </template>
 <script>
-import {Toast, Tab, TabItem, Grid, GridItem, Group, Cell} from 'vux'
+import {cookie, Toast, XButton, Tab, TabItem, Grid, GridItem, Group, Cell} from 'vux'
 // import mytoast from '@/components/toast.vue'
 
 export default {
   name: '',
   components: {
     Toast,
+    XButton,
     Tab,
     TabItem,
     Grid,
@@ -212,13 +214,19 @@ export default {
         /* this.lists.map((item, index) => {
           switch (item.status){
             case 1:
-
               break
           }
         }) */
         /* console.log('1普通订单:', list1, list2, list3)
         console.log('2经销商:', list1, list2, list3)
         console.log(this.orderLens) */
+      }
+    },
+    async logout () {
+      let result = await this.axios.get('member/logout')
+      if (result.code === 0) {
+        cookie.remove('accessToken')
+        this.$router.push({name: 'index'})
       }
     }
   }
@@ -291,4 +299,5 @@ export default {
     }
   }
 }
+.btn-link{margin: 20px 30px;}
 </style>

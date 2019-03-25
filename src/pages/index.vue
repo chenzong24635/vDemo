@@ -1,7 +1,7 @@
 <template>
   <div class="clearfix">
     <!-- <router-link to="/Login">Login</router-link> -->
-    <swiper height="350px" auto loop   :list="banners1" id="swiper" :dots-class="banners1.length >=2 ? 'dot0' : 'swiper-hide'" :show-desc-mask="false"></swiper>
+    <swiper height="80vw" auto loop   :list="banners1" id="swiper" :dots-class="banners1.length >=2 ? 'dot0' : 'swiper-hide'" :show-desc-mask="false"></swiper>
     <div class="" >
       <img class="img-title" src="../assets/images/index/m-t.jpg" alt="">
       <ul class="mom">
@@ -26,7 +26,7 @@
       </ul>
     </div>
     <img class="img-title" src="../assets/images/index/a12.jpg" alt="assets">
-    <swiper height="100px" loop auto  :list="banners2"  id="swiper1" dots-class="dot1" :show-desc-mask="false"></swiper>
+    <swiper height="30vw" loop auto  :list="banners2"  id="swiper1" dots-class="dot1" :show-desc-mask="false"></swiper>
     <div class="video">
       <video controls="" width="100%" height="100%" >
         <source src="https://pan.baidu.com/s/16NfMAQF8Yz_p_r8XfXPi7A" type="video/mp4">

@@ -74,7 +74,7 @@
       </router-link>
       <div @click="buyJf" class="btn btn3">立即购买 </div>
     </section>
-    <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="130px" :time="1000"  :is-show-mask="true" position="middle"></toast>
+    <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="45vw" :time="1000"  :is-show-mask="true" position="middle"></toast>
   </div>
 </template>
 <script>
@@ -106,6 +106,7 @@ export default {
     }
   },
   created () {
+    console.log(this.$route)
     let id = this.$route.params.id
     let type = this.$route.params.type
     this.type = type
@@ -191,7 +192,7 @@ export default {
   }
 }
 </script>
-<style  lang="less">
+<style lang="less">
 @color:#6a63aa;
 @color1:#4b376e;
 #detail{
@@ -317,7 +318,7 @@ export default {
     }
   }
 }
-footer{margin-bottom: 80px;}
+
 .btns{
   position: fixed;
   left: 0;

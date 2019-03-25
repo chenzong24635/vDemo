@@ -27,7 +27,7 @@
         </ul>
       </nav>
     </aside>
-    <toast v-model="toastShow" type="cancel" width="130px" :time="1000" position="middle">请填写搜索内容</toast>
+    <toast v-model="toastShow" type="cancel" width="45vw" :time="1000" position="middle">请填写搜索内容</toast>
     <!-- <div v-transfer-dom>
       <alert v-model="alertShow" title="请填写搜索内容">请填写搜索内容1</alert>
     </div> -->

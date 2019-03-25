@@ -62,35 +62,37 @@
     </section>
     <section class="six">
       <img class="img-title" src="../../assets/images/safe/safe-5.jpg" alt="" >
-      <img class="img-title" src="../../assets/images/safe/sa_5.png" alt="" >
-      <div class="mes">
-        Belli璧丽的所有产品在推向市场之前都会经过严格且专业的各种测试，确保护肤品达到更高安全标准，保证不含现代医学已知的对妈妈和宝宝有害的成分。
-      </div>
-      <p class="title">Belli璧丽保障了妈妈和宝宝的双重健康</p>
-      <img class="img-title" src="../../assets/images/safe/standard.png" alt="" >
-      <ul class="six-lists flex01 tac">
-        <li>
-          <img src="../../assets/images/icon1-4.png" alt="">
-          <div >
-            <p>中国优生科学协会战略合作品牌</p>
-          </div>
-        </li>
-        <li>
-          <img src="../../assets/images/icon1-5.png" alt="">
-          <div><p>荣获美国女性选择奖</p></div>
-        </li>
-        <li>
-          <img src="../../assets/images/icon1-7.png" alt="">
-          <div>
-            <p >美国食品药品监督</p>
-            <p>管理局认可</p>
-          </div>
-        </li>
-        <li>
-          <img src="../../assets/images/icon1-6.png" alt="">
-          <div><p >GMP认证</p><p>企业生产</p></div>
-        </li>
-      </ul>
+      <section>
+        <img class="img-title" src="../../assets/images/safe/sa_5.png" alt="" >
+        <div class="mes">
+          Belli璧丽的所有产品在推向市场之前都会经过严格且专业的各种测试，确保护肤品达到更高安全标准，保证不含现代医学已知的对妈妈和宝宝有害的成分。
+        </div>
+        <p class="title">Belli璧丽保障了妈妈和宝宝的双重健康</p>
+        <img class="img-title" src="../../assets/images/safe/standard.png" alt="" >
+        <ul class="six-lists flex01 tac">
+          <li>
+            <img src="../../assets/images/icon1-4.png" alt="">
+            <div >
+              <p>中国优生科学协会战略合作品牌</p>
+            </div>
+          </li>
+          <li>
+            <img src="../../assets/images/icon1-5.png" alt="">
+            <div><p>荣获美国女性选择奖</p></div>
+          </li>
+          <li>
+            <img src="../../assets/images/icon1-7.png" alt="">
+            <div>
+              <p >美国食品药品监督</p>
+              <p>管理局认可</p>
+            </div>
+          </li>
+          <li>
+            <img src="../../assets/images/icon1-6.png" alt="">
+            <div><p >GMP认证</p><p>企业生产</p></div>
+          </li>
+        </ul>
+      </section>
     </section>
     <section class="seven">
       <img class="img-title" src="../../assets/images/safe/sa_6.png" alt="" >
@@ -135,7 +137,7 @@ export default {
 @bgc:#5f4394;
 .mes{font-size: 14px;/*no*/}
 .one{
-  padding: 40px;
+  padding: 20px;
   color:#fff;
   background: url('../../assets/images/safe/safe-0.jpg')no-repeat left center;
   background-size: 100% 100%;
@@ -143,28 +145,28 @@ export default {
 .vux-x-icon-ios-plus-empty{
   fill:@bgc;
 }
-.two,.three,.four,.six,.seven{padding: 0 40px;}
+.two,.three,.four,.seven{padding: 0 20px;}
 .box{
-  border-left: 10px solid @bgc;
-  padding-bottom: 20px;
+  border-left: 5px solid @bgc;
+  padding-bottom: 10px;
   .box-title{
     text-align: center;
     background-color: @bgc;
     color:#fff;
-    padding: 8px 0;
-    margin-bottom: 20px;
+    padding: 4px 0;
+    margin-bottom: 10px;
     border-radius: 0 26px 26px 0;
   }
   .box-cnt{
-    padding: 20px 40px;
+    padding: 10px 20px;
     font-size: 14px;/*no*/
     ul{
       // margin-top: 30px;
       color:#44403f;
       li{
         position: relative;
-        margin-top: 30px;
-        padding-left: 30px;
+        margin-top: 15px;
+        padding-left: 15px;
         &:before{
           content: '+';
           position: absolute;
@@ -178,15 +180,15 @@ export default {
 }
 .img-bd{
   position: relative;
-  margin-top: 40px;
-  padding: 0 0 30px 30px;
+  margin-top: 20px;
+  padding: 0 0 15px 15px;
   &:before{
     content:'';
     position: absolute;
     top: 0;
     right: 0;
-    width: 500px;
-    height: 36px;
+    width: 70vw;
+    height: 16px;
     background-color: @bgc;
     z-index: 2;
   }
@@ -195,20 +197,20 @@ export default {
     position: absolute;
     top: 0;
     right: 0;
-    width: 36px;
-    height: 700px;
+    width: 16px;
+    height: 70vw;
     background-color: @bgc;
   }
   &>div{
     position: relative;
-    padding: 36px;
+    padding: 15px;
     &:before{
       content:'';
       position: absolute;
       bottom: 0;
       left: 0;
-      width: 300px;
-      height: 8px;
+      width: 70vw;
+      height: 4px;
       background-color: @bgc;
     }
     &:after{
@@ -216,39 +218,40 @@ export default {
       position: absolute;
       bottom: 0;
       left: 0;
-      width: 8px;
-      height: 600px;
+      width: 4px;
+      height: 70vw;
       background-color: @bgc;
     }
   }
 }
 .five{
-  padding: 0.533333rem;
+  padding: 20px;
   color: #fff;
   background: url(../../assets/images/safe/safe-3.jpg) no-repeat left center;
   background-size: 100% 100%;
-  .mes{margin: 20px 0;}
+  .mes{margin: 10px 0;}
 }
 .six{
   background-color: #f6f5fb;
-  .mes{margin: 20px 0;}
+  &>section{padding: 0 20px;}
+  .mes{margin: 10px 0;}
   .title{
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     font-family: "华文中宋";
     font-size: 15px;/*no*/
   }
   .six-lists{
     align-items: flex-start;
     padding: 20px 0;
-    font-size: 14px;/*px*/
+    font-size: 12px;
     li{
       box-sizing: border-box;
       width: 25%;
-      padding: 20px 14px;
+      padding: 10px 5px;
       color:#494949;
       img{
-        width: 70%;
+        width: 80%;
         border-radius: 50%;
         // box-shadow: -4px 20px 20px #acadac;
       }
@@ -256,14 +259,15 @@ export default {
   }
 }
 .seven{
+  padding: 10px 20px;
   background-color: @bgc;
   color:#fff;
   font-size: 14px;/*no*/
   li{
-    padding: 20px 0;
+    padding: 10px 0;
     &>img{
       width: 40%;
-      border: 20px solid #fff;
+      border: 10px solid #fff;
       margin-right: 20px;
     }
   }

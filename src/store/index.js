@@ -15,6 +15,13 @@ const store = new Vuex.Store({
     freight: localStorage.getItem('freight') ? localStorage.getItem('freight') : '' // 运费
   },
   mutations: {
+    // 头部、底部、底部导航显示隐藏
+    components (state, arr) {
+      state.headerShow = arr[0]
+      state.bottomShow = arr[1]
+      state.footerShow = arr[2]
+      console.log(arr)
+    },
     // 修改token，并将token存入localStorage
     changeToken (state, user) {
       state.accessToken = user.accessToken

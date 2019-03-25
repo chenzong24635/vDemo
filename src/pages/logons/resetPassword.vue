@@ -2,10 +2,10 @@
   <div class="">
     <form class="form" action="">
       <group class="form-list">
-        <x-input title="手机号" v-model="json.mobile" type="text" placeholder="请输入手机号"></x-input>
+        <x-input title="手机号" v-model="json.mobile" type="tel" placeholder="请输入手机号"></x-input>
       </group>
       <group class="form-list">
-        <x-input title="新密码" v-model="json.password" type="text" placeholder="请输入新密码"></x-input>
+        <x-input title="新密码" v-model="json.password" type="password" placeholder="请输入新密码"></x-input>
       </group>
       <group class="form-list">
         <x-input title="验证码" v-model="json.captcha" type="text" placeholder="请输入验证码"></x-input>
@@ -16,12 +16,13 @@
       </group>
       <x-button @click.native="submit" id="sure" type="primary" action-type="button" >确认修改</x-button>
     </form>
-    <toast v-model="showToast" type="success" width="130px" :time="1000" :is-show-mask="true" :text="toastText" position="middle"></toast>
-    <toast v-model="showToast1" type="warn" width="130px" :time="1000" :is-show-mask="true" :text="toastText1" position="middle"></toast>
+    <toast v-model="showToast" type="success" width="40vw" :time="1000" :is-show-mask="true" :text="toastText" position="middle"></toast>
+    <toast v-model="showToast1" type="warn" width="40vw" :time="1000" :is-show-mask="true" :text="toastText1" position="middle"></toast>
   </div>
 </template>
 <script>
 import {Group, XInput, XButton, Toast, Countup} from 'vux'
+import {verifyPhone} from '../../utils/index.js'
 export default {
   name: '',
   components: {
@@ -51,6 +52,7 @@ export default {
   },
   mounted () { // 隐藏
     this.componentsShow(false)
+    console.log(verifyPhone)
   },
   methods: {
     componentsShow (bool) {
@@ -58,8 +60,8 @@ export default {
     },
     async sendCode () {
       let mobile = this.json.mobile
-      if (!mobile) {
-        this.toast1('请填写手机号')
+      if (!mobile || !verifyPhone(mobile)) {
+        this.toast1('请填写正确手机号')
         return false
       }
       let result = await this.axios.post('common/sendMessageAnd', {

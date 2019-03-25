@@ -1,6 +1,6 @@
 # vdemo
 
-> A Vue.js project
+> 移动端商城
 
 ## Build Setup
 
@@ -8,7 +8,7 @@
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
+# serve with hot reload at localhost:8083
 npm run dev
 
 # build for production with minification
