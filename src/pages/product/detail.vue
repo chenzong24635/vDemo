@@ -245,112 +245,112 @@ export default {
       }
     }
   }
-}
-.detail{
-  border-top: 10px solid rgb(247,247,247);
-  padding: 0 20px;
-  h3{
-    padding: 6px 0;
-    font-weight: normal;
-    color: @color;
-  }
-  .detail-head{
-    margin-bottom: 6px;
-    span{
-      position: relative;
+  .detail{
+    border-top: 10px solid rgb(247,247,247);
+    padding: 0 20px;
+    h3{
+      padding: 6px 0;
+      font-weight: normal;
+      color: @color;
+    }
+    .detail-head{
+      margin-bottom: 6px;
+      span{
+        position: relative;
+        padding-left: 6px;
+        color: #494949;
+        &:before{
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          margin: auto 0;
+          height: 70%;
+          width: 2px;
+          background: #6a63aa;
+        }
+      }
+    }
+    .detail-list{
+      margin: 10px 0 20px;
+    }
+    .detail-mes{
+      white-space:normal;
+      word-break:break-all;
+      word-wrap:break-word;
       padding-left: 6px;
-      color: #494949;
+      line-height: 1.5;
+    }
+    .tip1:before{background: url('../../assets/images/product/en_03.png')no-repeat center;}
+    .tip2:before{background: url('../../assets/images/product/r_03.png')no-repeat center;}
+    .tip{
+      position: relative;
+      box-sizing: border-box;
+      padding: 6px;
+      background-color: #f3f3f8;
+      margin-bottom: 20px;
       &:before{
         content: '';
         position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        margin: auto 0;
-        height: 70%;
-        width: 2px;
-        background: #6a63aa;
+        top: -10px;
+        left: -10px;
+        width: 30px;
+        height: 30px;
+        background-size: 100%;
+      }
+      .tip-title{margin-bottom: 6px;}
+      .p1{
+        color:@color;
+      }
+      .p2{
+        font-size: 12px;
+        color:#b0b1af;
+      }
+      .tip-box{
+        padding: 10px;
+        border: 1px solid  #a097c2;
+      }
+      .tip-mes{
+        font-size: 13px;
+        color: #717171;
       }
     }
   }
-  .detail-list{
-    margin: 10px 0 20px;
-  }
-  .detail-mes{
-    white-space:normal;
-    word-break:break-all;
-    word-wrap:break-word;
-    padding-left: 6px;
-    line-height: 1.5;
-  }
-  .tip1:before{background: url('../../assets/images/product/en_03.png')no-repeat center;}
-  .tip2:before{background: url('../../assets/images/product/r_03.png')no-repeat center;}
-  .tip{
-    position: relative;
-    box-sizing: border-box;
-    padding: 6px;
-    background-color: #f3f3f8;
-    margin-bottom: 20px;
-    &:before{
-      content: '';
-      position: absolute;
-      top: -10px;
-      left: -10px;
-      width: 30px;
-      height: 30px;
-      background-size: 100%;
-    }
-    .tip-title{margin-bottom: 6px;}
-    .p1{
-      color:@color;
-    }
-    .p2{
-      font-size: 12px;
-      color:#b0b1af;
-    }
-    .tip-box{
-      padding: 10px;
-      border: 1px solid  #a097c2;
-    }
-    .tip-mes{
-      font-size: 13px;
-      color: #717171;
-    }
-  }
-}
 
-.btns{
-  position: fixed;
-  left: 0;
-  bottom: 50px;
-  z-index: 9;
-  width: 100%;
-  background: #f9f9f9;
-  text-align: center;
-  .btn{display: block;}
-  .btn1{
-    flex: 1;
-    font-size: 12px;
-    img{
-      width: 20px;
-      height: 20px;
+  .btns{
+    position: fixed;
+    left: 0;
+    bottom: 50px;
+    z-index: 9;
+    width: 100%;
+    background: #f9f9f9;
+    text-align: center;
+    .btn{display: block;}
+    .btn1{
+      flex: 1;
+      font-size: 12px;
+      img{
+        width: 20px;
+        height: 20px;
+      }
     }
-  }
-  .btn2{
-    height: 50px;
-    line-height: 50px;
-    flex: 2;
-    font-size: 15px;
-    color: #6a63aa;
-    background: #d6cfe4;
-  }
-  .btn3{
-    height: 50px;
-    line-height: 50px;
-    flex: 2;
-    font-size: 15px;
-    color: #fff;
-    background: #6a63aa;
+    .btn2{
+      height: 50px;
+      line-height: 50px;
+      flex: 2;
+      font-size: 15px;
+      color: #6a63aa;
+      background: #d6cfe4;
+    }
+    .btn3{
+      height: 50px;
+      line-height: 50px;
+      flex: 2;
+      font-size: 15px;
+      color: #fff;
+      background: #6a63aa;
+    }
   }
 }
 </style>

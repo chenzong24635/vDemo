@@ -9,7 +9,14 @@ import axios from './api/index.js'
 // import 'lib-flexible/flexible.js'
 import Mint from 'mint-ui'
 import global from './components/Global' // 引用文件
-
+import VueLazyload from 'vue-lazyload'
+Vue.use(VueLazyload)
+/* Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  loading: require('./assets/images/loading.gif'),
+  attempt: 1
+}) */
+Vue.config.productionTip = false
 Vue.prototype.GLOBAL = global // 挂载到Vue实例上面
 Vue.use(Mint)
 Vue.use(VueI18n)

@@ -4,6 +4,7 @@
     <section class="vux-1px-b ">
       <ul class="tabs">
         <li  :class="[tabIndex === index ? 'active' : '', 'tab']" v-for="(item, index) in tabs" :key="index" @click="tab(index)">
+          <!-- <router-link :to="{name: 'order', params: {type: type, id: id}}">{{item.title}}</router-link> -->
           <span>{{item.title}}</span>
         </li>
       </ul>

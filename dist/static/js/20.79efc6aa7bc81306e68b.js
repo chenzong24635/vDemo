@@ -1,0 +1,2 @@
+webpackJsonp([20],{Azni:function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0});var i={render:function(){var e=this.$createElement;return(this._self._c||e)("div",{},[this._v("\n  china\n")])},staticRenderFns:[]};var r=t("VU/8")({name:"",components:{},data:function(){return{}},methods:{}},i,!1,function(e){t("LGWi")},"data-v-7ff224ef",null);n.default=r.exports},LGWi:function(e,n){}});
+//# sourceMappingURL=20.79efc6aa7bc81306e68b.js.map

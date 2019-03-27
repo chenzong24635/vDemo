@@ -59,6 +59,11 @@ export default {
     }
   },
   destroyed () {
+    console.log('index destroyed')
+    // this.$store.state.bottomShow = true
+  },
+  beforeDestroy () {
+    console.log('index beforeDestroyed')
     // this.$store.state.bottomShow = true
   },
   created () {
@@ -87,7 +92,7 @@ export default {
           })
         }
       })
-      console.log(target, lists)
+      // console.log(target, lists)
       switch (target) {
         case 'banners1':
           this.banners1 = lists

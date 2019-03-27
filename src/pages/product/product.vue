@@ -29,7 +29,7 @@
         infinite-scroll-distance="10">
         <li @click="link(item, index)" v-for="(item, index) in products" :key="item.id" :data-id="item.id" class="list vux-1px">
           <!-- <router-link :to="'productDetail' + item.id "> -->
-            <div class="pic"><img :src="item.pic" alt="" onerror="this.src='static/images/errorImg.jpg'"></div>
+            <div class="pic"><img v-lazy="item.pic" alt="" /> </div>
             <p class="title ov1">{{item.title}}</p>
             <p class="subtitle ov2">功效：{{item.subtitle}}</p>
             <p class="ggvalue ov1">规格：{{item.ggvalue}}</p>
@@ -66,9 +66,8 @@ const json03 = { // 积分
   cid: '',
   order: 'ASC',
   pageNum: 1,
-  pageSize: 4
+  pageSize: 8
 }
-
 export default {
   name: '',
   components: {
@@ -82,15 +81,15 @@ export default {
   },
   data () {
     return {
+      errorImg: 'this.src="' + require('../../assets/images/common/errorImg.jpg') + '"',
       isJf: false,
       pid: '',
-      type: '',
+      searchVal: '',
       toastData: {
         isShow: false,
         type: 'warn',
         text: ''
       },
-      searchVal: '',
       banners: [],
       tabs: [],
       listsTop: [
@@ -99,13 +98,13 @@ export default {
           name: '默认',
           status: 0,
           sel: false,
-          click: false
+          click: true
         },
         {
           id: 1,
           name: '价格',
           status: 0, // 图标切换
-          sel: true, // 是否有图标
+          sel: true, // 高低
           click: false // 当前筛选项
         },
         {
@@ -133,26 +132,32 @@ export default {
   },
   watch: {
     '$route': function (to, from) {
+      let params = this.$route.params
+      this.pid = (params.pid + '') === '0' ? '' : (params.pid + '')
+      this.searchVal = params.val === 'empty' ? '' : params.val
       this.loadFunc()
+      console.log(to)
+      console.log(from)
     }
   },
-  async created () {
+  created () {
+    let params = this.$route.params
+    this.pid = (params.pid + '') === '0' ? '' : (params.pid + '')
+    this.searchVal = params.val === 'empty' ? '' : params.val
+    console.log('this.pid', this.pid)
     this.loadFunc()
   },
   methods: {
     async loadFunc () {
-      console.log(this.$route)
       if (this.$route.name === 'productjs') {
         this.isJf = true // 是否积分商城 页面
         json03.cid = ''
         json03.pageNum = 1
         // this.getProductsJf()
       } else {
+        console.log('loadfun')
         this.isJf = false
-        this.pid = this.$route.params.pid / 1
-        this.type = this.$route.params.type / 1
-        let value = this.$route.params.val
-        this.searchVal = value === 'null' ? '' : value // 搜索内容
+        /* this.searchVal = value === 'empty' ? '' : value // 搜索内容 */
         this.reset()
       }
       this.getBanners()
@@ -179,20 +184,25 @@ export default {
       if (!this.isJf) {
         let result = await this.axios.post('product/proclasslist')
         let data = result.data
-        if (this.pid === 105 || this.pid === 106) { //
+        if (this.pid) {
           lists = data.filter((item, index) => {
-            let bool = (item.pid / 1) === this.pid
-            return bool
+            if (item.pid === this.pid) { // 获取对应的tab栏
+              return true
+            }
           })
-        } else {
-          lists = data
+        } else { // 全线产品
+          // lists = data
+          lists = data.filter((item, index) => {
+            if (item.pid !== '0') { // 去除系列
+              return true
+            }
+          })
         }
       } else { // 积分
         let result = await this.axios.post('product/prointegralclasslist')
         lists = result.data
       }
       this.tabs = lists
-      console.log(lists)
     },
     tab (item, index) { // tab切换
       if (this.isJf) {
@@ -208,20 +218,17 @@ export default {
         this.getProducts(item.id)
       }
     },
-    async getProducts (cid) { // 加载产品
-      console.log('getProducts', cid)
-      if (cid === 0) {
-        cid = ''
+    async getProducts (pid) { // 加载产品
+      if (pid === 0) {
+        pid = ''
       }
-      console.log(this.searchVal)
       if (this.searchVal) {
         json02.title = this.searchVal
-        cid = ''
+        // pid = ''
       }
-      json02.cid = cid
+      json02.cid = pid
       let result = await this.axios.post('product/productlist', json02)
       let data = result.data
-      console.log(data)
       if (this.isLastPage) { return }
       if (data.isLastPage) {
         this.isLastPage = true
@@ -229,7 +236,13 @@ export default {
       let lists = data.list
       lists = lists.filter((item, index) => {
         // 筛选 status=1 的产品，同时添加图片路径
-        item.pic = this.base_img + item.pic
+        // let img = item.pic.split(',')
+        // item.pic = this.base_img + item.pic
+        item.pic = { // vue-lazyload
+          src: this.base_img + item.pic,
+          loading: require('../../assets/images/loading.gif'),
+          error: require('../../assets/images/common/errorImg.jpg')
+        }
         return item.status / 1
       })
       if (json02.pageNum / 1 === 1) {
@@ -243,7 +256,6 @@ export default {
     async getProductsJf () { // 加载积分
       let result = await this.axios.post('product/prointegrallist', json03)
       let data = result.data
-      console.log(data)
       if (this.isLastPage) { return }
       if (data.isLastPage) {
         this.isLastPage = true
@@ -251,7 +263,8 @@ export default {
       let lists = data.list
       lists = lists.filter((item, index) => {
         // 筛选 status=1 的产品，同时添加图片路径
-        item.pic = this.base_img + item.pic
+        let img = item.pic.split(',')
+        item.pic = this.base_img + img[0]
         return item.status / 1
       })
       if (json03.pageNum / 1 === 1) {
@@ -278,6 +291,7 @@ export default {
       json02.minamount = ''
       json02.maxamount = ''
       json02.title = ''
+      json02.sort = ''
       this.isLastPage = false
       this.range = false
       this.products = []
@@ -286,6 +300,7 @@ export default {
       this.toastData.type = 'warn'
       this.listsTop.map((item, index) => {
         item.click = false
+        if (index === 0) { item.click = true }
         if (item.sel) {
           item.status = 0
         }
@@ -408,7 +423,6 @@ export default {
       } else {
         type = 1
       }
-      console.log(type)
       this.$router.push({name: 'productDetail', params: {'type': type, 'id': target.id}})
     }
   }

@@ -15,5 +15,5 @@ export default {
   methods: {}
 }
 </script>
-<style scoped lang="less">
+<style scoped lang='less'>
 </style>

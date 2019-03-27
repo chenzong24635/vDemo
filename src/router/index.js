@@ -1,48 +1,50 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import store from '../store'
-import Login from '@/pages/logons/login'
-import resetPassword from '@/pages/logons/resetPassword'
-import changePassword from '@/pages/logons/changePassword'
-import Register from '@/pages/logons/register'
+const Login = () => import('@/pages/logons/login')
+const resetPassword = () => import('@/pages/logons/resetPassword')
+const changePassword = () => import('@/pages/logons/changePassword')
+const Register = () => import('@/pages/logons/register')
 
-import Index from '@/pages/index'
-import Trail from '@/pages/trail/trail'
-import Test from '@/pages/trail/test'
-import Shoppe from '@/pages/shoppe/shoppe'
-import Cart from '@/pages/cart/cart'
-import My from '@/pages/my/my'
-import Detail from '@/pages/my/detail'
-import Points from '@/pages/my/points'
-import Order from '@/pages/order/order'
-import orderDetail from '@/pages/order/detail'
-import News from '@/pages/news/news'
-import newDetail from '@/pages/news/newDetail'
-import Product from '@/pages/product/product'
-import ProductDetail from '@/pages/product/detail'
-import Settle from '@/pages/product/settle'
-import Address from '@/pages/address/address'
-import addressEdit from '@/pages/address/edit'
+const Index = () => import('@/pages/index')
+const Trail = () => import('@/pages/trail/trail')
+const Test = () => import('@/pages/trail/test')
+const Shoppe = () => import('@/pages/shoppe/shoppe')
+const Cart = () => import('@/pages/cart/cart')
+const My = () => import('@/pages/my/my')
+const Detail = () => import('@/pages/my/detail')
+const Points = () => import('@/pages/my/points')
+const Order = () => import('@/pages/order/order')
+const orderDetail = () => import('@/pages/order/detail')
+const News = () => import('@/pages/news/news')
+const newDetail = () => import('@/pages/news/newDetail')
+const Product = () => import('@/pages/product/product')
+const ProductDetail = () => import('@/pages/product/detail')
+const Settle = () => import('@/pages/product/settle')
+const Address = () => import('@/pages/address/address')
+const addressEdit = () => import('@/pages/address/edit')
 
-import QualityTest from '@/pages/others/qualityTest'
+const QualityTest = () => import('@/pages/others/qualityTest')
 // 静态页面
-import Story from '@/pages/others/story'
-import Safe from '@/pages/others/safe'
-import America from '@/pages/others/america'
-import China from '@/pages/others/china'
-import YunWen from '@/pages/others/yunwen'
-import Facial from '@/pages/others/facial'
-import Baby from '@/pages/others/baby'
-import Faq from '@/pages/others/faq'
+const Story = () => import('@/pages/others/story')
+const Safe = () => import('@/pages/others/safe')
+const America = () => import('@/pages/others/america')
+const China = () => import('@/pages/others/china')
+const YunWen = () => import('@/pages/others/yunwen')
+const Facial = () => import('@/pages/others/facial')
+const Baby = () => import('@/pages/others/baby')
+const Faq = () => import('@/pages/others/faq')
 
 Vue.use(Router)
 
 const router = new Router({
+  // mode: 'history',
+  // base: './dist/', //
   scrollBehavior (to, from, savedPosition) {
-    return {
-      x: 0,
-      y: 0
-    } // 路由跳转后页面回到顶部
+    if (savedPosition) { // 当且仅当 popstate 导航 (通过浏览器的 前进/后退 按钮触发) 时才可用。
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
   },
   routes: [
     {
@@ -174,20 +176,12 @@ const router = new Router({
         requiresAuth: true
       }
     },
-    {
+    { // val: 搜索产品值
       path: '/product/:pid/:val',
       name: 'product',
       component: Product,
       meta: {
-        title: '妈妈系列'
-      }
-    },
-    { // pid：105妈妈 、 106婴幼儿
-      path: '/product1/:pid/:val',
-      name: 'product1',
-      component: Product,
-      meta: {
-        title: '婴幼儿系列'
+        title: '全线产品'
       }
     },
     {
@@ -313,6 +307,10 @@ const router = new Router({
       meta: {
         title: '正品验证'
       }
+    },
+    {
+      path: '*',
+      redirect: '/index'
     }
   ]
 })

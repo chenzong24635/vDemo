@@ -2,7 +2,11 @@
   <div id="app" :style=" $store.state.footerShow ? 'margin: 60px 0 50px;' : ''">
     <header-nav v-if="$store.state.headerShow"></header-nav>
     <div class="content-div">
-      <router-view/>
+      <!-- <transition name="slide" mode="out-in"> -->
+        <!-- <keep-alive> -->
+          <router-view></router-view>
+        <!-- </keep-alive> -->
+      <!-- </transition> -->
     </div>
     <bottom-mes v-if="$store.state.bottomShow"></bottom-mes>
     <footer-nav v-if="$store.state.footerShow"></footer-nav>
@@ -59,6 +63,22 @@ export default {
 <style lang="less">
 @color:#6a63aa;
 @color1:#4b376e;
+
+/* .slide{
+  position: absolute;
+}
+.slide-enter-active {
+  transition: all 0.5s ease;
+}
+.slide-leave-active {
+  transition: all .1s;
+}
+.slide-enter, .slide-leave-to
+{
+  transform: translateX(50px);
+  opacity: 0;
+} */
+
 html,body,div,p,span,ul,li,ol,blockquote,
 header,section,aside,footer,main,article,
 h1,h2,h3,h4,h5,h6,
@@ -172,7 +192,16 @@ button{
   -webkit-line-clamp: 2;
   display: -moz-box;
   -moz-line-clamp: 2;
+  /*! autoprefixer: off */
   -moz-box-orient: vertical;
+  /* autoprefixer: on */
+}
+
+#lists{
+  img[lazy=loading] {
+    width: 10px!important;
+    height: 10px!important;
+  }
 }
 
 #check{
@@ -226,7 +255,7 @@ button{
 // .banner{width: 100%;vertical-align: top;}
 
 .form-list{
-  font-size: 30px;
+  font-size: 15px;
   padding: 2px 0;
   /deep/ .weui-cells{
     margin-top: 10px;
@@ -249,6 +278,7 @@ button{
   }
 }
 div /deep/{
+  .weui-dialog__btn_primary{color:@color;}
   .vux-flex-row{
     .img-title{
       max-width: 100%;

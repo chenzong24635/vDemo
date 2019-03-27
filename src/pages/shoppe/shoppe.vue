@@ -176,6 +176,7 @@ h1{
       color:#494949;
     }
     .detail{
+      border-top:none;
       font-size: 13px;/*px*/
       letter-spacing: 1px;
       color: #848484;

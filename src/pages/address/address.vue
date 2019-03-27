@@ -27,19 +27,31 @@
     </section>
     <div class="btn-link"><x-button :link="{name: 'addressEdit', params: { id: 'null', type: type}}" type="primary">添加新地址</x-button></div>
     <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="45vw" :time="1000"  :is-show-mask="true" position="middle"></toast>
+    <div v-transfer-dom>
+      <confirm v-model="confirmShow"
+      title="是否删除该地址？"
+      @on-confirm="onConfirm">
+      </confirm>
+    </div>
   </div>
 </template>
 <script>
-import { XButton, Toast } from 'vux'
+import { XButton, Toast, Confirm, TransferDomDirective as TransferDom } from 'vux'
 import { mapMutations } from 'vuex'
 export default {
   name: '',
+  directives: {
+    TransferDom
+  },
   components: {
     XButton,
-    Toast
+    Toast,
+    Confirm
   },
   data () {
     return {
+      confirmShow: false,
+      delId: '',
       type: '', // 1: (结算页面的跳转)
       toastData: {
         isShow: false,
@@ -70,12 +82,16 @@ export default {
       })
     },
     del (id) {
-      this.axios.get('member/addressdel/' + id).then((response) => {
+      this.delId = id
+      this.confirmShow = true
+    },
+    onConfirm () {
+      this.axios.get('member/addressdel/' + this.delId).then((response) => {
         if (response.success) {
           this.toastData.text = '删除成功'
           this.toastData.type = 'success'
           this.lists.some((item, index) => {
-            if (item.id === id) {
+            if (item.id === this.delId) {
               this.lists.splice(index, 1)
               return true
             }

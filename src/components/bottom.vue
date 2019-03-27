@@ -45,10 +45,10 @@
     <div class='back-top ' @click="backTop">返回顶部 <i class="icon-ctrl"></i></div>
     <div class='company-mes'>2015 Belli All Rights Reserved,沪ICP备14043077号-2 上海昭晗贸易有限公司</div>
     <ul class='foot-links tac'>
-      <li><router-link to='usualProblem'>帮助中心</router-link></li>
-      <li><router-link to='usualProblem'>隐私条款</router-link></li>
-      <li><router-link to='usualProblem'>条款条件</router-link></li>
-      <li><router-link to='usualProblem'>法律声明</router-link></li>
+      <li><router-link to='faq'>帮助中心</router-link></li>
+      <li><router-link to='faq'>隐私条款</router-link></li>
+      <li><router-link to='faq'>条款条件</router-link></li>
+      <li><router-link to='faq'>法律声明</router-link></li>
     </ul>
   </footer>
 </template>
@@ -81,7 +81,7 @@ export default {
         },
         {
           title: '全线产品',
-          url: '/product/0/null',
+          url: '/product/0/empty',
           lists: [],
           status: false
         },

@@ -17,7 +17,7 @@
   </div>
 </template>
 <script>
-import {mapMutations} from 'vuex'
+// import {mapMutations} from 'vuex'
 import {Group, XInput, XButton, Toast} from 'vux'
 export default {
   name: '',

@@ -1,14 +1,16 @@
 <template>
   <div class="container clearfix">
     <div class="cover" @click="close" v-show="asideNav"></div>
-    <header class="flex01" id="header">
-      <img class="tab" @click="aside" src="../assets/images/common/bar.png" alt="">
-      <router-link to="/"><img class="logo" src="../assets/images/common/logo.png" alt=""></router-link>
-      <div  class="search" @click="searchBox"><icon type="search"></icon></div>
+    <header id="header">
+      <div class="flex01 header-top" >
+        <img class="tab" @click="aside" src="../assets/images/common/bar.png" alt="">
+        <router-link to="/"><img class="logo" src="../assets/images/common/logo.png" alt=""></router-link>
+        <div  class="search" @click="searchBox"><icon type="search"></icon></div>
+      </div>
+      <div class="search-box vux-1px-t" v-if="searchShow">
+        <input type="text" autofocus  v-model="searchValue" @input="searchIpt" @keyup.enter="submit" />
+      </div>
     </header>
-    <div class="search-box vux-1px-t" v-if="searchShow">
-      <input type="text" autofocus  v-model="searchValue" @input="searchIpt" @keyup.enter="submit" />
-    </div>
     <aside class="aside-nav" v-show="asideNav">
       <div class="close"><img src="../assets/images/common/bar-close.jpg" alt=""  @click="close"></div>
       <div class="nav-top" @click="close"><router-link to="/shoppe">专柜导航</router-link></div>
@@ -18,7 +20,7 @@
             <p class="nav-title vux-1px-b" @click="navListsSHow(index)"><x-icon type="ios-minus-empty" size="25"></x-icon>{{item.title}}</p>
             <ul class="nav-lists" v-show="item.status">
               <li v-for="(item1, index1) in item.lists" :key="index1" @click="close">
-                <router-link :to="{name:item1.name, params:{pid:item1.pid,val: 'null'}}" class="nav-link vux-1px-b" >{{item1.title}}</router-link>
+                <router-link :to="{name:item1.name, params:{pid:item1.pid, val: 'empty'}}" class="nav-link vux-1px-b" >{{item1.title}}</router-link>
                 <!-- <router-link :to="{path:item1.name, query:{pid:item1.pid}}" class="nav-link vux-1px-b" >{{item1.title}}</router-link> -->
                 <!-- <div class="nav-link vux-1px-b" @click="link(item1, index1)">{{item1.title}}</div> -->
                 </li>
@@ -84,15 +86,15 @@ export default {
           lists: [
             {
               title: '妈妈系列',
-              name: 'product',
-              path: 'product',
+              name: 'product1',
+              path: 'product1',
               pid: 105,
               val: ''
             },
             {
               title: '婴幼儿系列',
-              name: 'product1',
-              path: 'product1',
+              name: 'product2',
+              path: 'product2',
               pid: 106,
               val: ''
             }
@@ -169,23 +171,46 @@ export default {
       ]
     }
   },
+  async created () {
+    let result = await this.axios.post('product/proclasslist')
+    let data = result.data
+    let series = []
+    data.map((item, index) => {
+      if (item.pid / 1 === 0) { // 获取所有系列
+        series.push({
+          title: item.title,
+          name: 'product',
+          path: 'product',
+          pid: item.id,
+          val: ''
+        })
+      }
+    })
+    this.navs[1].lists = series
+    console.log(series)
+  },
   methods: {
     searchIpt () { // 搜索
       console.log(this.searchValue)
     },
     submit () {
+      let route = this.$route
       if (this.searchValue === '') {
-        // alert(1)
         this.toastShow = true
         return false
       }
       this.searchShow = false
-      this.$router.push({name: 'product', params: {'pid': 0, 'val': this.searchValue}})
+      console.log(this.$route, route.name === 'product')
+      if (route.name === 'product') { // 若在产品组件页搜索
+        this.$router.push({name: 'product', params: {pid: route.params.pid, val: this.searchValue}})
+      } else { // 否则跳到全线产品
+        this.$router.push({name: 'product', params: {pid: '0', val: this.searchValue}})
+      }
       this.searchValue = ''
       console.log('sumit')
     },
     link (item, index) { // 产品详情
-      console.log(index, item)
+      // console.log(index, item)
       this.$router.push({name: item.name, params: {'pid': item.pid}})
     },
     searchBox () { // 搜索框
@@ -220,7 +245,7 @@ export default {
           let result = item.status = !item.status
           return result
         }
-        console.log(item, index)
+        // console.log(item, index)
       })
     }
   }
@@ -237,16 +262,18 @@ export default {
   height: 100%;
   background: rgba(0,0,0,0);
 }
-header{
+#header{
   box-sizing: border-box;
   position: fixed;
   top:0;
   left: 0;
   width: 100%;
-  padding: 0 20px;
-  height: 60px;
   background-color: #6a63aa;
   z-index: 99;
+  .header-top{
+    padding: 0 20px;
+    height: 60px;
+  }
   .tab{
     width: 20px;
     // height: 34px;

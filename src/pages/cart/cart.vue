@@ -84,10 +84,14 @@ export default {
     Confirm
   },
   destroyed () { // 销毁时显示
-    this.componentsShow(true)
+    this.$store.commit('components', [true, true, true])
+    console.log('destroyed', this.$store)
+    // this.componentsShow(true)
   },
   mounted () { // 隐藏
-    this.componentsShow(false)
+    console.log('mounted', this.$store)
+    this.$store.commit('components', [true, false, true])
+    // this.componentsShow(false)
   },
   data () {
     return {
@@ -101,7 +105,7 @@ export default {
       checked: true,
       nofreight: '',
       lists: [],
-      delId: '',
+      delId: ''
     }
   },
   computed: {
@@ -120,9 +124,6 @@ export default {
     this.getLists()
   },
   methods: {
-    componentsShow (bool) {
-      this.$store.state.bottomShow = bool
-    },
     checkAll () { // 全选
       this.checked = !this.checked
       this.lists.map((item, index) => {
@@ -183,7 +184,7 @@ export default {
         }
       }
     },
-    async del (id) { // 删除
+    del (id) { // 删除
       this.confirmShow = true
       this.delId = id
     },
@@ -209,7 +210,6 @@ export default {
           text: '删除失败'
         }
       }
-
     },
     async addNum (id) { // 加
       this.lists.some((item, index) => {
@@ -225,10 +225,13 @@ export default {
     async reduceNum (id) { // 减
       let bool = true
       this.lists.some((item, index) => {
+        console.log('item.id', item.id)
+        console.log('id', id)
+        console.log('item.number', item.number)
         if (item.id === id && item.number > 1) { // 最少一个
           item.number--
           return true
-        } else {
+        } else if (item.id === id && item.number <= 1) {
           bool = false
           this.toastData = {
             isShow: true,

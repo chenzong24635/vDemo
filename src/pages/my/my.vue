@@ -36,14 +36,23 @@
     <div class="btn-link"><x-button @click.native="logout" type="default" >退出登录</x-button></div>
     <toast v-model="toastData.isShow" :type="toastData.type" :text="toastData.text" width="45vw" :time="1000"  :is-show-mask="true" position="middle"></toast>
     <!-- <mytoast :showToast="toast.showToast" :type="toast.type" :text="toast.toastText" :is-show-mask="true" ></mytoast> -->
+    <div v-transfer-dom>
+      <confirm v-model="confirmShow"
+      title="是否退出登录？"
+      @on-confirm="onConfirm">
+      </confirm>
+    </div>
   </div>
 </template>
 <script>
-import {cookie, Toast, XButton, Tab, TabItem, Grid, GridItem, Group, Cell} from 'vux'
+import {Toast, XButton, Tab, TabItem, Grid, GridItem, Group, Cell, Confirm, TransferDomDirective as TransferDom} from 'vux'
 // import mytoast from '@/components/toast.vue'
 
 export default {
   name: '',
+  directives: {
+    TransferDom
+  },
   components: {
     Toast,
     XButton,
@@ -52,10 +61,12 @@ export default {
     Grid,
     GridItem,
     Group,
-    Cell
+    Cell,
+    Confirm
   },
   data () {
     return {
+      confirmShow: false,
       avatar: require('../../assets/images/my/avatar.png'),
       toastData: {
         isShow: false,
@@ -222,12 +233,17 @@ export default {
         console.log(this.orderLens) */
       }
     },
-    async logout () {
-      let result = await this.axios.get('member/logout')
-      if (result.code === 0) {
-        cookie.remove('accessToken')
-        this.$router.push({name: 'index'})
-      }
+    logout () {
+      this.confirmShow = true
+    },
+    onConfirm () {
+      this.axios.get('member/logout').then((result) => {
+        if (result.code === 0) {
+          // cookie.remove('accessToken')
+          this.$store.dispatch('clearToken')
+          this.$router.push({name: 'index'})
+        }
+      })
     }
   }
 }

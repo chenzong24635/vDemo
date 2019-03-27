@@ -23,7 +23,7 @@
 </template>
 <script>
 import {mapMutations} from 'vuex'
-import {cookie, Group, XInput, XButton, Toast} from 'vux'
+import {Group, XInput, XButton, Toast} from 'vux'
 import {verifyPhone} from '../../utils/index.js'
 
 export default {
@@ -59,11 +59,6 @@ export default {
       'changeToken',
       'components'
     ]),
-    componentsShow (bool) {
-      this.$store.state.headerShow = bool
-      this.$store.state.bottomShow = bool
-      this.$store.state.footerShow = bool
-    },
     async submit () {
       if (!this.json.username || !verifyPhone(this.json.username)) {
         this.showPositionValue = true
@@ -80,8 +75,6 @@ export default {
       console.log(result)
       if (result.success) {
         // 设置cookie
-        cookie.set('accessToken', data.accessToken)
-        console.log(this.changeLogin)
         // 将用户token保存到vuex中
         this.changeToken({accessToken: data.accessToken})
         localStorage.setItem('id', data.id)

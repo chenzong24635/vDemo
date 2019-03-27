@@ -79,6 +79,7 @@ axios.interceptors.response.use(
       err.message = '连接到服务器失败'
     }
     if (err.response.status === 500 && err.response.data.message === '您的账号被迫下线，请重新登录') {
+      alert('您的账号被迫下线，请重新登录')
       localStorage.removeItem('accessToken')
       router.push({
         path: '/login',

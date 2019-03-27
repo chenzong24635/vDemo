@@ -5,10 +5,11 @@
       v-infinite-scroll="loadMore"
       infinite-scroll-disabled="loading"
       infinite-scroll-distance="10"> <!-- 滚动下拉mint-ui -->
-      <li @click="link(item, index)" v-for="(item, index) in lists" :key="item.id" :data-id="item.id" class="vux-1px-b ">
+      <li @click="link(item, index)" v-for="(item, index) in lists" :key="item.id" :data-id="item.id" class="list vux-1px-b ">
         <!-- <router-link :to="{name: '/newDetail', params:{id:item.id}}"> -->
-        <div class="clearfix">
-          <img class="list-img fl" :src="item.pic" alt="" onerror="this.src='static/images/errorImg.jpg'">
+        <div class="clearfix"> <!-- onerror="this.src='static/images/errorImg.jpg'" -->
+          <div class="pic fl"><img v-lazy="item.pic" alt="" /> </div>
+          <!-- <img class="list-img fl" v-lazy="item.pic" alt="" /> -->
           <div class="list-mes fr">
             <p class="title ov1">{{item.title}}</p>
             <div class="about">{{item.about}}</div>
@@ -36,7 +37,7 @@ const json = {code: 'b4'}
 const json02 = {
   order: 'ASC',
   pageNum: 1,
-  pageSize: 4
+  pageSize: 24
 }
 export default {
   components: {
@@ -46,6 +47,7 @@ export default {
   },
   data () {
     return {
+      errorImg: 'this.src="' + require('../../assets/images/common/errorImg1.jpg') + '"',
       pid: '',
       banners: [],
       lists: [],
@@ -102,6 +104,11 @@ export default {
       lists = lists.filter((item, index) => {
         // 筛选 status=1 的产品，同时添加图片路径
         // item.pic = this.base_img + item.pic
+        item.pic = { // vue-lazyload
+          src: item.pic,
+          loading: require('../../assets/images/loading.gif'),
+          error: require('../../assets/images/common/errorImg1.jpg')
+        }
         item.date = _this.GLOBAL.timestampToTime(item.createDate)
         return item.status / 1
       })
@@ -138,9 +145,16 @@ export default {
   li:last-child{
     border-bottom: none;
   }
-  .list-img,.list-mes{
+  .pic,.list-mes{
     width: 49%;
     height: 115px;
+  }
+  .pic{
+    text-align: center;
+    img{
+      width: 100%;
+      max-height: 100%;
+    }
   }
   .about{
     font-size: 12px;
@@ -148,7 +162,9 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     word-break: break-all;
-    -webkit-box-orient: vertical;
+    /*! autoprefixer: off */
+    -moz-box-orient: vertical;
+    /* autoprefixer: on */
     -webkit-line-clamp: 4;
     margin: 4px 0;
   }
