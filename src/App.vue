@@ -29,7 +29,9 @@ export default {
   },
   data () {
     return {
-      showToast: false
+      showToast: false,
+      lists: [],
+      lists1: []
     }
   },
   async created () { // 运费
@@ -43,16 +45,48 @@ export default {
         localStorage.setItem('freight', data[1].value) // 运费
       }
     }
-    /* {
-      let result = await this.axios.post(this.base_url + 'member/detail')
-      if (!result.success) {
-        console.log(1)
-        this.showToast = true
-        setTimeout(() => {
-          this.$router.push({name: 'login'})
-        }, 1000)
-      }
-    } */
+    { // faq列表 存入vux
+      let _this = this
+      await this.axios.get('web/fagclasslist').then(res => {
+        if (res.success) {
+          this.lists = res.data
+          this.lists.map((item, index) => {
+            item.show = false
+          })
+          this.lists = res.data
+          this.$store.commit('getLists', res.data)
+          return res.data
+        }
+      }).then((dataLists) => {
+        dataLists.map((item, index) => {
+          this.getFaqList(item.id)
+        })
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  },
+  methods: {
+    async getFaqList (id) {
+      let _this = this
+      await this.axios.get('web/faqlist/' + id).then(res => {
+        if (res.success) {
+          let lists = res.data
+          lists.map((item, index) => {
+            item.checked = false
+            /* this.$store.commit('getLists1', item)
+            _this.lists1.push(item) */
+          })
+          this.lists.map((item, index) => {
+            if (item.id === id) {
+              item.lists = lists
+            }
+          })
+          console.log('this.lists', this.lists, lists)
+        }
+      })
+      // console.log(_this.lists1, this.title)
+    }
   }
 }
 </script>

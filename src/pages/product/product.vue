@@ -130,6 +130,21 @@ export default {
       isLastPage: false
     }
   },
+  /* beforeRouteUpdate (to, from, next) {
+    if (to.name === from.name && to.path !== from.path) {
+      // this.reset()
+      let params = this.$route.params
+      this.pid = (params.pid + '') === '0' ? '' : (params.pid + '')
+      this.searchVal = params.val === 'empty' ? '' : params.val
+      this.loadFunc()
+      console.log('chaneg')
+      next()
+    } else {
+      console.log('nochaneg')
+      next()
+    }
+    console.log(to, from)
+  }, */
   watch: {
     '$route': function (to, from) {
       let params = this.$route.params

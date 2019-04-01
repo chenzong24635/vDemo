@@ -163,6 +163,7 @@ export default {
     text-overflow: ellipsis;
     word-break: break-all;
     /*! autoprefixer: off */
+    -webkit-box-orient: vertical;
     -moz-box-orient: vertical;
     /* autoprefixer: on */
     -webkit-line-clamp: 4;

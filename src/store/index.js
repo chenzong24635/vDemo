@@ -14,7 +14,9 @@ const store = new Vuex.Store({
     footerShow: true, // 底部导航是否显示
     defaultAddress: localStorage.getItem('defaultAddress') ? localStorage.getItem('defaultAddress') : '', // 结算页面默认地址
     nofreight: localStorage.getItem('nofreight') ? localStorage.getItem('nofreight') : '', // 满多少免运费
-    freight: localStorage.getItem('freight') ? localStorage.getItem('freight') : '' // 运费
+    freight: localStorage.getItem('freight') ? localStorage.getItem('freight') : '', // 运费
+    lists: [],
+    lists1: []
   },
   mutations: {
     // 搜索值
@@ -42,6 +44,12 @@ const store = new Vuex.Store({
     editAddress (state, data) { // 修改结算页面默认地址
       state.defaultAddress = data
       localStorage.setItem('defaultAddress', JSON.stringify(data))
+    },
+    getLists (state, lists) {
+      state.lists = lists
+    },
+    getLists1 (state, lists) {
+      state.lists1.push(lists)
     }
   },
   actions: {

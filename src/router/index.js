@@ -1,3 +1,4 @@
+
 import Vue from 'vue'
 import Router from 'vue-router'
 const Login = () => import('@/pages/logons/login')
@@ -24,6 +25,8 @@ const Address = () => import('@/pages/address/address')
 const addressEdit = () => import('@/pages/address/edit')
 
 const QualityTest = () => import('@/pages/others/qualityTest')
+const Faq = () => import('@/pages/others/faq')
+
 // 静态页面
 const Story = () => import('@/pages/others/story')
 const Safe = () => import('@/pages/others/safe')
@@ -32,7 +35,6 @@ const China = () => import('@/pages/others/china')
 const YunWen = () => import('@/pages/others/yunwen')
 const Facial = () => import('@/pages/others/facial')
 const Baby = () => import('@/pages/others/baby')
-const Faq = () => import('@/pages/others/faq')
 
 Vue.use(Router)
 
@@ -293,7 +295,7 @@ const router = new Router({
       }
     },
     {
-      path: '/faq',
+      path: '/faq/:pid',
       name: 'faq',
       component: Faq,
       meta: {

@@ -1,31 +1,33 @@
 <template>
   <div class="">
     <section class="faq">
-      <!-- {{lists1}} -->
       <ul>
         <li class="list" v-for="item in lists" :key="item.id">
-          <!-- {{item.lists}} -->
-          <h1  class="title1 vux-1px-b">{{item.title}}</h1>
-          <!-- <ul>
-            <li v-if="item.show" v-for="item1 in lists1" :key="item1.id" >
-              <h2 @click="expand(item.id, item1.id)" class="title2 vux-1px-b clearfix">
-                <span class="fl">{{item1.title}}</span>
-                <span v-if="item1.checked" class="fr"><x-icon  type="ios-minus-empty" size="16"></x-icon></span>
-                <span v-else class="fr"><x-icon  type="ios-plus-empty" size="16"></x-icon></span>
-              </h2>
-              <div class="cnt" v-html="item1.context"></div>
-            </li>
-          </ul> -->
+          <h1 :id="item.id" class="title1 vux-1px-b">{{item.title}}</h1>
           <ul>
-            <li v-for="item1 in item.lists1" :key="item1.id"  :class="[item1.checked ? 'active' : '', 'list1']">
-              <h2 @click="expand(item.id, item1.id)" class="title2 clearfix">
-                <span class="fl">{{item1.title}}</span>
-                <span v-if="item1.checked" class="fr"><x-icon  type="ios-minus-empty" size="22"></x-icon></span>
-                <span v-else class="fr"><x-icon  type="ios-plus-empty" size="22"></x-icon></span>
-              </h2>
-              <div v-show="item1.checked" class="cnt" v-html="item1.context"></div>
+            <li v-for="item1 in item.lists" :key="item1.id"  :class="[item1.checked ? 'active' : '', 'list1']">
+              <div v-if="item1.cid === item.id">
+                <h2 @click="expand(item1.cid, item1.id)"  :id="item1.id" class="title2 clearfix">
+                  <span class="fl">{{item1.title}}</span>
+                  <span v-if="item1.checked" class="fr"><x-icon  type="ios-minus-empty" size="22"></x-icon></span>
+                  <span v-else class="fr"><x-icon  type="ios-plus-empty" size="22"></x-icon></span>
+                </h2>
+                <div v-show="item1.checked" class="cnt" v-html="item1.context"></div>
+              </div>
             </li>
           </ul>
+          <!-- <ul>
+            <li v-for="item1 in lists1" :key="item1.id"  :class="[item1.checked ? 'active' : '', 'list1']">
+              <div v-if="item1.cid === item.id">
+                <h2 @click="expand(item1.cid, item1.id)"  :id="item1.id" class="title2 clearfix">
+                  <span class="fl">{{item1.title}}</span>
+                  <span v-if="item1.checked" class="fr"><x-icon  type="ios-minus-empty" size="22"></x-icon></span>
+                  <span v-else class="fr"><x-icon  type="ios-plus-empty" size="22"></x-icon></span>
+                </h2>
+                <div v-show="item1.checked" class="cnt" v-html="item1.context"></div>
+              </div>
+            </li>
+          </ul> -->
         </li>
       </ul>
     </section>
@@ -37,99 +39,139 @@ export default {
   components: {},
   data () {
     return {
+      pid: 0,
+      title: '',
       lists: [],
       lists1: []
     }
   },
-  mounted () {
-    this.getLists()
+  beforeRouteUpdate (to, from, next) {
+    if (to.name === from.name && to.path !== from.path) {
+      this.getBase()
+      next()
+    }
+  },
+  created () {
+    this.getBase()
+    // document.documentElement.scrollTop
+    // this.lists1 = this.$store.state.lists1
+    // console.log(this.lists)
+    // console.log(this.lists1)
+    // this.getLists()
   },
   methods: {
-    getLists () {
+    getBase () {
+      let pid = this.$route.params.pid / 1
+      let title = ''
+      let targetId = ''
+      this.pid = pid
+      switch (pid) {
+        case 0:
+          title = ''
+          break
+        case 1:
+          title = '售后服务'
+          targetId = 'f28c9010f2d54efdbae9491f9e548410'
+          break
+        case 2:
+          title = '配送服务'
+          targetId = '2681f91e2b5449fc875bd21558f53da7'
+          break
+        case 3:
+          title = '帮助中心'
+          targetId = ''
+          break
+        case 4:
+          title = '隐私条款'
+          targetId = '8ab9058117a84b10859aee3f97b359ba'
+          break
+        case 5:
+          title = '条款条件'
+          targetId = 'd9508c276a944adc9c6ce2600774dfbd'
+          break
+        case 6:
+          title = '法律声明'
+          targetId = ''
+          break
+        default:
+          title = ''
+          targetId = '79f950872c414cda9b7bbff50b29a3de'
+          break
+      }
+      this.title = title
+      this.lists = this.$store.state.lists
+      setTimeout(() => {
+        this.lists.map((item, index) => {
+          if (pid ===1 || pid ===2 && item.id === targetId){
+            console.log('pid', pid)
+            console.log('targetId', targetId)
+          } else {
+            console.log(item)
+            item.lists.map((item1, index1) => {
+              if (item1.id === targetId) {
+                item1.checked = true
+              }
+            })
+          }
+        })
+        console.log(document.querySelector('#' + targetId))
+        let myPosition = document.querySelector('#' + targetId).getBoundingClientRect()
+        document.documentElement.scrollTop = myPosition.top - myPosition.height
+        console.log(myPosition)
+      }, 200)
+    },
+    expand (cid, id) { // 展开
+      console.log(cid, id, this.title)
+      this.lists.map((item, index) => {
+        if (item.id === cid) {
+          console.log('item.id', item.id, item.id === cid)
+          item.lists.map((item1, index1) => {
+            console.log('item1.id', item1.id, item1.id === id)
+            if (item1.id === id) {
+              console.log('ck')
+              item1.checked = !item1.checked
+              console.log(this.lists)
+              // this.$store.commit('getLists', this.lists)
+            }
+          })
+          // console.log('item.show ', item1.checked)
+        }
+      })
+    },
+    async getLists () {
       let _this = this
-      this.axios.get('web/fagclasslist').then(res => {
+      await this.axios.get('web/fagclasslist').then(res => {
         if (res.success) {
           this.lists = res.data
           this.lists.map((item, index) => {
             item.show = false
           })
+          this.lists = res.data
           return res.data
         }
       }).then((dataLists) => {
         dataLists.map((item, index) => {
-          console.log('faqlist', item.id)
-          this.axios.get('web/faqlist/' + item.id).then(res => {
-            if (res.success) {
-              console.log('faqlist', res)
-              let lists1 = res.data
-              lists1.map((val, key) => {
-                val.checked = false
-              })
-              _this.lists1.push(lists1)
-              _this.lists.some((item1, index1) => {
-                if (item1.id === item.id) {
-                  /* result.map((item1, index1) => {
-                    item1.checked = false
-                  }) */
-                  item1.lists1 = lists1
-                  // item.lists = result
-                  return true
-                }
-              })
-            }
-          })
+          this.getFaqList(item.id)
         })
       }).catch(err => {
         console.log(err)
       })
     },
-    expand (id, id1) { // 展开
-      console.log(id, id1)
-      this.lists.map((item, index) => {
-        item.show = false
-        console.log(item.id === id, item.id, id)
-        if (item.id === id) {
-          console.log('item.show ', item.show )
-          item.show = !item.show
-          item.lists1.some((item1, index1) => {
-            if (item1.id === id1) {
-              item1.checked = !item1.checked
-            }
-          })
-        }
-      })
-    },
-    getFaqList (id) {
+    async getFaqList (id) {
       let _this = this
-      let lists = []
-      this.axios.get('web/faqlist/' + id).then(res => {
+      await this.axios.get('web/faqlist/' + id).then(res => {
         if (res.success) {
-          console.log('suuccess getFaqList', res)
-          lists = res.data
-          console.log(id)
+          let lists = res.data
           lists.map((item, index) => {
-            item.show = false
-            console.log(item.id)
-            if (item.id === id) {
-              item.show = !item.show
+            item.checked = false
+            if (this.title === item.title) {
+              item.checked = true
             }
+            _this.lists1.push(item)
           })
-          /* lists.push({
-            id: result
-          }) */
-          /* lists.some((item, index) => {
-            if (item.id === id) {
-              result.map((item1, index1) => {
-                item1.checked = false
-              })
-              item.lists = result
-              return true
-            }
-          }) */
-          this.lists1 = lists
-          console.log('getFaqList', lists)
         }
       })
+      console.log(_this.lists1, this.title)
     }
   }
 }
